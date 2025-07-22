@@ -14,8 +14,6 @@ $(function(){
     $("input[data_type='currency']").on({ // Format currency onkeypress input
         keyup: function() {formatCurrency($(this));}
     });
-    $('[data-rel=tooltip]').tooltip({container:'body'});
-    $('[data-rel=popover]').popover({container:'body'});
     ////////////////////////////////////////////////////////////////////////////////////////////////
     /*document.onkeydown = function(e){
         if((e.ctrlKey && 
