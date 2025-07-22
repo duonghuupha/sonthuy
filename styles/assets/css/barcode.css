@@ -1,0 +1,51 @@
+*{
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-size:11px;
+    font-family: "Roboto";
+}
+
+ul, ol{
+    list-style: none;
+}
+
+.barcode{
+    margin: 0 auto;
+    text-align: center;
+}
+
+.barcode ul{
+    float:left;
+    width:100%;
+    text-align: center;
+}
+
+.barcode ul li{
+    float:left;
+    width:120px;
+    height:85px;
+    /*border:1px solid #ccc;*/
+    padding-top:5px;
+}
+
+.barcode ul li span{
+    float:left;
+    width:100%;
+    text-align: center;
+}
+
+.barcode ul li span:nth-child(1){
+    font-weight:700;
+}
+
+.barcode ul li span:nth-child(2){
+    margin-bottom:3px;
+}
+
+.barcode ul li span:nth-child(4){
+    font-weight:700;
+    font-size:13px;
+}
