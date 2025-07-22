@@ -23,7 +23,7 @@ class Controller {
                                 'system', 'physical', 'province', 'district', 'commune', 'document_cate_out', 'document_cate_in', 'document_type',
                                 'food', 'unit', 'device_cate', 'student_relation', 'student_add', 'dc_cate_2024', 'village', 'nation', 'validate_standard',
                                 'validate_criteria');
-        $this->_Sendmail = new Mail();
+        //$this->_Sendmail = new Mail();
 	}
 
 	public function loadModel($name) {
@@ -35,7 +35,7 @@ class Controller {
 		}
 	}
 
-	public function PhadhInt(){
+	/*public function PhadhInt(){
         Session::init();
         $logged = Session::get('loggedIn_Edusoft');
         if($logged == false){
@@ -75,6 +75,16 @@ class Controller {
                 header ('Location: '.URL.'/index/login');
                 exit;
             }
+        }
+    }*/
+    public function PhadhInt(){
+        Session::init();
+        $logged = Session::get('loggedIn_Sonthuy');
+        if($logged == false){
+            session_start();
+            session_destroy();
+            header ('Location: '.URL.'/index/login');
+            exit;
         }
     }
 }
