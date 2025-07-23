@@ -26,7 +26,7 @@ if(!isset($_SESSION['data'])){
     <link rel="stylesheet" href="<?php echo URL ?>/styles/assets/css/ace.min.css" />
     <link rel="stylesheet" href="<?php echo URL ?>/styles/assets/css/ace-skins.min.css" />
     <link rel="stylesheet" href="<?php echo URL ?>/styles/assets/css/ace-rtl.min.css" />
-    <link rel="shortcut icon" href="<?php echo URL ?>/styles/assets/images/edusoft_tran.png" />
+    <link rel="shortcut icon" href="<?php echo URL ?>/styles/assets/images/logo_son_thuy.png" />
     <script src="<?php echo URL ?>/styles/assets/js/jquery-2.1.4.min.js"></script>
     <script src="<?php echo URL ?>/styles/assets/js/ace-extra.min.js"></script>
     <script>

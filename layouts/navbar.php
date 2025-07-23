@@ -1,54 +1,60 @@
-<div id="navbar" class="navbar navbar-default    navbar-collapse       h-navbar ace-save-state navbar-fixed-top">
+<div id="navbar" class="navbar navbar-default ace-save-state navbar-fixed-top">
     <div class="navbar-container ace-save-state" id="navbar-container">
+        <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+            <span class="sr-only">Toggle sidebar</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
         <div class="navbar-header pull-left">
-            <a href="index.html" class="navbar-brand">
+            <a href="<?php echo URL.'/index' ?>" class="navbar-brand">
                 <small>
                     <i class="fa fa-leaf"></i>
-                    ST EDU
+                    SONTHUY EDU
                 </small>
             </a>
-            <button class="pull-right navbar-toggle navbar-toggle-img collapsed" type="button" data-toggle="collapse"
-                data-target=".navbar-buttons,.navbar-menu">
-                <span class="sr-only">Toggle user menu</span>
-                <img src="<?php echo URL ?>/styles/assets/images/avatars/user.jpg" alt="Jason's Photo" />
-            </button>
-            <button class="pull-right navbar-toggle collapsed" type="button" data-toggle="collapse"
-                data-target="#sidebar">
-                <span class="sr-only">Toggle sidebar</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
         </div>
-        <div class="navbar-buttons navbar-header pull-right collapse navbar-collapse" role="navigation">
+        <div class="navbar-buttons navbar-header pull-right" role="navigation">
             <ul class="nav ace-nav">
-                <li class="light-blue dropdown-modal user-min">
+                <li class="light-blue dropdown-modal">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                        <img class="nav-user-photo" src="<?php echo URL ?>/styles/assets/images/avatars/user.jpg" alt="Jason's Photo" />
+                        <img class="nav-user-photo" src="<?php echo URL.'/styles/assets' ?>/images/logo_son_thuy.png"/>
                         <span class="user-info">
-                            <small>Welcome,</small>
-                            Jason
+                            <small>Xin chào,</small>
+                            <?php
+                            if($_SESSION['data'][0]['username'] == 'admin'){
+                                echo "Administrator";
+                            }
+                            ?>
                         </span>
-
                         <i class="ace-icon fa fa-caret-down"></i>
                     </a>
-                    <ul
-                        class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <?php
+                        if($_SESSION['data'][0]['id'] != 1){
+                        ?>
                         <li>
-                            <a href="#">
-                                <i class="ace-icon fa fa-cog"></i>
-                                Cài đặt
-                            </a>
-                        </li>
-                        <li>
-                            <a href="profile.html">
+                            <a href="<?php echo URL.'/profile?token='.$this->_Info[0]['token'] ?>">
                                 <i class="ace-icon fa fa-user"></i>
                                 Tài khoản
                             </a>
                         </li>
                         <li class="divider"></li>
+                        <?php
+                        }else{
+                        ?>
                         <li>
-                            <a href="#">
+                            <a href="<?php echo URL.'/setting?token='.$this->_Info[0]['token'] ?>">
+                                <i class="ace-icon fa fa-gears"></i>
+                                Cài đặt
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <?php
+                        }
+                        ?>
+                        <li>
+                            <a href="<?php echo URL.'/index/logout' ?>">
                                 <i class="ace-icon fa fa-power-off"></i>
                                 Đăng xuất
                             </a>
@@ -57,57 +63,5 @@
                 </li>
             </ul>
         </div>
-        <!--<nav role="navigation" class="navbar-menu pull-left collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Overview
-                        &nbsp;
-                        <i class="ace-icon fa fa-angle-down bigger-110"></i>
-                    </a>
-
-                    <ul class="dropdown-menu dropdown-light-blue dropdown-caret">
-                        <li>
-                            <a href="#">
-                                <i class="ace-icon fa fa-eye bigger-110 blue"></i>
-                                Monthly Visitors
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#">
-                                <i class="ace-icon fa fa-user bigger-110 blue"></i>
-                                Active Users
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#">
-                                <i class="ace-icon fa fa-cog bigger-110 blue"></i>
-                                Settings
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <i class="ace-icon fa fa-envelope"></i>
-                        Messages
-                        <span class="badge badge-warning">5</span>
-                    </a>
-                </li>
-            </ul>
-
-            <form class="navbar-form navbar-left form-search" role="search">
-                <div class="form-group">
-                    <input type="text" placeholder="search" />
-                </div>
-
-                <button type="button" class="btn btn-mini btn-info2">
-                    <i class="ace-icon fa fa-search icon-only bigger-110"></i>
-                </button>
-            </form>
-        </nav>-->
-    </div>
+    </div><!-- /.navbar-container -->
 </div>

@@ -3,7 +3,7 @@
                 <div class="footer-content">
                     <span class="bigger-120">
                         <span class="blue bolder">SONTHUY</span>
-                        EDUCATION &copy; 2013-2014
+                        EDUCATION &copy; <?php echo (date("Y") - 1).' - '.date("Y") ?>
                     </span>
                     &nbsp; &nbsp;
                     <span class="action-buttons">

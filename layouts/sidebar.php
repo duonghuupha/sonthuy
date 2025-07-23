@@ -1,34 +1,13 @@
-<div id="sidebar" class="sidebar h-sidebar navbar-collapse collapse ace-save-state menu-min sidebar-fixed">
-    <div class="sidebar-shortcuts" id="sidebar-shortcuts">
-        <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-            <button class="btn btn-success">
-                <i class="ace-icon fa fa-signal"></i>
-            </button>
-            <button class="btn btn-info">
-                <i class="ace-icon fa fa-pencil"></i>
-            </button>
-            <button class="btn btn-warning">
-                <i class="ace-icon fa fa-users"></i>
-            </button>
-            <button class="btn btn-danger">
-                <i class="ace-icon fa fa-cogs"></i>
-            </button>
-        </div>
-        <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-            <span class="btn btn-success"></span>
-            <span class="btn btn-info"></span>
-            <span class="btn btn-warning"></span>
-            <span class="btn btn-danger"></span>
-        </div>
-    </div><!-- /.sidebar-shortcuts -->
+<div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed compact">
     <ul class="nav nav-list">
-        <li class="active open hover">
-            <a href="<?php echo URL ?>">
+        <li class="hover">
+            <a href="<?php echo URL.'/index?token='.$_SESSION['data'][0]['token'] ?>">
                 <i class="menu-icon fa fa-tachometer"></i>
-                <span class="menu-text"> Bàn làm việc</span>
+                <span class="menu-text"> Bàn làm việc </span>
             </a>
             <b class="arrow"></b>
         </li>
+    <!------------------------------------Danh muc----------------------------------------->
         <li class="hover">
             <a href="javacsript:void(0)" onclick="window.location.href='<?php echo URL.'/class_room?token='.$_SESSION['data'][0]['token'] ?>'">
                 <i class="menu-icon fa fa-life-bouy"></i>
@@ -37,7 +16,7 @@
             <b class="arrow"></b>
         </li>
         <li class="hover">
-            <a href="<?php echo URL ?>">
+            <a href="javacript:void(0)" onclick="window.location.href='<?php echo URL.'/teacher?token='.$_SESSION['data'][0]['token'] ?>'">
                 <i class="menu-icon fa fa-users"></i>
                 <span class="menu-text"> Giáo viên</span>
             </a>
@@ -186,5 +165,5 @@
                 </li>
             </ul>
         </li>
-    </ul><!-- /.nav-list -->
+    </ul>
 </div>
