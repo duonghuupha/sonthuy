@@ -22,7 +22,7 @@
         </div>
     </div><!-- /.sidebar-shortcuts -->
     <ul class="nav nav-list">
-        <li class="hover">
+        <li class="active open hover">
             <a href="<?php echo URL ?>">
                 <i class="menu-icon fa fa-tachometer"></i>
                 <span class="menu-text"> Bàn làm việc</span>
@@ -30,7 +30,7 @@
             <b class="arrow"></b>
         </li>
         <li class="hover">
-            <a href="<?php echo URL ?>">
+            <a href="javacsript:void(0)" onclick="window.location.href='<?php echo URL.'/class_room?token='.$_SESSION['data'][0]['token'] ?>'">
                 <i class="menu-icon fa fa-life-bouy"></i>
                 <span class="menu-text"> Lớp học</span>
             </a>
