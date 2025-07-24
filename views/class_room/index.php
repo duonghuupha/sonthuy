@@ -45,51 +45,42 @@
                             <div class="row">
                                 <div class="col-xs-6">
                                     <div class="form-group">
-                                        <label for="form-field-username">Lựa chọn năm học</label>
+                                        <label for="form-field-username">Mã lớp học <span style="color:red">(*)</span></label>
                                         <div>
-                                            <select class="select2" data-placeholder="Lựa chọn năm học"
-                                            style="width:100%" required="" id="year_id" name="year_id">
-                                            </select>
+                                            <input type="text" id="code" name="code" required="" placeholder="Mã lớp học" 
+                                            style="width:100%;text-transform:uppercase"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="form-group">
-                                        <label for="form-field-username">Lựa chọn phòng "vật lý"</label>
+                                        <label for="form-field-username">Tên lớp học <span style="color:red">(*)</span></label>
                                         <div>
-                                            <select class="select2" data-placeholder="Lựa chọn phòng 'vật lý'"
-                                            style="width:100%" required="" id="physical_id" name="physical_id">
-                                            </select>
+                                            <input type="text" id="title" name="title" required="" placeholder="Tên lớp học" style="width:100%" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="form-group">
-                                        <label for="form-field-username">Lựa chọn hệ đào tạo</label>
+                                        <label for="form-field-username">Ngày bắt đầu <span style="font-size:10px;">(dd-mm-yyyy)</span> <span style="color:red">(*)</span></label>
                                         <div>
-                                            <select class="select2" data-placeholder="Lựa chọn hệ đào tạo"
-                                            style="width:100%" required="" id="training_system_id" name="training_system_id">
-                                            </select>
+                                            <input type="text" id="date_start" name="date_start" required="" placeholder="Ngày bắt đầu" style="width:100%" />
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-6">
                                     <div class="form-group">
-                                        <label for="form-field-username">Tên phòng ban / lớp học</label>
+                                        <label for="form-field-username">Ngày kết thúc <span style="font-size:10px;">(dd-mm-yyyy)</span> <span style="color:red">(*)</span></label>
                                         <div>
-                                            <input type="text" id="title_department" name="title" required=""
-                                            placeholder="Tên phòng, ví dụ: Phòng Hiệu trưởng" style="width:100%" />
+                                            <input type="text" id="date_end" name="date_end" required="" placeholder="Ngày bắt đầu" style="width:100%" />
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-2">
+                                <div class="col-xs-12">
                                     <div class="form-group">
-                                        <label for="form-field-username">Là lớp học</label>
+                                        <label for="form-field-username">Mô tả lớp học</label>
                                         <div>
-                                            <label>
-                                                <input name="is_class" id="is_class" class="ace ace-switch ace-switch-7" type="checkbox">
-                                                <span class="lbl"></span>
-                                            </label>
+                                            <textarea id="title" name="title" placeholder="Mô tả lớp học" style="width:100%;height:100px;resize:none"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -97,11 +88,11 @@
                                     <div class="space-4"></div>
                                 </div>
                                 <div class="col-xs-12 text-center">
-                                    <button class="btn btn-sm btn-danger" type="button" onclick="javascript:location.reload()">
+                                    <button class="btn btn-sm btn-danger" type="button" onclick="canel_form()">
                                         <i class="ace-icon fa fa-times"></i>
                                         Hủy bỏ
                                     </button>
-                                    <button class="btn btn-sm btn-primary" type="button" onclick="save_department()">
+                                    <button class="btn btn-sm btn-primary" type="button" onclick="save()">
                                         <i class="ace-icon fa fa-save"></i>
                                         Ghi dữ liệu
                                     </button>
@@ -109,7 +100,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-xs-12 col-sm-7">
+                    <div class="col-xs-12 col-sm-7 haft">
                         <table id="list_class" 
                             class="table" 
                             role="grid"
