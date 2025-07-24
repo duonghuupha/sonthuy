@@ -18,7 +18,7 @@
         <li class="hover">
             <a href="javacript:void(0)" onclick="window.location.href='<?php echo URL.'/teacher?token='.$_SESSION['data'][0]['token'] ?>'">
                 <i class="menu-icon fa fa-users"></i>
-                <span class="menu-text"> Giáo viên</span>
+                <span class="menu-text"> Nhân sự</span>
             </a>
             <b class="arrow"></b>
         </li>

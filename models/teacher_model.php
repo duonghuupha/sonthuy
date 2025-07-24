@@ -8,7 +8,8 @@ class Teacher_Model extends Model{
         $result = array();
         $query = $this->db->query("SELECT * FROM tbl_teacher WHERE fullname LIKE '%$q%'");
         $row = $query->fetchAll();
-        $query = $this->db->query("SELECT id, code, fullname, email, phone, level, gender, birhtday FROM tbl_teacher WHERE fullname LIKE '%$q%' LIMIT $offset, $rows");
+        $query = $this->db->query("SELECT id, code, fullname, email, phone, level, gender, DATE_FORMAT(birthday, '%d-%m-%Y') AS birthday, 
+                                    address, email, status, image FROM tbl_teacher WHERE fullname LIKE '%$q%' LIMIT $offset, $rows");
         $result['records'] = $row[0]['Total'];
         $result['total'] = ceil($row[0]['Total']/$rows);
         $result['rows'] = $query->fetchAll();

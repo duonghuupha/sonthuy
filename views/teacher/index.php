@@ -6,7 +6,7 @@
                     <i class="ace-icon fa fa-home home-icon"></i>
                     <a href="#">Trang chủ</a>
                 </li>
-                <li class="active">Quản lý giáo viên</li>
+                <li class="active">Quản lý nhân sự</li>
             </ul><!-- /.breadcrumb -->
             <div class="nav-search" id="nav-search">
                 <form class="form-search">
@@ -21,7 +21,7 @@
         <div class="page-content">
             <div class="page-header">
                 <h1>
-                    Quản lý giáo viên
+                    Quản lý nhân sự
                     <small class="pull-right">
                         <button class="btn btn-sm btn-primary" id="add_personnel" onclick="add()">
                             <i class="ace-icon fa fa-plus"></i>
@@ -57,13 +57,14 @@
         <div class="modal-content">
             <div class="modal-header no-padding">
                 <div class="table-header">
-                    Thêm mới - Cập nhật thông tin giáo viên
+                    Thêm mới - Cập nhật thông tin nhân sự
                 </div>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <form id="fm" method="POST" enctype="multipart/form-data">
                         <input id="image_old" name="image_old" type="hidden"/>
+                        <input id="alrealdy_img" name="alrealdy_img" type="hidden"/>
                         <div class="col-xs-6">
                             <div class="form-group">
                                 <label for="form-field-username">
@@ -81,8 +82,7 @@
                             <div class="form-group">
                                 <label for="form-field-username">Họ và tên <span style="color:red">(*)</span></label>
                                 <div>
-                                    <input type="text" id="fullname" name="fullname" required=""
-                                        placeholder="Họ và tên" style="width:100%" />
+                                    <input type="text" id="fullname" name="fullname" required="" placeholder="Họ và tên" style="width:100%" />
                                 </div>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                             <div class="form-group">
                                 <label for="form-field-username">Điện thoại <span style="color:red">(*)</span></label>
                                 <div>
-                                    <input type="text" class="form-control input-mask-phone" id="phone" name="phone" 
+                                    <input type="text" class="form-control input-mask-phone" id="phone" name="phone" onchange="validate_phone(this.value)" 
                                     placeholder="Điện thoại" style="width:100%" required="" onkeypress="validate(event)"/>
                                 </div>
                             </div>
@@ -147,7 +147,9 @@
                         </div>
                         <div class="col-xs-12">
                             <div class="form-group">
-                                <label for="form-field-username">Hình ảnh</label>
+                                <label for="form-field-username">
+                                    Hình ảnh
+                                </label>
                                 <div>
                                     <input type="file" id="image" name="image" class="file_attach" style="width:100%"
                                     accept="image/png, image/gif, image/jpeg" onchange="check_type()"/>

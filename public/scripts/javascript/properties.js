@@ -330,3 +330,7 @@ function return_format_date($str){
     ngay = (ngay < 10) ? '0'+ngay : ngay;
     return ngay+'-'+thang+'-'+nam;
 }
+
+function reset_form(id_form){
+    $(id_form)[0].reset(); $('.select2').val(null).trigger('change.select2'); $('.file_attach').ace_file_input('reset_input');
+}
