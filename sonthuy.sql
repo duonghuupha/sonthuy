@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 23, 2025 at 04:19 PM
+-- Generation Time: Jul 24, 2025 at 09:08 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -20,6 +20,23 @@ SET time_zone = "+00:00";
 --
 -- Database: `sonthuy`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_class_room`
+--
+
+CREATE TABLE `tbl_class_room` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `title` text COLLATE utf8_unicode_ci NOT NULL,
+  `content` text COLLATE utf8_unicode_ci NOT NULL,
+  `date_start` date NOT NULL,
+  `date_end` date NOT NULL,
+  `status` int(11) NOT NULL,
+  `create_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -41,6 +58,13 @@ CREATE TABLE `tbl_teacher` (
   `status` int(11) NOT NULL,
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bảng lưu thông tin giáo viên';
+
+--
+-- Dumping data for table `tbl_teacher`
+--
+
+INSERT INTO `tbl_teacher` (`id`, `code`, `fullname`, `birthday`, `gender`, `level`, `address`, `phone`, `email`, `image`, `status`, `create_at`) VALUES
+(3, 559996216, 'Nguyễn Văn A', '2000-04-23', 1, 'Đại học', 'Phường Long Biên, Thành phố Hà Nội', '0987654321', 'abcd@gmail.com', '1753379618_559996216.jpg', 1, '2025-07-25 00:53:38');
 
 -- --------------------------------------------------------
 
@@ -68,11 +92,17 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-07-22 23:40:26', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0', '0f8ecd66a895478a51e4263032753cfd01a9079f', 1, 1, '2025-07-22 19:37:03');
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-07-25 00:44:24', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0', '9852f41f481af2fefc4690d8ef4376e702e781a9', 1, 1, '2025-07-22 19:37:03');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `tbl_class_room`
+--
+ALTER TABLE `tbl_class_room`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tbl_teacher`
@@ -91,10 +121,16 @@ ALTER TABLE `tbl_users`
 --
 
 --
+-- AUTO_INCREMENT for table `tbl_class_room`
+--
+ALTER TABLE `tbl_class_room`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_teacher`
 --
 ALTER TABLE `tbl_teacher`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`
