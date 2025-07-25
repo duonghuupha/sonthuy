@@ -6,7 +6,7 @@
                     <i class="ace-icon fa fa-home home-icon"></i>
                     <a href="#">Trang chủ</a>
                 </li>
-                <li class="active">Quản lý nhân sự</li>
+                <li class="active">Quản lý lớp học</li>
             </ul><!-- /.breadcrumb -->
             <div class="nav-search" id="nav-search">
                 <form class="form-search">
@@ -21,7 +21,7 @@
         <div class="page-content">
             <div class="page-header">
                 <h1>
-                    Quản lý nhân sự
+                    Quản lý lớp học
                     <small class="pull-right">
                         <button class="btn btn-sm btn-primary" id="add_personnel" onclick="add()">
                             <i class="ace-icon fa fa-plus"></i>
@@ -45,10 +45,15 @@
                             <div class="row">
                                 <div class="col-xs-6">
                                     <div class="form-group">
-                                        <label for="form-field-username">Mã lớp học <span style="color:red">(*)</span></label>
+                                        <label for="form-field-username">
+                                            Mã lớp học <span style="color:red">(*)</span>
+                                            <a href="javascript:void(0)" onclick="refresh_code()" title="Tạo mã code" id="refreshcode">
+                                                <i class="fa fa-refresh"></i>
+                                            </a>
+                                        </label>
                                         <div>
                                             <input type="text" id="code" name="code" required="" placeholder="Mã lớp học" 
-                                            style="width:100%;text-transform:uppercase"/>
+                                            style="width:100%" readonly=""/>
                                         </div>
                                     </div>
                                 </div>
@@ -64,7 +69,8 @@
                                     <div class="form-group">
                                         <label for="form-field-username">Ngày bắt đầu <span style="font-size:10px;">(dd-mm-yyyy)</span> <span style="color:red">(*)</span></label>
                                         <div>
-                                            <input type="text" id="date_start" name="date_start" required="" placeholder="Ngày bắt đầu" style="width:100%" />
+                                            <input type="text" id="date_start" name="date_start" required="" placeholder="Ngày bắt đầu" style="width:100%"
+                                            onchange="set_date_end(this.value)" class="input-mask-date"/>
                                         </div>
                                     </div>
                                 </div>
@@ -72,7 +78,7 @@
                                     <div class="form-group">
                                         <label for="form-field-username">Ngày kết thúc <span style="font-size:10px;">(dd-mm-yyyy)</span> <span style="color:red">(*)</span></label>
                                         <div>
-                                            <input type="text" id="date_end" name="date_end" required="" placeholder="Ngày bắt đầu" style="width:100%" />
+                                            <input type="text" id="date_end" name="date_end" required="" placeholder="Ngày bắt đầu" style="width:100%" class="input-mask-date"/>
                                         </div>
                                     </div>
                                 </div>
@@ -80,7 +86,7 @@
                                     <div class="form-group">
                                         <label for="form-field-username">Mô tả lớp học</label>
                                         <div>
-                                            <textarea id="title" name="title" placeholder="Mô tả lớp học" style="width:100%;height:100px;resize:none"></textarea>
+                                            <textarea id="content" name="content" placeholder="Mô tả lớp học" style="width:100%;height:100px;resize:none"></textarea>
                                         </div>
                                     </div>
                                 </div>
