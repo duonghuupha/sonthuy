@@ -33,7 +33,7 @@
             <b class="arrow"></b>
             <ul class="submenu">
                 <li class="hover">
-                    <a href="typography.html">
+                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo URL.'/students?token='.$_SESSION['data'][0]['token'] ?>'">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Thông tin học sinh
                     </a>
