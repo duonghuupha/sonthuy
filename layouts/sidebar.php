@@ -47,7 +47,7 @@
                     <b class="arrow"></b>
                 </li>
                 <li class="hover">
-                    <a href="buttons.html">
+                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo URL.'/muster?token='.$_SESSION['data'][0]['token'] ?>'">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Chuyên cần
                     </a>
@@ -64,14 +64,14 @@
             <b class="arrow"></b>
             <ul class="submenu">
                 <li class="hover">
-                    <a href="tables.html">
+                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo URL.'/lesson_cate?token='.$_SESSION['data'][0]['token'] ?>'">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Danh mục
                     </a>
                     <b class="arrow"></b>
                 </li>
                 <li class="hover">
-                    <a href="jqgrid.html">
+                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo URL.'/lesson?token='.$_SESSION['data'][0]['token'] ?>'">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Quản lý bài giảng
                     </a>
@@ -119,14 +119,14 @@
             <b class="arrow"></b>
             <ul class="submenu">
                 <li class="hover">
-                    <a href="form-elements.html">
+                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo URL.'/users?token='.$_SESSION['data'][0]['token'] ?>'">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Người dùng
                     </a>
                     <b class="arrow"></b>
                 </li>
                 <li class="hover">
-                    <a href="form-elements-2.html">
+                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo URL.'/roles?token='.$_SESSION['data'][0]['token'] ?>'">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Phân quyền
                     </a>
@@ -143,7 +143,7 @@
             <b class="arrow"></b>
             <ul class="submenu">
                 <li class="hover">
-                    <a href="form-elements.html">
+                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo URL.'/report_student?token='.$_SESSION['data'][0]['token'] ?>'">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Học sinh
                     </a>
