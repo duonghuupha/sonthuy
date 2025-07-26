@@ -1,19 +1,17 @@
 <?php
-class Lesson extends Controller{
+class Lesson_dc extends Controller{
     function __construct(){
         parent::__construct();
         parent::PhadhInt();
     }
 
     function index(){
-        require('layouts/header.php');
-        $this->view->render('lesson/index');
-        require('layouts/footer.php');
+        $this->view->render('lesson_dc/index');
     }
 
-    function json(){
+    function add(){
         
-        $this->view->render('lesson/json');
+        $this->view->render('lesson_dc/add');
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

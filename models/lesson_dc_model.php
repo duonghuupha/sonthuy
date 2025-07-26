@@ -1,5 +1,5 @@
 <?php
-class Lesson_Model extends Model{
+class Lesson_dc_Model extends Model{
     function __construct(){
         parent::__construct();
     }

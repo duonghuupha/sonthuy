@@ -19,7 +19,8 @@ function show_parent_lesson_cate($categories, $parent_id = 0, $char = ''){
                     <i class="ace-icon fa fa-home home-icon"></i>
                     <a href="#">Trang chủ</a>
                 </li>
-                <li class="active">Bài giảng</li>
+                <li class="">Bài giảng</li>
+                <li class="active">Danh mục bài giảng</li>
             </ul><!-- /.breadcrumb -->
         </div>
         <div class="page-content">
