@@ -402,6 +402,43 @@ function exec_del_refresh_content(data_str, url_data, url_reload, id_div){
         }
     });
 }
+
+/**
+ * 
+ * @param {*} id_form 
+ * @param {*} post_url 
+ * @param {*} id_content 
+ * @param {*} url_refresh 
+ */
+function save_form_refresh_div(id_form, post_url, id_content, url_refresh){
+    var xhr = new XMLHttpRequest();
+    var formData = new FormData($(id_form)[0]);
+    $('.overlay').show();
+    $.ajax({
+        url: post_url,  //server script to process data
+        type: 'POST',
+        xhr: function() {
+            return xhr;
+        },
+        data: formData,
+        success: function(data){
+            var result = JSON.parse(data);
+            if(result.success == true){
+                $('.overlay').hide();
+                show_message('success', result.msg);
+                $(id_form)[0].reset(); $('.select2').val(null).trigger('change.select2'); $('.file_attach').ace_file_input('reset_input');
+                $(id_content).load(url_refresh);
+            }else{
+                $('.overlay').hide();
+                show_message('error', result.msg);
+                return false;
+            }
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 function change_year_system(){
     $('#modal-change-year').modal('show');

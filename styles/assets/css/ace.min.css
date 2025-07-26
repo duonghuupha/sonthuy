@@ -21697,3 +21697,35 @@ input.typeahead.scrollable~.tt-menu {
 .calendar td:hover {
     background-color: #eee;
 }
+
+.table-container {
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f1f1f1;
+    z-index: 1;
+}
+
+.table-container th, .table-container td {
+    padding: 3px !important;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.table-container th{
+    padding:10px !important;
+}
+
+.table-container tr.active_row {
+    background-color: #C7D3A9;
+}
