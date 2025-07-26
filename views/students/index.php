@@ -37,7 +37,7 @@
                             <label for="form-field-username">Lớp học</label>
                             <div>
                                 <select class="select2" data-placeholder="Lựa chọn lớp học..." style="width:100%"
-                                    required="" id="class_id_search" name="class_id_search" <?php echo $disabled ?>></select>
+                                required="" id="class_id_search" name="class_id_search"></select>
                             </div>
                         </div>
                     </div>
@@ -45,8 +45,8 @@
                         <div class="form-group">
                             <label for="form-field-username">Mã học sinh</label>
                             <div>
-                                <input type="text" id="code_search" name="code_search" style="width:100%"
-                                    placeholder="Mã học sinh" />
+                                <input type="text" id="code_search" name="code_search" style="width:100%"placeholder="Mã học sinh"
+                                onkeypress="validate(event)"/>
                             </div>
                         </div>
                     </div>
@@ -54,8 +54,7 @@
                         <div class="form-group">
                             <label for="form-field-username">Họ và tên</label>
                             <div>
-                                <input type="text" id="fullname_search" name="fullname_search" style="width:100%"
-                                    placeholder="Họ và tên" />
+                                <input type="text" id="fullname_search" name="fullname_search" style="width:100%" placeholder="Họ và tên" />
                             </div>
                         </div>
                     </div>
@@ -64,7 +63,7 @@
                             <label for="form-field-username">Ngày sinh</label>
                             <div>
                                 <input class="form-control input-mask-date" id="birthday_search" type="text"
-                                name="birthday_search" onkeypress="validate(event)" />
+                                name="birthday_search" onkeypress="validate(event)" placeholder="Ngày sinh"/>
                             </div>
                         </div>
                     </div>
@@ -87,8 +86,7 @@
                         <div class="form-group">
                             <label for="form-field-username">Địa chỉ</label>
                             <div>
-                                <input class="form-control input-mask-date" id="birthday_search" type="text"
-                                name="birthday_search" onkeypress="validate(event)" />
+                                <input class="form-control" id="address_search" type="text" name="address_search" placeholder="Địa chỉ"/>
                             </div>
                         </div>
                     </div>

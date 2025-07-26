@@ -112,7 +112,7 @@ function save(){
         }
     });
     if(myData.length == 0){
-        required_all = true;
+        required_all = false;
     }else{
         for(i in myData){
             if(myData[i].relationship_id.length == 0 || myData[i].fullname.length == 0 || myData[i].phone.length == 0){
@@ -126,6 +126,25 @@ function save(){
     }else{
         show_message("error", "Chưa điền đủ thông tin");
     }
+}
+
+function search(){
+    var class_search = $('#class_id_search').val(), code_search = $('#code_search').val();
+    var fullname_search = $('#fullname_search').val(), birthday_search = $('#birthday_search').val();
+    var gender_search = $('#gender_search').val(), address_search = $('#address_search').val();
+    if(fullname_search.length != 0){
+        fullname_search = fullname_search.replaceAll(" ", "$", 'g');
+    }else{
+        fullname_search = '';
+    }
+    if(address_search.length != 0){
+        address_search = address_search.replaceAll(" ", "$", 'g');
+    }else{
+        address_search = '';
+    }
+    $('#list_student').jqGrid('setGridParam',{
+        postData: {"class_id": class_search, "code": code_search, "fullname": fullname_search, "birthday": birthday_search, "gender": gender_search, "address": address_search}
+    }).trigger('reloadGrid');
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function add_relation(){

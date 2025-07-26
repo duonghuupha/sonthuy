@@ -4,12 +4,23 @@ class Students_Model extends Model{
         parent::__construct();
     }
 
-    function getFetObj($q, $offset, $rows){
+    function getFetObj($classid, $code, $fullname, $birthday, $gender, $address, $offset, $rows){
         $result = array();
-        $query = $this->db->query("SELECT * FROM tbl_student WHERE fullname LIKE '%$q%'");
+        $where = "code LIKE '%$code%'";
+        if($classid != '')
+            $where .= " AND class_id = $classid";
+        if($fullname != '')
+            $where .= " AND fullname LIKE '%$fullname%'";
+        if($birthday != '')
+            $where .= " AND birthday = '$birthday'";
+        if($gender != 0)
+            $where .= "gender = '$gender'";
+        if($address != '')
+            $where .= " AND address LIKE '%$address%'";
+        $query = $this->db->query("SELECT * FROM tbl_student WHERE $where");
         $row = $query->fetchAll();
         $query = $this->db->query("SELECT id, code, fullname, email, gender, DATE_FORMAT(birthday, '%d-%m-%Y') AS birthday, address, status, class_id,
-                                    (SELECT title FROM tbl_class_room WHERE tbl_class_room.id = class_id) AS class_title FROM tbl_student WHERE fullname LIKE '%$q%' 
+                                    (SELECT title FROM tbl_class_room WHERE tbl_class_room.id = class_id) AS class_title FROM tbl_student WHERE $where 
                                     LIMIT $offset, $rows");
         $result['records'] = $row[0]['Total'];
         $result['total'] = ceil($row[0]['Total']/$rows);

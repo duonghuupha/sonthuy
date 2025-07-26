@@ -12,11 +12,14 @@ class Students extends Controller{
     }
 
     function json(){
-        $keyword = isset($_REQUEST['q']) ? str_replace("$", " ", $_REQUEST['q']) : '';
+        $classid = $_REQUEST['class_id']; $code = $_REQUEST['code']; $gender = $_REQUEST['gender'];
+        $fullname = isset($_REQUEST['fullname']) ? str_replace("$", " ", $_REQUEST['fullname']) : '';
+        $addess = isset($_REQUEST['address']) ? str_replace("$", " ", $_REQUEST['address']) : '';
+        $birthday = (isset($_REQUEST['birthday']) && $_REQUEST['birthday'] != '') ? $this->_Convert->convertDate($_REQUEST['birthday']) : '';
         $rows = isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 20;
         $get_pages = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
         $offset = ($get_pages-1)*$rows;
-        $jsonObj = $this->model->getFetObj($keyword, $offset, $rows);
+        $jsonObj = $this->model->getFetObj($classid, $code, $fullname, $birthday, $gender, $addess, $offset, $rows);
         $this->view->jsonObj = json_encode($jsonObj);
         $this->view->render('students/json');
     }
