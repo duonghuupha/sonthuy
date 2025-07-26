@@ -8,8 +8,9 @@ class Students_Model extends Model{
         $result = array();
         $query = $this->db->query("SELECT * FROM tbl_student WHERE fullname LIKE '%$q%'");
         $row = $query->fetchAll();
-        $query = $this->db->query("SELECT id, code, fullname, email, phone, level, gender, DATE_FORMAT(birthday, '%d-%m-%Y') AS birthday, 
-                                    address, email, status, image FROM tbl_student WHERE fullname LIKE '%$q%' LIMIT $offset, $rows");
+        $query = $this->db->query("SELECT id, code, fullname, email, gender, DATE_FORMAT(birthday, '%d-%m-%Y') AS birthday, address, status, class_id,
+                                    (SELECT title FROM tbl_class_room WHERE tbl_class_room.id = class_id) AS class_title FROM tbl_student WHERE fullname LIKE '%$q%' 
+                                    LIMIT $offset, $rows");
         $result['records'] = $row[0]['Total'];
         $result['total'] = ceil($row[0]['Total']/$rows);
         $result['rows'] = $query->fetchAll();
@@ -30,8 +31,18 @@ class Students_Model extends Model{
         return $query;
     }
 
+    function addObj_relation($data){
+        $query = $this->insert("tbl_student_relation", $data);
+        return $query;
+    }
+
     function updateObj($id, $data){
         $query = $this->update("tbl_student", $data, "id = $id");
+        return $query;
+    }
+
+    function delObj_relation($code){
+        $query = $this->delete("tbl_student_relation", "code_student = $code");
         return $query;
     }
 
@@ -43,6 +54,11 @@ class Students_Model extends Model{
     function get_info($id){
         $query = $this->db->query("SELECT * FROM tbl_student WHERE id = $id");
         return $query->fetchAll();
+    }
+
+    function get_relation($code_student){
+        $query = $this->db->query("SELECT id, fullname, phone, email, relation_id AS relationship_id FROM tbl_student_relation WHERE code_student = $code_student");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>
