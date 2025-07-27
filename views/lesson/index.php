@@ -48,101 +48,49 @@
 
 <!--Form don vi tinh-->
 <div id="modal-lesson" class="modal fade" data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog" style="width:80%">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header no-padding">
                 <div class="table-header">
                     Thêm mới - Cập nhật thông tin bài giảng
                 </div>
             </div>
-            <div class="modal-body" style="height:calc(100vh - 200px); overflow: auto;">
+            <div class="modal-body">
                 <div class="row">
                     <form id="fm" method="POST" enctype="multipart/form-data">
-                        <div class="col-sm-3">
-                            <h3 class="header smaller lighter blue">Thông tin chung của bài giảng</h3>
-                            <div class="col-xs-12">
-                                <div class="form-group">
-                                    <label for="form-field-username">
-                                        Mã bài giảng <span style="color:red">(*)</span> &nbsp;
-                                        <a href="javascript:void(0)" onclick="refresh_code()" title="Tạo mã code" id="refreshcode">
-                                            <i class="fa fa-refresh"></i>
-                                        </a>
-                                    </label>
-                                    <div>
-                                        <input type="text" id="code" name="code" style="width:100%" required="" readonly=""/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12">
-                                <div class="form-group">
-                                    <label for="form-field-username">Lựa chọn danh mục <span style="color:red">(*)</span></label>
-                                    <div class="input-group">
-                                        <input type="text" id="fullname_sign" name="fullname_sign" required=""
-                                        placeholder="Click Go! để lựa chọn" style="width:100%;" readonly=""/>
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-sm btn-primary" type="button" onclick="select_user_sign()">
-                                                <i class="ace-icon fa fa-users bigger-110"></i>
-                                                Go!
-                                            </button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12">
-                                <div class="form-group">
-                                    <label for="form-field-username">Tên bài giảng <span style="color:red">(*)</span></label>
-                                    <div>
-                                        <input type="text" id="title" name="title" required="" placeholder="Tên bài giảng" style="width:100%" />
-                                    </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="form-field-username">
+                                    Mã bài giảng <span style="color:red">(*)</span> &nbsp;
+                                    <a href="javascript:void(0)" onclick="refresh_code()" title="Tạo mã code" id="refreshcode">
+                                        <i class="fa fa-refresh"></i>
+                                    </a>
+                                </label>
+                                <div>
+                                    <input type="text" id="code" name="code" style="width:100%" required="" readonly=""/>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
-                            <div class="widget-box widget-color-blue2">
-                                <div class="widget-header">
-                                    <h4 class="widget-title lighter smaller">Hình ảnh tài liệu bài giảng</h4>
-                                </div>
-                                <div class="widget-body" style="height:calc(100vh - 300px); overflow: auto;">
-                                    <div class="widget-main padding-3">
-                                        <div class="col-xs-12">
-                                            <div class="form-group">
-                                                <label for="form-field-username">
-                                                    Lựa chọn hình ảnh <span style="color:red">(*)</span>
-                                                </label>
-                                                <div>
-                                                    <input type="file" id="image_dc" name="image_dc[]" class="file_attach" style="width:100%"
-                                                    accept="image/png, image/gif, image/jpeg" onchange="check_type_image('#image_dc')" multiple=""/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12" id="content_dc" style="padding:0px;">
-
-                                        </div>
-                                    </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="form-field-username">Lựa chọn danh mục <span style="color:red">(*)</span></label>
+                                <div class="input-group">
+                                    <input type="text" id="title_cate" name="title_cate" required=""
+                                    placeholder="Click Go! để lựa chọn" style="width:100%;" readonly=""/>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary" type="button" onclick="select_user_sign()">
+                                            <i class="ace-icon fa fa-users bigger-110"></i>
+                                            Go!
+                                        </button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
-                            <div class="widget-box widget-color-blue2">
-                                <div class="widget-header">
-                                    <h4 class="widget-title lighter smaller">File âm thanh - video của bài giảng</h4>
-                                </div>
-                                <div class="widget-body" style="height:calc(100vh - 300px); overflow: auto;">
-                                    <div class="widget-main padding-8">
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="widget-box widget-color-blue2">
-                                <div class="widget-header">
-                                    <h4 class="widget-title lighter smaller">Hình ảnh thẻ từ liên quan bài giảng</h4>
-                                </div>
-                                <div class="widget-body" style="height:calc(100vh - 300px); overflow: auto;">
-                                    <div class="widget-main padding-8">
-                                        
-                                    </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="form-field-username">Tên bài giảng <span style="color:red">(*)</span></label>
+                                <div>
+                                    <input type="text" id="title" name="title" required="" placeholder="Tên bài giảng" style="width:100%" />
                                 </div>
                             </div>
                         </div>
@@ -150,7 +98,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-sm btn-danger pull-left" id="close_modal" onclick="cancel()">
+                <button class="btn btn-sm btn-danger pull-left" id="close_modal" data-dismiss="modal">
                     <i class="ace-icon fa fa-times"></i>
                     Đóng
                 </button>

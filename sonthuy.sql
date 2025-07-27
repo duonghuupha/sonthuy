@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 24, 2025 at 09:08 PM
+-- Generation Time: Jul 27, 2025 at 10:04 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -37,6 +37,190 @@ CREATE TABLE `tbl_class_room` (
   `status` int(11) NOT NULL,
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_class_room`
+--
+
+INSERT INTO `tbl_class_room` (`id`, `code`, `title`, `content`, `date_start`, `date_end`, `status`, `create_at`) VALUES
+(2, 141120460, '1ADT2025', 'Lớp một năm 2025', '2025-07-25', '2026-07-09', 1, '2025-07-25 22:53:18');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_lesson`
+--
+
+CREATE TABLE `tbl_lesson` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `cate_id` int(11) NOT NULL,
+  `title` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL,
+  `create_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Triggers `tbl_lesson`
+--
+DELIMITER $$
+CREATE TRIGGER `del_lesson_extra_after_del_lesson` AFTER DELETE ON `tbl_lesson` FOR EACH ROW BEGIN
+DELETE FROM tbl_lesson_dc WHERE code_lesson = old.code;
+DELETE FROM tbl_lesson_media WHERE code_lesson = old.code;
+DELETE FROM tbl_lesson_card WHERE code_lesson = old.code;
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_lesson_card`
+--
+
+CREATE TABLE `tbl_lesson_card` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `code_lesson` int(11) NOT NULL,
+  `image` text COLLATE utf8_unicode_ci NOT NULL,
+  `order_card` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `create_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_lesson_cate`
+--
+
+CREATE TABLE `tbl_lesson_cate` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `title` text COLLATE utf8_unicode_ci NOT NULL,
+  `content` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL,
+  `create_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_lesson_cate`
+--
+
+INSERT INTO `tbl_lesson_cate` (`id`, `code`, `parent_id`, `title`, `content`, `status`, `create_at`) VALUES
+(1, 129343406, 0, 'Tuần 1 - Week 1', 'Các bài học của tuần 1, tuần bắt đầu cho chương trình học', 1, '2025-07-27 00:52:15');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_lesson_dc`
+--
+
+CREATE TABLE `tbl_lesson_dc` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `code_lesson` int(11) NOT NULL,
+  `image` text COLLATE utf8_unicode_ci NOT NULL,
+  `order_dc` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `create_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_lesson_media`
+--
+
+CREATE TABLE `tbl_lesson_media` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `code_lesson` int(11) NOT NULL,
+  `file` text COLLATE utf8_unicode_ci NOT NULL,
+  `order_media` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `create_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_student`
+--
+
+CREATE TABLE `tbl_student` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `fullname` text COLLATE utf8_unicode_ci NOT NULL,
+  `birthday` date NOT NULL,
+  `gender` int(11) NOT NULL,
+  `address` text COLLATE utf8_unicode_ci NOT NULL,
+  `email` text COLLATE utf8_unicode_ci NOT NULL,
+  `class_id` int(11) NOT NULL,
+  `status` int(11) NOT NULL,
+  `create_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bảng lưu thông tin học sinh';
+
+--
+-- Dumping data for table `tbl_student`
+--
+
+INSERT INTO `tbl_student` (`id`, `code`, `fullname`, `birthday`, `gender`, `address`, `email`, `class_id`, `status`, `create_at`) VALUES
+(2, 879724973, 'Dương Thanh Tùng', '2016-04-12', 1, 'Thôn Đào Xuyên, Xã Bát Tràng, Thành phố Hà Nội', 'duongthanhtung2016@gmail.com', 2, 1, '2025-07-26 18:42:18');
+
+--
+-- Triggers `tbl_student`
+--
+DELIMITER $$
+CREATE TRIGGER `del_relation_after_del_student` AFTER DELETE ON `tbl_student` FOR EACH ROW DELETE FROM tbl_student_relation WHERE code_student = old.code
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_student_muster`
+--
+
+CREATE TABLE `tbl_student_muster` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `class_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `date_muster` date NOT NULL,
+  `create_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_student_muster`
+--
+
+INSERT INTO `tbl_student_muster` (`id`, `code`, `class_id`, `student_id`, `date_muster`, `create_at`) VALUES
+(4, 1753544732, 2, 2, '2025-07-26', '2025-07-26 22:45:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_student_relation`
+--
+
+CREATE TABLE `tbl_student_relation` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `code_student` int(11) NOT NULL,
+  `relation_id` int(11) NOT NULL,
+  `fullname` text COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` text COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bảng lưu thông tin liên hệ của học sinh';
+
+--
+-- Dumping data for table `tbl_student_relation`
+--
+
+INSERT INTO `tbl_student_relation` (`id`, `code`, `code_student`, `relation_id`, `fullname`, `phone`, `email`) VALUES
+(5, 1753530196, 879724973, 2, 'Nguyễn Thị Minh Huệ', '0349697096', 'minhhue16111991@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -92,7 +276,7 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-07-25 00:44:24', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0', '9852f41f481af2fefc4690d8ef4376e702e781a9', 1, 1, '2025-07-22 19:37:03');
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-07-28 01:36:00', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0', '40c179c208821cd807fcec688a8808bebc5ec092', 1, 1, '2025-07-22 19:37:03');
 
 --
 -- Indexes for dumped tables
@@ -102,6 +286,54 @@ INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `
 -- Indexes for table `tbl_class_room`
 --
 ALTER TABLE `tbl_class_room`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_lesson`
+--
+ALTER TABLE `tbl_lesson`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_lesson_card`
+--
+ALTER TABLE `tbl_lesson_card`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_lesson_cate`
+--
+ALTER TABLE `tbl_lesson_cate`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_lesson_dc`
+--
+ALTER TABLE `tbl_lesson_dc`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_lesson_media`
+--
+ALTER TABLE `tbl_lesson_media`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_student`
+--
+ALTER TABLE `tbl_student`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_student_muster`
+--
+ALTER TABLE `tbl_student_muster`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_student_relation`
+--
+ALTER TABLE `tbl_student_relation`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -124,7 +356,55 @@ ALTER TABLE `tbl_users`
 -- AUTO_INCREMENT for table `tbl_class_room`
 --
 ALTER TABLE `tbl_class_room`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tbl_lesson`
+--
+ALTER TABLE `tbl_lesson`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_lesson_card`
+--
+ALTER TABLE `tbl_lesson_card`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_lesson_cate`
+--
+ALTER TABLE `tbl_lesson_cate`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tbl_lesson_dc`
+--
+ALTER TABLE `tbl_lesson_dc`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_lesson_media`
+--
+ALTER TABLE `tbl_lesson_media`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_student`
+--
+ALTER TABLE `tbl_student`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tbl_student_muster`
+--
+ALTER TABLE `tbl_student_muster`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tbl_student_relation`
+--
+ALTER TABLE `tbl_student_relation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_teacher`
