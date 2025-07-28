@@ -59,7 +59,7 @@ function save(){
         }
     });
     if(allRequired){
-        save_form_refresh_div('#fm', url, '#list_lesson_cate',  baseUrl+'/lesson_cate/json?token='+localStorage.getItem('token')); 
+        save_form_reject('#fm', url, baseUrl+'/lesson_cate?token='+localStorage.getItem('token')); 
     }else{
         show_message("error", "Chưa điền đủ thông tin");
     }
@@ -69,9 +69,9 @@ function canel_form(){
     reset_form('#fm');
 }
 
-function select_row(idh){
-    $('tr[id^="row_"]').removeClass('active_row');
-    $('#row_'+idh).addClass('active_row'); id_selected = idh;
+function set_active_lesson_cate(idh){
+    $('li[id^="tree_view_"]').removeClass('active');
+    $('#tree_view_'+idh).addClass('active'); id_selected = idh;
 }
 
 function getRemote(remote_url){

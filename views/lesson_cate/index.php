@@ -52,13 +52,14 @@ function show_parent_lesson_cate($categories, $parent_id = 0, $char = ''){
                                     <div class="form-group">
                                         <label for="form-field-username">
                                             Mã danh mục <span style="color:red">(*)</span>
-                                            <a href="javascript:void(0)" onclick="refresh_code()" title="Tạo mã code" id="refreshcode">
+                                            <a href="javascript:void(0)" onclick="refresh_code()" title="Tạo mã code"
+                                                id="refreshcode">
                                                 <i class="fa fa-refresh"></i>
                                             </a>
                                         </label>
                                         <div>
-                                            <input type="text" id="code" name="code" required="" placeholder="Mã danh mục" 
-                                            style="width:100%" readonly=""/>
+                                            <input type="text" id="code" name="code" required=""
+                                                placeholder="Mã danh mục" style="width:100%" readonly="" />
                                         </div>
                                     </div>
                                 </div>
@@ -66,9 +67,7 @@ function show_parent_lesson_cate($categories, $parent_id = 0, $char = ''){
                                     <div class="form-group">
                                         <label for="form-field-username">Lựa chọn danh mục cha</label>
                                         <div>
-                                            <select class="select2" data-placeholder="Lựa chọn danh mục..."
-                                            style="width:100%" id="parent_id" name="parent_id"
-                                            data-minimum-results-for-search="Infinity">
+                                            <select class="select2" data-placeholder="Lựa chọn danh mục..." style="width:100%" id="parent_id" name="parent_id">
                                                 <option value="">Lựa chọn danh mục</option>
                                                 <?php show_parent_lesson_cate($this->jsonObj) ?>
                                             </select>
@@ -77,9 +76,11 @@ function show_parent_lesson_cate($categories, $parent_id = 0, $char = ''){
                                 </div>
                                 <div class="col-xs-12">
                                     <div class="form-group">
-                                        <label for="form-field-username">Tên danh mục <span style="color:red">(*)</span></label>
+                                        <label for="form-field-username">Tên danh mục <span
+                                                style="color:red">(*)</span></label>
                                         <div>
-                                            <input type="text" id="title" name="title" required="" placeholder="Tên danh mục" style="width:100%" />
+                                            <input type="text" id="title" name="title" required=""
+                                                placeholder="Tên danh mục" style="width:100%" />
                                         </div>
                                     </div>
                                 </div>
@@ -87,7 +88,8 @@ function show_parent_lesson_cate($categories, $parent_id = 0, $char = ''){
                                     <div class="form-group">
                                         <label for="form-field-username">Mô tả danh mục</label>
                                         <div>
-                                            <textarea id="content" name="content" placeholder="Mô tả lớp học" style="width:100%;height:100px;resize:none"></textarea>
+                                            <textarea id="content" name="content" placeholder="Mô tả lớp học"
+                                                style="width:100%;height:100px;resize:none"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -108,7 +110,45 @@ function show_parent_lesson_cate($categories, $parent_id = 0, $char = ''){
                         </form>
                     </div>
                     <div class="col-xs-12 col-sm-7 haft">
-                        <div id="list_lesson_cate" class="dataTables_wrapper form-inline no-footer"></div>
+                        <!--<div id="list_lesson_cate" class="dataTables_wrapper form-inline no-footer"></div>-->
+                        <div class="widget-box widget-color-blue2">
+                            <div class="widget-header">
+                                <h4 class="widget-title lighter smaller">Danh mục bài giảng</h4>
+                            </div>
+                            <div class="widget-body" style="overflow: auto;height: calc(100vh - 280px);">
+                                <div class="widget-main padding-8">
+                                    <?php
+                                    function show_tree_view_lesson_cate($categories, $parent_id = 0, $char = ''){
+                                        $cate_child = array();
+                                        foreach ($categories as $key => $item){
+                                            if ($item['parent_id'] == $parent_id){
+                                                $cate_child[] = $item;
+                                                unset($categories[$key]);
+                                            }
+                                        }
+                                        if ($cate_child){
+                                            echo '<ul class="tree tree-unselectable tree-branch-children" role="tree">';
+                                            foreach ($cate_child as $key => $item){
+                                                echo '
+                                                <li id="tree_view_'.$item['id'].'" class="tree-branch tree-open" role="treeitem" aria-expanded="true" onclick="set_active_lesson_cate('.$item['id'].')">
+                                                    <div class="tree-branch-header"> 
+                                                        <span class="tree-branch-name"> 
+                                                            <i class="icon-folder ace-icon tree-minus"></i> 
+                                                            <span class="tree-label">'.$item['title'].'</span> 
+                                                        </span> 
+                                                    </div>
+                                                ';
+                                                show_tree_view_lesson_cate($categories, $item['id'], $char.'|---');
+                                                echo '</li>';
+                                            }
+                                            echo '</ul>';
+                                        }
+                                    }
+                                    show_tree_view_lesson_cate($this->jsonObj);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div><!-- /.col -->
             </div><!-- /.row -->
