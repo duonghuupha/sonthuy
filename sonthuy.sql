@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 27, 2025 at 10:04 PM
+-- Generation Time: Jul 28, 2025 at 09:59 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -44,6 +44,21 @@ CREATE TABLE `tbl_class_room` (
 
 INSERT INTO `tbl_class_room` (`id`, `code`, `title`, `content`, `date_start`, `date_end`, `status`, `create_at`) VALUES
 (2, 141120460, '1ADT2025', 'Lớp một năm 2025', '2025-07-25', '2026-07-09', 1, '2025-07-25 22:53:18');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_group_role`
+--
+
+CREATE TABLE `tbl_group_role` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `title` text COLLATE utf8_unicode_ci NOT NULL,
+  `roles` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL,
+  `create_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -109,7 +124,14 @@ CREATE TABLE `tbl_lesson_cate` (
 --
 
 INSERT INTO `tbl_lesson_cate` (`id`, `code`, `parent_id`, `title`, `content`, `status`, `create_at`) VALUES
-(1, 129343406, 0, 'Tuần 1 - Week 1', 'Các bài học của tuần 1, tuần bắt đầu cho chương trình học', 1, '2025-07-27 00:52:15');
+(2, 468929080, 0, 'Sách lớp 1', 'Bài học dành cho lớp 1', 1, '2025-07-28 23:43:43'),
+(3, 121386087, 2, 'Tuần 1', 'Bài học của tuần 1', 1, '2025-07-28 23:44:09'),
+(4, 983603568, 2, 'Tuần 2', 'Bài học tuần 2', 1, '2025-07-28 23:44:28'),
+(5, 741147367, 2, 'Tuần 3', 'Bài học tuần 3', 1, '2025-07-28 23:44:56'),
+(6, 748955283, 2, 'Tuần 4', 'Bài học tuần 4', 1, '2025-07-28 23:45:19'),
+(7, 473266396, 0, 'Sách lớp 2', 'Bài học dành cho lớp 2', 1, '2025-07-28 23:46:07'),
+(8, 517997481, 7, 'Tuần 1', 'Bài học tuần 1', 1, '2025-07-28 23:46:37'),
+(9, 207109423, 7, 'Tuần 2', 'Bài học tuần 2', 1, '2025-07-29 01:47:03');
 
 -- --------------------------------------------------------
 
@@ -142,6 +164,48 @@ CREATE TABLE `tbl_lesson_media` (
   `status` int(11) NOT NULL,
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_roles`
+--
+
+CREATE TABLE `tbl_roles` (
+  `id` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `title` text COLLATE utf8_unicode_ci NOT NULL,
+  `link` text COLLATE utf8_unicode_ci NOT NULL,
+  `functions` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `order_position` int(11) NOT NULL,
+  `icon` text COLLATE utf8_unicode_ci,
+  `is_submenu` int(11) NOT NULL DEFAULT '0' COMMENT '0 là có,1 là không',
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_roles`
+--
+
+INSERT INTO `tbl_roles` (`id`, `parent_id`, `title`, `link`, `functions`, `order_position`, `icon`, `is_submenu`, `status`) VALUES
+(1, 0, 'Lớp học', 'class_room', '1,2,3', 1, 'life-bouy', 0, 1),
+(2, 0, 'Nhân sự', 'teacher', '1,2,3', 2, 'users', 0, 1),
+(3, 0, 'Học sinh', '#', '', 3, 'graduation-cap', 0, 1),
+(4, 3, 'Thông tin học sinh', 'students', '1,2,3', 1, 'a', 0, 1),
+(5, 3, 'Kiểm tra đầu vào', '#', '1,2,3', 2, 'a', 0, 1),
+(6, 3, 'Chuyên cần', 'muster', '', 3, 'a', 0, 1),
+(7, 0, 'Bài giảng', '#', '', 4, 'folder-open-o', 0, 1),
+(8, 7, 'Danh mục', 'lesson_cate', '1,2,3', 1, 'a', 0, 1),
+(9, 7, 'Quản lý bài giảng', 'lesson', '1,2,3', 2, 'a', 0, 1),
+(10, 7, 'Từ vựng', '#', '', 3, 'a', 0, 1),
+(11, 0, 'Kiểm tra/Thi', '#', '', 5, 'pencil-square-o', 0, 1),
+(12, 11, 'Danh mục', '#', '', 1, 'a', 0, 1),
+(13, 11, 'Quản lý thi/kiểm tra', '#', '', 2, 'a', 0, 1),
+(14, 0, 'Quản lý người dùng', '#', '', 6, 'user', 0, 1),
+(15, 14, 'Tài khoản học sinh', '#', '', 1, 'a', 0, 1),
+(16, 14, 'Người dùng', 'users', '', 2, 'a', 0, 1),
+(17, 14, 'Phân quyền', '#', '', 3, 'a', 0, 1),
+(18, 0, 'Báo cáo', '#', '', 7, 'bar-chart', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -276,7 +340,7 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-07-28 01:36:00', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0', '40c179c208821cd807fcec688a8808bebc5ec092', 1, 1, '2025-07-22 19:37:03');
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-07-28 23:36:38', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0', '4902eba308219ed0043b9863d5b0e465a5ac8f16', 1, 1, '2025-07-22 19:37:03');
 
 --
 -- Indexes for dumped tables
@@ -286,6 +350,12 @@ INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `
 -- Indexes for table `tbl_class_room`
 --
 ALTER TABLE `tbl_class_room`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_group_role`
+--
+ALTER TABLE `tbl_group_role`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -316,6 +386,12 @@ ALTER TABLE `tbl_lesson_dc`
 -- Indexes for table `tbl_lesson_media`
 --
 ALTER TABLE `tbl_lesson_media`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_roles`
+--
+ALTER TABLE `tbl_roles`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -359,6 +435,12 @@ ALTER TABLE `tbl_class_room`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `tbl_group_role`
+--
+ALTER TABLE `tbl_group_role`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_lesson`
 --
 ALTER TABLE `tbl_lesson`
@@ -374,7 +456,7 @@ ALTER TABLE `tbl_lesson_card`
 -- AUTO_INCREMENT for table `tbl_lesson_cate`
 --
 ALTER TABLE `tbl_lesson_cate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_lesson_dc`
@@ -387,6 +469,12 @@ ALTER TABLE `tbl_lesson_dc`
 --
 ALTER TABLE `tbl_lesson_media`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_roles`
+--
+ALTER TABLE `tbl_roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `tbl_student`
