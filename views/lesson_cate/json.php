@@ -17,7 +17,7 @@ function show_table_leson_cate($categories, $parent_id = 0, $char = ''){
                         echo '</a>';
                     }
                 echo '</td>';
-                echo '<td cstyle="text-align:center">'.$item['create_at'].'</td>';
+                echo '<td style="text-align:center">'.$item['create_at'].'</td>';
             echo '</tr>';
             unset($categories[$key]);
             show_table_leson_cate($categories, $item['id'], $char.'|---');

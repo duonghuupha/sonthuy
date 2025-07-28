@@ -10,5 +10,16 @@ class Other extends Controller{
         $this->view->jsonObj = json_encode($jsonObj);
         $this->view->render("other/combo_class");
     }
+
+    function combo_roles_parent(){
+        $keyword = isset($_REQUEST['q']) ? $_REQUEST['q'] : '';
+        $jsonObj = $this->model->get_combo_roles_parent($keyword);
+        $this->view->jsonObj = json_encode($jsonObj);
+        $this->view->render("other/combo_roles_parent");
+    }
+
+    function combo_role_link(){
+        $this->view->render("other/combo_role_link");
+    }
 }
 ?>

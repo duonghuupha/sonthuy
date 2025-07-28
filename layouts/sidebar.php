@@ -8,162 +8,41 @@
             <b class="arrow"></b>
         </li>
     <!------------------------------------Danh muc----------------------------------------->
-        <li class="hover">
-            <a href="javacsript:void(0)" onclick="window.location.href='<?php echo URL.'/class_room?token='.$_SESSION['data'][0]['token'] ?>'">
-                <i class="menu-icon fa fa-life-bouy"></i>
-                <span class="menu-text"> Lớp học</span>
+        <?php
+        $level_1 = $this->_Data->get_menu();
+        foreach($level_1 as $item){
+            $url_level_1 = ($item['link'] == '#') ? 'javascript:void(0)' : URL.'/'.$item['link'].'?token='.$_SESSION['data'][0]['token'];
+            $level_2 = $this->_Data->get_menu($item['id']);
+            $class_level = (!empty($level_2)) ? 'dropdown-toggle' : ''; $tag_level = (!empty($level_2)) ? 'fa fa-angle-down' : '';
+        ?>
+        <li class="hover" class="<?php echo $class_level ?>">
+            <a href="javacsript:void(0)" onclick="window.location.href='<?php echo $url_level_1 ?>'">
+                <i class="menu-icon fa fa-<?php echo $item['icon'] ?>"></i>
+                <span class="menu-text"> <?php echo $item['title'] ?></span>
+                <b class="arrow <?php echo $tag_level ?>"></b>
             </a>
             <b class="arrow"></b>
+            <?php
+            if(!empty($level_2)){
+                echo '<ul class="submenu">';
+                foreach($level_2 as $item_2){
+                    $url_level_2 = ($item_2['link'] == '#') ? 'javascript:void(0)' : URL.'/'.$item_2['link'].'?token='.$_SESSION['data'][0]['token'];
+                ?>
+                <li class="hover">
+                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo $url_level_2 ?>'">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        <?php echo $item_2['title'] ?>
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <?php
+                }
+                echo '</ul>';
+            }
+            ?>
         </li>
-        <li class="hover">
-            <a href="javacript:void(0)" onclick="window.location.href='<?php echo URL.'/teacher?token='.$_SESSION['data'][0]['token'] ?>'">
-                <i class="menu-icon fa fa-users"></i>
-                <span class="menu-text"> Nhân sự</span>
-            </a>
-            <b class="arrow"></b>
-        </li>
-        <li class="hover">
-            <a href="javascript:void(0)" class="dropdown-toggle">
-                <i class="menu-icon fa fa-graduation-cap"></i>
-                <span class="menu-text">
-                    Học sinh
-                </span>
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
-            <b class="arrow"></b>
-            <ul class="submenu">
-                <li class="hover">
-                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo URL.'/students?token='.$_SESSION['data'][0]['token'] ?>'">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Thông tin học sinh
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-                <li class="hover">
-                    <a href="elements.html">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Kiểm tra đầu vào
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-                <li class="hover">
-                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo URL.'/muster?token='.$_SESSION['data'][0]['token'] ?>'">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Chuyên cần
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-            </ul>
-        </li>
-        <li class="hover">
-            <a href="javascript:void(0)" class="dropdown-toggle">
-                <i class="menu-icon fa fa-folder-open-o"></i>
-                <span class="menu-text"> Bài giảng</span>
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
-            <b class="arrow"></b>
-            <ul class="submenu">
-                <li class="hover">
-                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo URL.'/lesson_cate?token='.$_SESSION['data'][0]['token'] ?>'">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Danh mục
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-                <li class="hover">
-                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo URL.'/lesson?token='.$_SESSION['data'][0]['token'] ?>'">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Quản lý bài giảng
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-                <li class="hover">
-                    <a href="jqgrid.html">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Từ vựng
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-            </ul>
-        </li>
-        <li class="hover">
-            <a href="javascript:void(0)" class="dropdown-toggle">
-                <i class="menu-icon fa fa-pencil-square-o"></i>
-                <span class="menu-text"> Kiểm tra/Thi</span>
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
-            <b class="arrow"></b>
-            <ul class="submenu">
-                <li class="hover">
-                    <a href="form-elements.html">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Danh mục
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-                <li class="hover">
-                    <a href="form-elements-2.html">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Quản lý thi/kiểm tra
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-            </ul>
-        </li>
-        <li class="hover">
-            <a href="javascript:void(0)" class="dropdown-toggle">
-                <i class="menu-icon fa fa-user"></i>
-                <span class="menu-text"> Quản lý người dùng</span>
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
-            <b class="arrow"></b>
-            <ul class="submenu">
-                <li class="hover">
-                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo URL.'/users?token='.$_SESSION['data'][0]['token'] ?>'">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Người dùng
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-                <li class="hover">
-                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo URL.'/roles?token='.$_SESSION['data'][0]['token'] ?>'">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Phân quyền
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-            </ul>
-        </li>
-        <li class="hover">
-            <a href="javascript:void(0)" class="dropdown-toggle">
-                <i class="menu-icon fa fa-bar-chart"></i>
-                <span class="menu-text"> Báo cáo</span>
-                <b class="arrow fa fa-angle-down"></b>
-            </a>
-            <b class="arrow"></b>
-            <ul class="submenu">
-                <li class="hover">
-                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo URL.'/report_student?token='.$_SESSION['data'][0]['token'] ?>'">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Học sinh
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-                <li class="hover">
-                    <a href="form-elements-2.html">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Bài giảng
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-                <li class="hover">
-                    <a href="form-elements-2.html">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Thi/Kiểm tra
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-            </ul>
-        </li>
+        <?php
+        }
+        ?>
     </ul>
 </div>
