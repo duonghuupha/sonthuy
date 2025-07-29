@@ -31,10 +31,33 @@
                 </h1>
             </div><!-- /.page-header -->
             <div class="row">
-                <div class="col-xs-12 col-sm-4">
-                    
+                <div class="col-xs-12 col-sm-3">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="form-field-username">Tên bài giảng</label>
+                            <div>
+                                <input type="text" id="code_search" name="code_search" style="width:100%"placeholder="Mã học sinh"
+                                onkeypress="validate(event)"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label for="form-field-username">Danh   mục</label>
+                            <div>
+                                <select class="select2" data-placeholder="Lựa chọn lớp học..." style="width:100%"
+                                required="" id="class_id_search" name="class_id_search"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 text-center">
+                        <button class="btn btn-sm btn-primary" onclick="search()">
+                            <i class="ace-icon fa fa-search"></i>
+                            Tìm kiếm
+                        </button>
+                    </div>
                 </div>
-                <div class="col-xs-12 col-sm-8 haft">
+                <div class="col-xs-12 col-sm-9 haft">
                     <table id="list_lesson" 
                         class="table" 
                         role="grid"
@@ -58,39 +81,47 @@
             <div class="modal-body">
                 <div class="row">
                     <form id="fm" method="POST" enctype="multipart/form-data">
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label for="form-field-username">
-                                    Mã bài giảng <span style="color:red">(*)</span> &nbsp;
-                                    <a href="javascript:void(0)" onclick="refresh_code()" title="Tạo mã code" id="refreshcode">
-                                        <i class="fa fa-refresh"></i>
-                                    </a>
-                                </label>
-                                <div>
-                                    <input type="text" id="code" name="code" style="width:100%" required="" readonly=""/>
+                        <input id="cate_id" name="cate_id" type="hidden"/>
+                        <div class="col-xs-6">
+                            <div class="widget-box widget-color-blue2">
+                                <div class="widget-header">
+                                    <h4 class="widget-title lighter smaller">Danh mục bài giảng</h4>
+                                </div>
+                                <div class="widget-body" style="overflow: auto;height: 283px;">
+                                    <div class="widget-main padding-8">
+                                        <div id="lesson_cate_tree"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label for="form-field-username">Lựa chọn danh mục <span style="color:red">(*)</span></label>
-                                <div class="input-group">
-                                    <input type="text" id="title_cate" name="title_cate" required=""
-                                    placeholder="Click Go! để lựa chọn" style="width:100%;" readonly=""/>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary" type="button" onclick="select_user_sign()">
-                                            <i class="ace-icon fa fa-users bigger-110"></i>
-                                            Go!
-                                        </button>
-                                    </span>
+                        <div class="col-xs-6">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-field-username">
+                                        Mã bài giảng <span style="color:red">(*)</span> &nbsp;
+                                        <a href="javascript:void(0)" onclick="refresh_code()" title="Tạo mã code" id="refreshcode">
+                                            <i class="fa fa-refresh"></i>
+                                        </a>
+                                    </label>
+                                    <div>
+                                        <input type="text" id="code" name="code" style="width:100%" required="" readonly=""/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label for="form-field-username">Tên bài giảng <span style="color:red">(*)</span></label>
-                                <div>
-                                    <input type="text" id="title" name="title" required="" placeholder="Tên bài giảng" style="width:100%" />
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-field-username">Tên bài giảng <span style="color:red">(*)</span></label>
+                                    <div>
+                                        <input type="text" id="title" name="title" required="" placeholder="Tên bài giảng" style="width:100%" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-field-username">Mô tả bài giảng</label>
+                                    <div>
+                                        <textarea  id="content" name="content" placeholder="Mô tả bài giảng" style="width:100%;height:150px;resize:none"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>

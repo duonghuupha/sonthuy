@@ -59,7 +59,7 @@ function save(){
         }
     });
     if(allRequired){
-        save_form_reject('#fm', url, baseUrl+'/lesson_cate?token='+localStorage.getItem('token')); 
+        save_reject('#fm', url, baseUrl+'/lesson_cate?token='+localStorage.getItem('token')); 
     }else{
         show_message("error", "Chưa điền đủ thông tin");
     }

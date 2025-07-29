@@ -3,5 +3,36 @@ class Lesson_Model extends Model{
     function __construct(){
         parent::__construct();
     }
+
+    function getFetObj($q, $offset, $rows){
+        $result = array();
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_lesson WHERE title LIKE '%$q%'");
+        $row = $query->fetchAll();
+        $query = $this->db->query("SELECT id, code, title, cate_id, content, status, create_at, (SELECT tbl_lesson_cate.title FROM tbl_lesson_cate
+                                    WHERE tbl_lesson_cate.id = cate_id) AS cate_title FROM tbl_lesson WHERE title LIKE '%$q%' ORDER BY id DESC LIMIT $offset, $rows");
+        $result['records'] = $row[0]['Total'];
+        $result['total'] = ceil($row[0]['Total']/$rows);
+        $result['rows'] = $query->fetchAll();
+        return $result;
+    }
+
+    function dupliObj($id, $code){
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_lesson WHERE code = $code");
+        if($id > 0){
+            $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_lesson WHERE code = $code AND id != $id");
+        }
+        $row = $query->fetchAll();
+        return $row[0]['Total'];
+    }
+
+    function addObj($data){
+        $query = $this->insert("tbl_lesson", $data);
+        return $query;
+    }
+
+    function get_lesson_cate(){
+        $query = $this->db->query("SELECT id, code, title AS text, content, parent_id, status, create_at FROM tbl_lesson_cate WHERE status = 1");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

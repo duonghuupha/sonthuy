@@ -21722,8 +21722,8 @@ input.typeahead.scrollable~.tt-menu {
     border: 1px solid #ddd;
 }
 
-.table-container th{
-    padding:10px !important;
+.table-container th {
+    padding: 10px !important;
 }
 
 .table-container tr.active_row {

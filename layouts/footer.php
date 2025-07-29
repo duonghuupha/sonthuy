@@ -52,6 +52,7 @@
     <script src="<?php echo URL ?>/styles/assets/js/bootstrap-editable.min.js"></script>
     <script src="<?php echo URL ?>/styles/assets/js/md5.min.js"></script>
     <script src="<?php echo URL ?>/styles/assets/js/bootstrap-timepicker.min.js"></script>
+    <script src="<?php echo URL ?>/styles/assets/js/jstree.min.js"></script>
     <script src="<?php echo URL ?>/styles/assets/js/ace-editable.min.js"></script>
     <script src="<?php echo URL ?>/styles/assets/js/ace-elements.min.js"></script>
     <script src="<?php echo URL ?>/styles/assets/js/ace.min.js"></script>

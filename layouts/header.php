@@ -23,6 +23,7 @@ if(!isset($_SESSION['data'])){
     <link rel="stylesheet" href="<?php echo URL ?>/styles/assets/css/bootstrap-datepicker3.min.css" />
     <link rel="stylesheet" href="<?php echo URL ?>/styles/assets/css/ui.jqgrid.min.css" />
     <link rel="stylesheet" href="<?php echo URL ?>/styles/assets/css/bootstrap-timepicker.min.css" />
+    <link rel="stylesheet" href="<?php echo URL ?>/styles/assets/css/style.min.css" />
     <link rel="stylesheet" href="<?php echo URL ?>/styles/assets/css/ace.min.css" />
     <link rel="stylesheet" href="<?php echo URL ?>/styles/assets/css/ace-skins.min.css" />
     <link rel="stylesheet" href="<?php echo URL ?>/styles/assets/css/ace-rtl.min.css" />
