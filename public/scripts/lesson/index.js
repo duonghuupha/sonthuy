@@ -23,6 +23,9 @@ $(function(){
             setTimeout(function(){
                 updatePagerIcons(table);
             }, 0);
+        },
+        ondblClickRow: function(rowId){
+            window.location.href = baseUrl + '/lesson/detail?token='+localStorage.getItem('token')+'&id='+btoa(rowId);
         }
     });
 });
@@ -54,8 +57,46 @@ function add(){
     url = baseUrl + '/lesson/add?token='+localStorage.getItem('token');
     /****************************************************************************** */
     $('#lesson_cate_tree').on('changed.jstree', function (e, data) {
-        $('#cate_id').val(data.node.id); console.log(data.node.id);
+        $('#cate_id').val(data.node.id);
     });
+}
+
+function update(){
+     reset_form('#fm');
+    var rowKey = $('#list_lesson').jqGrid('getGridParam',"selrow");
+    if(rowKey == null){
+        show_message("error", "Vui lòng chọn lớp học cần cập nhật");
+        return false;
+    }else{
+        var row = $('#list_lesson').jqGrid("getRowData", rowKey);
+        $('#code').val(row.code); $('#title').val(row.title); $('#content').val(row.content)
+        $('#modal-lesson').modal('show'); render_tree_lesson_cate(); $('#cate_id').val(row.cate_id);
+        url = baseUrl + '/lesson/update?token='+localStorage.getItem('token')+"&id="+row.id;
+        /****************************************************************************** */
+        $('#lesson_cate_tree').on('ready.jstree', function(){
+            $('#lesson_cate_tree').jstree('select_node', row.cate_id);
+        });
+        $('#lesson_cate_tree').on('changed.jstree', function (e, data) {
+            $('#cate_id').val(data.node.id);
+        });
+    }
+}
+
+function change(status, id){
+    var str_data = "token=" + localStorage.getItem('token') + "&id=" + id + "&status=" + status;
+    del_data(str_data, "Bạn có chắc chắn muốn thay đổi trạng thái bài giảng này?", baseUrl + '/lesson/change', '#list_lesson', baseUrl + '/lesson/json?token=' + localStorage.getItem('token'));
+}
+
+function del(){
+    var rowKey = $('#list_lesson').jqGrid('getGridParam',"selrow");
+    if(rowKey == null){
+        show_message("error", "Vui lòng chọn nhân sự cần xóa");
+        return false;
+    }else{
+        var row = $('#list_lesson').jqGrid("getRowData", rowKey);
+        var str_data = "token=" + localStorage.getItem('token') + "&id=" + row.id;
+        del_data(str_data, "Bạn có chắc chắn muốn xóa bài giảng này không?", baseUrl + '/lesson/del', '#list_lesson', baseUrl + '/lesson/json?token=' + localStorage.getItem('token'));
+    }
 }
 
 function save(){

@@ -1,10 +1,10 @@
 <?php
 for($i = 1; $i <= 5; $i++){
 ?>
-<div class="col-sm-6">
-    <div class="item_dc" styele="border">
+<div class="col-sm-4">
+    <div class="item_dc">
         <div class="image">
-            <img src="<?php echo URL ?>/styles/assets/images/logo_son_thuy.png" class="img-responsive" alt="Lesson Image">
+            <img src="<?php echo URL ?>/styles/assets/images/logo_son_thuy.png" class="img-responsive" alt="Lesson Image" style="width:50%">
         </div>
         <div class="order_dc">
             <div class="form-group">
@@ -24,5 +24,7 @@ for($i = 1; $i <= 5; $i++){
     border: 1px solid #ccc;
     padding:10px;
     margin-bottom: 10px;
+    text-align:center;
+    display:flex;
 }
 </style>

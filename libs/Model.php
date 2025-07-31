@@ -43,13 +43,5 @@ class Model {
         $query = $this->db->query("SELECT * FROM tbl_roles WHERE parent_id = ".$id." ORDER BY order_position ASC");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    /**
-     * Menu CTE - Ung dung cho lesson - Bai giang
-     */
-    function return_all_title_cate_lesson($menuId){
-        $query = $this->db->query("SELECT id, title, parent_id FROM tbl_lesson_cate WHERE id = $menuId");
-        return $query->fetch(PDO::FETCH_ASSOC);
-    }
 }
 ?>

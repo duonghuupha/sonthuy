@@ -1,19 +1,23 @@
 <?php
-$menuId = $_REQUEST['id']; $menus = [];
-while($menuId){
-    $row = $this->_Data->return_all_title_cate_lesson($menuId);
-    if($row){
-        $menus = $row; // Thêm menu hiện tại
-        $menuId = $row['parent_id']; //Gán lại menuId là cha để tiếp tục vòng lặp
-    }else{
-        break; // Nếu không tìm thấy, thoát vòng lặp
+function getAllParents($childId){
+    $sql = new Model();
+    $parents = [];
+    while ($childId !== null){
+        $query = $sql->db->query("SELECT id, title, parent_id FROM tbl_lesson_cate WHERE id = $childId");
+        $menu = $query->fetch(PDO::FETCH_ASSOC);
+        if($menu){
+            $parents[] = $menu;
+            $childId = $menu['parent_id'];
+        }else{
+            break;
+        }
     }
-    print_r($row);
+    return $parents;
 }
-// Đảo ngược kết quả để láy thứ tự từ cha đến con
-$menus = array_reverse($menus); print_r($menus);
-// In ra breadcrumb
-foreach($menus as $menu){
-    echo $menu['title']. ' > ';
+
+$parents = getAllParents($_REQUEST['id']); $parents = array_reverse($parents);
+foreach($parents as $row){
+    $array_title[] = $row['title'];
 }
+echo implode("->", $array_title);
 ?>
