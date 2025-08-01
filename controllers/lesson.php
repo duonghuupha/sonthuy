@@ -118,5 +118,12 @@ class Lesson extends Controller{
         $this->view->render('lesson/detail');
         require('layouts/footer.php');
     }
+
+    function view_lesson(){
+        $id = base64_decode($_REQUEST['id']);
+        $lesson_dc = $this->model->get_lesson_dc($id);
+        $this->view->lesson_dc = $lesson_dc;
+        $this->view->render("lesson/view_lesson");
+    }
 }
 ?>

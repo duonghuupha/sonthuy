@@ -29,7 +29,7 @@
                     $url_level_2 = ($item_2['link'] == '#') ? 'javascript:void(0)' : URL.'/'.$item_2['link'].'?token='.$_SESSION['data'][0]['token'];
                 ?>
                 <li class="hover">
-                    <a href="jaavscript:void(0)" onclick="window.location.href='<?php echo $url_level_2 ?>'">
+                    <a href="javascript:void(0)" onclick="window.location.href='<?php echo $url_level_2 ?>'">
                         <i class="menu-icon fa fa-caret-right"></i>
                         <?php echo $item_2['title'] ?>
                     </a>

@@ -49,5 +49,10 @@ class Lesson_Model extends Model{
         $query = $this->db->query("SELECT * FROM tbl_lesson WHERE id = $id");
         return $query->fetchAll();
     }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    function get_lesson_dc($id){
+        $query = $this->db->query("SELECT id, image FROM tbl_lesson_dc WHERE lesson_id = $id ORDER BY order_dc ASC");
+        return $query->fetchAll();
+    }
 }
 ?>
