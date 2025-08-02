@@ -230,3 +230,4 @@ function getAllParents($childId){
 </div><!-- /.main-content -->
 
 <script src="<?php echo URL.'/public/' ?>scripts/lesson/detail.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/lesson/view_lesson.js"></script>

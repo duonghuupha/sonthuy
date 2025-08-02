@@ -27,7 +27,7 @@ function upload_dc(idh){
             var result = JSON.parse(data);
             if(result.success == true){
                 $('.overlay').hide();
-                show_message('success', result.msg);
+                show_message('success', result.msg); $('.file_attach').ace_file_input('reset_input');
                 var str_lesson_dc = getRemote(baseUrl + '/lesson_dc/json?token='+localStorage.getItem('token')+'&id='+result.lesson_id);
                 myData_lesson_dc = JSON.parse(str_lesson_dc); render_list_lesson_dc(); render_view_lesson(result.lesson_id);
             }else{
@@ -138,9 +138,9 @@ function upload_media(idh){
             var result = JSON.parse(data);
             if(result.success == true){
                 $('.overlay').hide();
-                show_message('success', result.msg);
+                show_message('success', result.msg); $('.file_attach').ace_file_input('reset_input');
                 var str_lesson_media = getRemote(baseUrl + '/lesson_media/json?token='+localStorage.getItem('token')+'&id='+result.lesson_id);
-                myData_lesson_dc = JSON.parse(str_lesson_dc); render_list_lesson_media(); render_view_lesson(result.lesson_id);
+                myData_lesson_media = JSON.parse(str_lesson_media); render_list_lesson_media(); render_view_lesson(result.lesson_id);
             }else{
                 $('.overlay').hide();
                 show_message('error', result.msg);
@@ -170,6 +170,68 @@ function render_list_lesson_media(){
         html += '</tr>';
     }
     $('#tbody_lesson_media').html(html);
+}
+
+function del_lesson_media(idh, lesson_id){
+    bootbox.confirm({
+        message: "Bạn có chắc chắn muốn xóa file media của bài giảng này?",
+        buttons:{
+            confirm: {
+                label: "Đồng ý",
+                className: "btn-danger btn-sm"
+            },
+            cancel: {
+                label: "Không đồng ý",
+                className: "btn-primary btn-sm"
+            }
+        },
+        callback: function(result){
+            if(result){
+                $('.overlay').show();
+                $.ajax({
+                    type: "POST",
+                    url: baseUrl + '/lesson_media/del?token='+localStorage.getItem('token'),
+                    data: "id="+idh+'&lesson_id='+lesson_id, // serializes the form's elements.
+                    success: function(data){
+                        var result = JSON.parse(data);
+                        if(result.success == true){
+                            $('.overlay').hide();
+                            show_message('success', result.msg);
+                            var str_lesson_media = getRemote(baseUrl + '/lesson_media/json?token='+localStorage.getItem('token')+'&id='+result.lesson_id);
+                            myData_lesson_media = JSON.parse(str_lesson_media); render_list_lesson_media(); render_view_lesson(result.lesson_id);
+                        }else{
+                            $('.overlay').hide();
+                            show_message('error', result.msg);
+                            return false;
+                        }
+                    }
+                });
+            }
+        }
+    });
+}
+
+function change_lesson_media(idh, lesson_id){
+    $('.overlay').show();
+    $.ajax({
+        type: "POST",
+        url: baseUrl + '/lesson_media/update?token='+localStorage.getItem('token')+'&id='+idh,
+        data: "lesson_id="+lesson_id+"&order_media="+$('#order_media_'+idh).val(), // serializes the form's elements.
+        success: function(data){
+            var result = JSON.parse(data);
+            if(result.success == true){
+                $('.overlay').hide();
+                show_message('success', result.msg);
+                var str_lesson_media = getRemote(baseUrl + '/lesson_media/json?token='+localStorage.getItem('token')+'&id='+result.lesson_id);
+                myData_lesson_media = JSON.parse(str_lesson_media); render_list_lesson_media();
+                render_view_lesson(result.lesson_id);
+            }else{
+                $('.overlay').hide();
+                show_message('error', result.msg);
+                return false;
+            }
+        }
+    });
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getRemote(remote_url){

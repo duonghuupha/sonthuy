@@ -123,6 +123,9 @@ class Lesson extends Controller{
         $id = base64_decode($_REQUEST['id']);
         $lesson_dc = $this->model->get_lesson_dc($id);
         $this->view->lesson_dc = $lesson_dc;
+        $lesson_media = $this->model->get_lesson_media($id);
+        $this->view->lesson_media = $lesson_media;
+        $this->view->lesson_id = $id;
         $this->view->render("lesson/view_lesson");
     }
 }

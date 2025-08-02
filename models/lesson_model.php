@@ -54,5 +54,10 @@ class Lesson_Model extends Model{
         $query = $this->db->query("SELECT id, image FROM tbl_lesson_dc WHERE lesson_id = $id ORDER BY order_dc ASC");
         return $query->fetchAll();
     }
+
+    function get_lesson_media($id){
+        $query = $this->db->query("SELECT id, file FROM tbl_lesson_media WHERE lesson_id = $id ORDER BY order_media ASC");
+        return $query->fetchAll();
+    }
 }
 ?>

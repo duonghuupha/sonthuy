@@ -34,8 +34,8 @@ class Lesson_media extends Controller{
     }
 
     function update(){
-        $id = $_REQUEST['id']; $lesson_id = $_REQUEST['lesson_id']; $orderdc = $_REQUEST['order_dc'];
-        $data = array("order_dc" => $orderdc);
+        $id = $_REQUEST['id']; $lesson_id = $_REQUEST['lesson_id']; $ordermedia = $_REQUEST['order_media'];
+        $data = array("order_media" => $ordermedia);
         $temp = $this->model->updateObj($id, $data);
         if($temp){
             $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
@@ -52,7 +52,7 @@ class Lesson_media extends Controller{
 
     function del(){
         $id = $_REQUEST['id']; $lesson_id = $_REQUEST['lesson_id'];
-        $info = $this->model->get_info($id); $file_old = $info[0]['image'];
+        $info = $this->model->get_info($id); $file_old = $info[0]['file'];
         $temp = $this->model->delObj($id);
         if($temp){
             if(file_exists(DIR_UPLOAD."/lesson/".$lesson_id."/media/".$file_old)){
