@@ -1,5 +1,5 @@
 <?php
-class Lesson_dc extends Controller{
+class Lesson_media extends Controller{
     function __construct(){
         parent::__construct();
         parent::PhadhInt();
@@ -9,28 +9,28 @@ class Lesson_dc extends Controller{
         $id = $_REQUEST['id'];
         $jsonObj = $this->model->getFetObj($id);
         $this->view->jsonObj = json_encode($jsonObj);
-        $this->view->render('lesson_dc/json');
+        $this->view->render('lesson_media/json');
     }
 
     function add(){
-        $lesson_id = $_REQUEST['id']; $file = $_FILES['image']['name']; $total = count($file);
-        $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/dc';
+        $lesson_id = $_REQUEST['id']; $file = $_FILES['media']['name']; $total = count($file);
+        $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/media';
         if(!file_exists($dir_temp) && !is_dir($dir_temp)){
             mkdir($dir_temp);
         }
         for($i = 0; $i < $total; $i++){
-            $code = rand(); $new_File_name = $this->_Convert->convert_file($_FILES['image']['name'][$i], $code);
-            $data = array("code" => $code, "lesson_id" => $lesson_id, "image" => $new_File_name, "order_dc" => 0, "status" => 1, "create_at" => date("Y-m-d H:i:s"));
+            $code = rand(); $new_File_name = $this->_Convert->convert_file($_FILES['media']['name'][$i], $code);
+            $data = array("code" => $code, "lesson_id" => $lesson_id, "file" => $new_File_name, "order_media" => 0, "status" => 1, "create_at" => date("Y-m-d H:i:s"));
             $temp = $this->model->addObj($data);
             if($temp){
-                move_uploaded_file($_FILES['image']['tmp_name'][$i], $dir_temp.'/'.$new_File_name);
+                move_uploaded_file($_FILES['media']['tmp_name'][$i], $dir_temp.'/'.$new_File_name);
             }
         }
         $jsonObj['msg'] = "Tải file bài giảng thành công";
         $jsonObj['success'] = true;
         $jsonObj['lesson_id'] = $lesson_id;
         $this->view->jsonObj = json_encode($jsonObj);
-        $this->view->render('lesson_dc/add');
+        $this->view->render('lesson_media/add');
     }
 
     function update(){
@@ -47,7 +47,7 @@ class Lesson_dc extends Controller{
             $jsonObj['success'] = true;
             $this->view->jsonObj = json_encode($jsonObj);
         }
-        $this->view->render("lesson_dc/update");
+        $this->view->render("lesson_media/update");
     }
 
     function del(){
@@ -55,8 +55,8 @@ class Lesson_dc extends Controller{
         $info = $this->model->get_info($id); $file_old = $info[0]['image'];
         $temp = $this->model->delObj($id);
         if($temp){
-            if(file_exists(DIR_UPLOAD."/lesson/".$lesson_id."/dc/".$file_old)){
-                @unlink(DIR_UPLOAD."/lesson/".$lesson_id."/dc/".$file_old);
+            if(file_exists(DIR_UPLOAD."/lesson/".$lesson_id."/media/".$file_old)){
+                @unlink(DIR_UPLOAD."/lesson/".$lesson_id."/media/".$file_old);
             }
             $jsonObj['msg'] = "Xóa dữ liệu thành công";
             $jsonObj['success'] = true;
@@ -67,7 +67,7 @@ class Lesson_dc extends Controller{
             $jsonObj['success'] = false;
             $this->view->jsonObj = json_encode($jsonObj);
         }
-        $this->view->render("lesson_dc/del");
+        $this->view->render("lesson_media/del");
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

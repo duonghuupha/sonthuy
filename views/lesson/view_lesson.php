@@ -19,7 +19,7 @@
         <?php
         foreach($this->lesson_dc as $row_dc){
         ?>
-        <img src="<?php echo URL.'/public/lesson/'.base64_decode($_REQUEST['id']).'/'.$row_dc['image'] ?>"/>
+        <img src="<?php echo URL.'/public/lesson/'.base64_decode($_REQUEST['id']).'/dc/'.$row_dc['image'] ?>"/>
         <?php
         }
         ?>

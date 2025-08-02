@@ -1,10 +1,14 @@
-var myData_lesson_dc = [];
+var myData_lesson_dc = [], myData_lesson_media = [];
 $(function(){
     var id_glgobal = getParameterByName('id'); render_view_lesson(atob(id_glgobal));
     $('#accordion').on('show.bs.collapse', function(e){
         var id_lesson = e.target.dataset.value;
+        /*****************lesson dc****************************************************************************************** */
         var str_lesson_dc = getRemote(baseUrl + '/lesson_dc/json?token='+localStorage.getItem('token')+'&id='+id_lesson);
         myData_lesson_dc = JSON.parse(str_lesson_dc); render_list_lesson_dc();
+        /*****************lesson media****************************************************************************************** */
+        var str_lesson_media = getRemote(baseUrl + '/lesson_media/json?token='+localStorage.getItem('token')+'&id='+id_lesson);
+        myData_lesson_media = JSON.parse(str_lesson_media); render_list_lesson_media();
     });
 });
 //////////////////////////////////////////////////Lesson document///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,7 +139,7 @@ function upload_media(idh){
             if(result.success == true){
                 $('.overlay').hide();
                 show_message('success', result.msg);
-                var str_lesson_dc = getRemote(baseUrl + '/lesson_media/json?token='+localStorage.getItem('token')+'&id='+result.lesson_id);
+                var str_lesson_media = getRemote(baseUrl + '/lesson_media/json?token='+localStorage.getItem('token')+'&id='+result.lesson_id);
                 myData_lesson_dc = JSON.parse(str_lesson_dc); render_list_lesson_media(); render_view_lesson(result.lesson_id);
             }else{
                 $('.overlay').hide();
@@ -147,6 +151,25 @@ function upload_media(idh){
         contentType: false,
         processData: false
     });
+}
+
+function render_list_lesson_media(){
+    var html = ''; $('#tbody_lesson_media').empty();
+    for(var i = 0; i < myData_lesson_media.length; i++){
+        html += '<tr>';
+            html += '<td><a href="#" onclick="view_image('+myData_lesson_media[i].id+')">'+myData_lesson_media[i].file+'</a></td>';
+            html += '<td>';
+                html += '<input type="text" id="order_media_'+myData_lesson_media[i].id+'" name="order_media_'+myData_lesson_media[i].id+'" class="form-controll" style="width:100%;text-align:center"';
+                html += 'onchange="change_lesson_media('+myData_lesson_media[i].id+', '+myData_lesson_media[i].lesson_id+')" onkeypress="validate(event)" value="'+myData_lesson_media[i].order_media+'"/>';
+            html += '</td>';
+            html += '<td style="text-align:center">';
+                html += '<a href="javascript:void(0)" onclick="del_lesson_media('+myData_lesson_media[i].id+', '+myData_lesson_media[i].lesson_id+')">';
+                    html += '<i class="fa fa-trash" style="color:red"></i>';
+                html += '</a>';
+            html += '</td>';
+        html += '</tr>';
+    }
+    $('#tbody_lesson_media').html(html);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getRemote(remote_url){
