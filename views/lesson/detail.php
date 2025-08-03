@@ -250,7 +250,10 @@ function getAllParents($childId){
                             </div>
                             <div class="panel-collapse collapse" id="collapseFive" data-value="<?php echo $item[0]['id'] ?>">
                                 <div class="panel-body">
-                                    
+                                    <button class="btn btn-success btn-block" type="button" onclick="window.location.href='<?php echo URL.'/lesson_question?token='.$_SESSION['data'][0]['token'].'&id='.base64_encode($item[0]['id']) ?>'">
+                                        <i class="ace-icon fa fa-question bigger-160"></i>
+                                        Mở trang thiết kế câu hỏi tương tác
+                                    </button>
                                 </div>
                             </div>
                         </div>
