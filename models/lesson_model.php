@@ -51,12 +51,17 @@ class Lesson_Model extends Model{
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function get_lesson_dc($id){
-        $query = $this->db->query("SELECT id, image FROM tbl_lesson_dc WHERE lesson_id = $id ORDER BY order_dc ASC");
+        $query = $this->db->query("SELECT id, image FROM tbl_lesson_dc WHERE lesson_id = $id AND status = 1 ORDER BY order_dc ASC");
         return $query->fetchAll();
     }
 
     function get_lesson_media($id){
-        $query = $this->db->query("SELECT id, file FROM tbl_lesson_media WHERE lesson_id = $id ORDER BY order_media ASC");
+        $query = $this->db->query("SELECT id, file FROM tbl_lesson_media WHERE lesson_id = $id AND status = 1  ORDER BY order_media ASC");
+        return $query->fetchAll();
+    }
+
+    function get_lesson_card($id){
+        $query = $this->db->query("SELECT id, image FROM tbl_lesson_card WHERE lesson_id = $id AND status = 1  ORDER BY order_card ASC");
         return $query->fetchAll();
     }
 }

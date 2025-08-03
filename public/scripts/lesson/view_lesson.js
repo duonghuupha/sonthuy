@@ -18,3 +18,15 @@ function play_media(type, lesson_id, str_file){
     }
     $('#play_media').html(html);
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function view_flash_card(lesson_id){
+    $('#modal-lesson-card').modal('show'); var height_body = $(window).height() - 200;
+    $('.flash_card').fotorama({
+            height: (height_body - 100),
+            allowfullscreen: true,
+            nav: 'thumbs'
+        });
+    setTimeout(() => {
+        $('#height-lesson-card').css({'height': height_body});
+    }, 200);
+}

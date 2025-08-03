@@ -14,7 +14,7 @@
         Question
     </button>
 </div>
-<div class="col-xs-10">
+<div class="col-xs-10" style="display:flex;justify-content: center">
     <div class="fotorama" data-nav="thumbs" data-width="800" data-allowfullscreen="true">
         <?php
         foreach($this->lesson_dc as $row_dc){
@@ -74,6 +74,37 @@
                 <div class="col-xs-9 text-center" id="play_media">
                     
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-danger pull-right" id="close_modal" data-dismiss="modal">
+                    <i class="ace-icon fa fa-times"></i>
+                    Đóng
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- End formm don vi tinh-->
+
+<!--Form don vi tinh-->
+<div id="modal-lesson-card" class="modal fade" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" style="width:60%">
+        <div class="modal-content">
+            <div class="modal-header no-padding">
+                <div class="table-header">
+                    Flash card của bài giảng
+                </div>
+            </div>
+            <div class="modal-body" id="height-lesson-card" style="display:flex;justify-content: center">
+                <div class="flash_card">
+                    <?php
+                    foreach($this->lesson_card as $row_card){
+                    ?>
+                    <img src="<?php echo URL.'/public/lesson/'.base64_decode($_REQUEST['id']).'/card/'.$row_card['image'] ?>"/>
+                    <?php
+                    }
+                    ?>
+                </div>       
             </div>
             <div class="modal-footer">
                 <button class="btn btn-sm btn-danger pull-right" id="close_modal" data-dismiss="modal">

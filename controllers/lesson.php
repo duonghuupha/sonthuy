@@ -125,6 +125,8 @@ class Lesson extends Controller{
         $this->view->lesson_dc = $lesson_dc;
         $lesson_media = $this->model->get_lesson_media($id);
         $this->view->lesson_media = $lesson_media;
+        $lesson_card = $this->model->get_lesson_card($id);
+        $this->view->lesson_card = $lesson_card;
         $this->view->lesson_id = $id;
         $this->view->render("lesson/view_lesson");
     }

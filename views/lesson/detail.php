@@ -202,7 +202,40 @@ function getAllParents($childId){
                             </div>
                             <div class="panel-collapse collapse" id="collapseFour" data-value="<?php echo $item[0]['id'] ?>">
                                 <div class="panel-body">
-                                    
+                                    <div class="col-xs-12">
+                                        <form id="fm-card" method="POST" enctype="multipart/form-data">
+                                            <div class="form-group">
+                                                <div>
+                                                    <input type="file" id="card" name="card[]" class="file_attach" style="width:100%"
+                                                    accept="image/png, image/gif, image/jpeg" onchange="upload_card(<?php echo $item[0]['id']?>)" multiple=""/>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <table class="table_modal">
+                                            <colgroup style="width:150px;"></colgroup>
+                                            <colgroup style="width:50px;"></colgroup>
+                                            <colgroup style="width:20px;"></colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th>Tên file</th>
+                                                    <th style="text-align:center">Thứ tự hiển thị</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody_lesson_card">
+                                                <tr>
+                                                    <td>asdfafasfasd</td>
+                                                    <td>
+                                                        <input type="text" id="order_media" name="order_media" class="form-controll" style="width:100%"
+                                                        onkeypress="validate(event)"/>
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
