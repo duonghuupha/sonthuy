@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 28, 2025 at 09:59 PM
+-- Generation Time: Aug 05, 2025 at 07:19 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -71,9 +71,17 @@ CREATE TABLE `tbl_lesson` (
   `code` int(11) NOT NULL,
   `cate_id` int(11) NOT NULL,
   `title` text COLLATE utf8_unicode_ci NOT NULL,
+  `content` text COLLATE utf8_unicode_ci NOT NULL,
   `status` int(11) NOT NULL,
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_lesson`
+--
+
+INSERT INTO `tbl_lesson` (`id`, `code`, `cate_id`, `title`, `content`, `status`, `create_at`) VALUES
+(2, 12069348, 3, 'Unit 1: Hello', 'Unit 1 - Hello: Làm quen với tiếng anh', 1, '2025-08-01 00:59:12');
 
 --
 -- Triggers `tbl_lesson`
@@ -96,12 +104,26 @@ DELIMITER ;
 CREATE TABLE `tbl_lesson_card` (
   `id` int(11) NOT NULL,
   `code` int(11) NOT NULL,
-  `code_lesson` int(11) NOT NULL,
+  `lesson_id` int(11) NOT NULL,
   `image` text COLLATE utf8_unicode_ci NOT NULL,
   `order_card` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_lesson_card`
+--
+
+INSERT INTO `tbl_lesson_card` (`id`, `code`, `lesson_id`, `image`, `order_card`, `status`, `create_at`) VALUES
+(1, 1475848237, 2, '1754204406_1475848237.jpg', 1, 1, '2025-08-03 14:00:06'),
+(2, 578861597, 2, '1754204406_578861597.jpg', 2, 1, '2025-08-03 14:00:06'),
+(3, 874408756, 2, '1754204406_874408756.jpg', 3, 1, '2025-08-03 14:00:06'),
+(4, 141914085, 2, '1754204406_141914085.jpg', 4, 1, '2025-08-03 14:00:06'),
+(5, 171844482, 2, '1754204406_171844482.jpg', 5, 1, '2025-08-03 14:00:06'),
+(6, 1029923362, 2, '1754204406_1029923362.jpg', 6, 1, '2025-08-03 14:00:06'),
+(7, 403327067, 2, '1754204406_403327067.jpg', 7, 1, '2025-08-03 14:00:06'),
+(8, 1195292699, 2, '1754204406_1195292699.jpg', 8, 1, '2025-08-03 14:00:06');
 
 -- --------------------------------------------------------
 
@@ -131,7 +153,8 @@ INSERT INTO `tbl_lesson_cate` (`id`, `code`, `parent_id`, `title`, `content`, `s
 (6, 748955283, 2, 'Tuần 4', 'Bài học tuần 4', 1, '2025-07-28 23:45:19'),
 (7, 473266396, 0, 'Sách lớp 2', 'Bài học dành cho lớp 2', 1, '2025-07-28 23:46:07'),
 (8, 517997481, 7, 'Tuần 1', 'Bài học tuần 1', 1, '2025-07-28 23:46:37'),
-(9, 207109423, 7, 'Tuần 2', 'Bài học tuần 2', 1, '2025-07-29 01:47:03');
+(9, 207109423, 7, 'Tuần 2', 'Bài học tuần 2', 1, '2025-07-29 01:47:03'),
+(10, 359016084, 7, 'Tuần 3', 'Bài học tuần 3', 1, '2025-07-30 00:16:50');
 
 -- --------------------------------------------------------
 
@@ -142,12 +165,22 @@ INSERT INTO `tbl_lesson_cate` (`id`, `code`, `parent_id`, `title`, `content`, `s
 CREATE TABLE `tbl_lesson_dc` (
   `id` int(11) NOT NULL,
   `code` int(11) NOT NULL,
-  `code_lesson` int(11) NOT NULL,
+  `lesson_id` int(11) NOT NULL,
   `image` text COLLATE utf8_unicode_ci NOT NULL,
   `order_dc` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_lesson_dc`
+--
+
+INSERT INTO `tbl_lesson_dc` (`id`, `code`, `lesson_id`, `image`, `order_dc`, `status`, `create_at`) VALUES
+(2, 1691560040, 2, '1754063946_1691560040.jpg', 2, 1, '2025-08-01 22:59:06'),
+(3, 2118601411, 2, '1754063946_2118601411.jpg', 3, 1, '2025-08-01 22:59:06'),
+(5, 1815825365, 2, '1754068880_1815825365.jpg', 4, 1, '2025-08-02 00:21:20'),
+(6, 503649019, 2, '1754092832_503649019.jpg', 1, 1, '2025-08-02 07:00:32');
 
 -- --------------------------------------------------------
 
@@ -158,12 +191,39 @@ CREATE TABLE `tbl_lesson_dc` (
 CREATE TABLE `tbl_lesson_media` (
   `id` int(11) NOT NULL,
   `code` int(11) NOT NULL,
-  `code_lesson` int(11) NOT NULL,
+  `lesson_id` int(11) NOT NULL,
   `file` text COLLATE utf8_unicode_ci NOT NULL,
   `order_media` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_lesson_media`
+--
+
+INSERT INTO `tbl_lesson_media` (`id`, `code`, `lesson_id`, `file`, `order_media`, `status`, `create_at`) VALUES
+(2, 1124666599, 2, '1754093166_1124666599.mp4', 2, 1, '2025-08-02 07:06:06'),
+(3, 1096038744, 2, '1754093166_1096038744.mp4', 3, 1, '2025-08-02 07:06:06'),
+(4, 170194033, 2, '1754093166_170194033.mp4', 4, 1, '2025-08-02 07:06:06'),
+(5, 1879220943, 2, '1754150170_1879220943.mp4', 1, 1, '2025-08-02 22:56:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_lesson_question_true_false`
+--
+
+CREATE TABLE `tbl_lesson_question_true_false` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `lesson_id` int(11) NOT NULL,
+  `title` text COLLATE utf8_unicode_ci NOT NULL,
+  `file` text COLLATE utf8_unicode_ci NOT NULL,
+  `answer` int(11) NOT NULL COMMENT '1 là đúng, 0 là sai',
+  `status` int(11) NOT NULL,
+  `create_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Dạng câu hỏi đúng sai';
 
 -- --------------------------------------------------------
 
@@ -340,7 +400,7 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-07-28 23:36:38', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0', '4902eba308219ed0043b9863d5b0e465a5ac8f16', 1, 1, '2025-07-22 19:37:03');
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-08-05 22:53:17', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0', '7433d097832845931fe65df797eb388d4865f576', 1, 1, '2025-07-22 19:37:03');
 
 --
 -- Indexes for dumped tables
@@ -386,6 +446,12 @@ ALTER TABLE `tbl_lesson_dc`
 -- Indexes for table `tbl_lesson_media`
 --
 ALTER TABLE `tbl_lesson_media`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_lesson_question_true_false`
+--
+ALTER TABLE `tbl_lesson_question_true_false`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -444,30 +510,36 @@ ALTER TABLE `tbl_group_role`
 -- AUTO_INCREMENT for table `tbl_lesson`
 --
 ALTER TABLE `tbl_lesson`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_lesson_card`
 --
 ALTER TABLE `tbl_lesson_card`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_lesson_cate`
 --
 ALTER TABLE `tbl_lesson_cate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tbl_lesson_dc`
 --
 ALTER TABLE `tbl_lesson_dc`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_lesson_media`
 --
 ALTER TABLE `tbl_lesson_media`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `tbl_lesson_question_true_false`
+--
+ALTER TABLE `tbl_lesson_question_true_false`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
