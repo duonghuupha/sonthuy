@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Trắc nghiệm nhiều đáp án đúng</title>
+  <link rel="stylesheet" href="quiz/quiz-style.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+  <div class="quiz-container" id="quiz"></div>
+
+  <script src="quiz/quiz-plugin.js"></script>
+  <script>
+    $.getJSON("quiz/data/questions.json", function(data){
+      $('#quiz').multiCorrectQuiz({ questions: data });
+    });
+  </script>
+</body>
+</html>

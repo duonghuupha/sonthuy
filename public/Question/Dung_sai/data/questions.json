@@ -1,0 +1,12 @@
+[
+  {
+    "type": "text",
+    "question": "Trái Đất quay quanh Mặt Trời.",
+    "answer": true
+  },
+  {
+    "type": "image",
+    "question": "quiz/data/sample.jpg",
+    "answer": false
+  }
+]

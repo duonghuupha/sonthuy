@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Sắp xếp từ - jQuery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="sort-style.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="sort-plugin.js"></script>
+</head>
+<body>
+  <div id="sort-quiz"></div>
+
+  <script>
+    $('#sort-quiz').sortQuiz({
+      data: 'sort-data.json',
+      onComplete: function (isCorrect) {
+        alert(isCorrect ? "Chính xác!" : "Chưa đúng, thử lại nhé.");
+      }
+    });
+  </script>
+</body>
+</html>

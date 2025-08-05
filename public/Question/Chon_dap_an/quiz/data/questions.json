@@ -1,0 +1,12 @@
+[
+  {
+    "question": "Thủ đô của Việt Nam là gì?",
+    "options": ["Hà Nội", "TP. Hồ Chí Minh", "Đà Nẵng", "Huế"],
+    "answer": 0
+  },
+  {
+    "question": "Màu nào là màu của bầu trời?",
+    "options": ["Đỏ", "Vàng", "Xanh dương", "Xám"],
+    "answer": 2
+  }
+]
