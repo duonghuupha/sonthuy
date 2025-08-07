@@ -8,7 +8,7 @@ class Lesson_question_Model extends Model{
         $result = array();
         $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_lesson_question WHERE lesson_id = $lesson_id");
         $row = $query->fetchAll();
-        $query = $this->db->query("SELECT id, code, lesson_id, title, type_question, status, create_at FROM tbl_lesson_question
+        $query = $this->db->query("SELECT id, code, lesson_id, title, type_question, status, create_at, file FROM tbl_lesson_question
                                     WHERE lesson_id = $lesson_id ORDER BY id DESC LIMIT $offset, $rows");
         $result['records'] = $row[0]['Total'];
         $result['total'] = ceil($row[0]['Total']/$rows);
@@ -30,6 +30,10 @@ class Lesson_question_Model extends Model{
         return $query;
     }
 
+    function updateObj($id, $data){
+        $query = $this->update("tbl_lesson_question", $data, "id = $id");
+        return $query;
+    }
 
     function delObj_via_code($code){
         $query = $this->delete("tbl_lesson_question", "code = $code");
@@ -38,6 +42,11 @@ class Lesson_question_Model extends Model{
 ////////////////////////////////// Dang cau hoi dung sai///////////////////////////////////////////////////////////////////////
     function addObj_true_false($data){
         $query = $this->insert("tbl_question_true_false", $data);
+        return $query;
+    }
+
+    function updateObj_true_false($id, $data){
+        $query = $this->update("tbl_question_true_false", $data, "id = $id");
         return $query;
     }
 }

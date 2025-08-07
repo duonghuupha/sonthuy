@@ -41,8 +41,8 @@ class Lesson_question extends Controller{
                         mkdir($dir_temp);
                     }
                     if(move_uploaded_file($_FILES['file']['tmp_name'], $dir_temp.'/'.$file)){
-                        if($this->add_and_update_true_false($code)){
-                            $jsonObj['msg'] = "Ghi dữ liệu thành công 1";
+                        if($this->add_and_update_true_false(0, $code)){
+                            $jsonObj['msg'] = "Ghi dữ liệu thành công";
                             $jsonObj['success'] = true;
                             $this->view->jsonObj = json_encode($jsonObj);
                         }else{
@@ -57,8 +57,8 @@ class Lesson_question extends Controller{
                         $this->view->jsonObj = json_encode($jsonObj);
                     }
                 }else{
-                    if($this->add_and_update_true_false($code)){
-                        $jsonObj['msg'] = "Ghi dữ liệu thành công 1";
+                    if($this->add_and_update_true_false(0, $code)){
+                        $jsonObj['msg'] = "Ghi dữ liệu thành công";
                         $jsonObj['success'] = true;
                         $this->view->jsonObj = json_encode($jsonObj);
                     }else{
@@ -75,16 +75,72 @@ class Lesson_question extends Controller{
         }
         $this->view->render("lesson_question/add");
     }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function view_question(){
-        $id = $_REQUEST['id'];
-        $this->view->render("lesson_question/view_question");
+
+    function update(){
+        $code = $_REQUEST['code']; $lesson_id = $_REQUEST['lesson_id']; $type_question = $_REQUEST['type_question'];
+        $title = addslashes($_REQUEST['title']); $status = 1; $create_at = date("Y-m-d H:i:s"); $id = $_REQUEST['id'];
+        $file = (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') ? $this->_Convert->convert_file($_FILES['file']['name'], $code) : $_REQUEST['file_old'];
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if($this->model->dupliObj($id, $code) > 0){
+            $jsonObj['msg'] = "Mã câu hỏi đã tồn tại";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $data = array("code" => $code, "lesson_id" => $lesson_id, "type_question" => $type_question, "title" => $title, "file" => $file, "create_at" => $create_at);
+            $temp = $this->model->updateObj($id, $data);
+            if($temp){
+                if($file != ''){
+                    $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
+                    if(!file_exists($dir_temp) && !is_dir($dir_temp)){
+                        mkdir($dir_temp);
+                    }
+                    if(move_uploaded_file($_FILES['file']['tmp_name'], $dir_temp.'/'.$file)){
+                        if($this->add_and_update_true_false($id, $code)){
+                            if(file_exists(DIR_UPLOAD."/lesson/".$lesson_id.'/question/'.$_REQUEST['file_old'])){
+                                @unlink(DIR_UPLOAD."/lesson/".$lesson_id.'/question/'.$_REQUEST['file_old']);
+                            }
+                            $jsonObj['msg'] = "Ghi dữ liệu thành công";
+                            $jsonObj['success'] = true;
+                            $this->view->jsonObj = json_encode($jsonObj);
+                        }else{
+                            $jsonObj['msg'] = "Dữ liệu câu hỏi được lưu thành công, đáp án chưa được lưu";
+                            $jsonObj['success'] = true;
+                            $this->view->jsonObj = json_encode($jsonObj);
+                        }
+                    }else{
+                        $jsonObj['msg'] = "Ghi dữ liệu không thành công";
+                        $jsonObj['success'] = false;
+                        $this->view->jsonObj = json_encode($jsonObj);
+                    }
+                }else{
+                    if($this->add_and_update_true_false($id, $code)){
+                        $jsonObj['msg'] = "Ghi dữ liệu thành công";
+                        $jsonObj['success'] = true;
+                        $this->view->jsonObj = json_encode($jsonObj);
+                    }else{
+                        $jsonObj['msg'] = "Dữ liệu câu hỏi được lưu thành công, đáp án chưa được lưu";
+                        $jsonObj['success'] = true;
+                        $this->view->jsonObj = json_encode($jsonObj);
+                    }
+                }
+            }else{
+                $jsonObj['msg'] = "Ghi dữ liệu không thành công";
+                $jsonObj['success'] = false;
+                $this->view->jsonObj = json_encode($jsonObj);
+            }
+        }
+        $this->view->render("lesson_question/update");
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function add_and_update_true_false($code){
-        $answer = $_REQUEST['true_false_value'];
-        $data = array("code" => time(), "code_question" => $code, "answer" => $answer);
-        $temp = $this->model->addObj_true_false($data);
+    function add_and_update_true_false($id, $code){
+        $answer = $_REQUEST['true_false_value']; $idh = $_REQUEST['id_true_false'];
+        if($id == 0){
+            $data = array("code" => time(), "code_question" => $code, "answer" => $answer);
+            $temp = $this->model->addObj_true_false($data);
+        }else{
+            $data = array("code_question" => $code, "answer" => $answer);
+            $temp = $this->model->updateObj_true_false($idh, $data);
+        }
         if($temp){
             return true;
         }else{

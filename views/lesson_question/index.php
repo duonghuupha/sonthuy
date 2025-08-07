@@ -60,6 +60,7 @@
                 <div class="row">
                     <form id="fm" method="POST" enctype="multipart/form-data">
                         <input id="lesson_id" name="lesson_id" type="hidden" value="<?php echo base64_decode($_REQUEST['id']) ?>"/>
+                        <input id="file_old" name="file_old" type="hidden"/>
                         <div class="col-xs-4">
                             <div class="col-xs-12">
                                 <div class="form-group">

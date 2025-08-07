@@ -1,6 +1,6 @@
 var url, lesson_id;
 $(function(){
-    lesson_id = getParameterByName('id');
+    lesson_id = getParameterByName('id'); $('#view_question').empty();
     var gwdth = $('#list_lesson_question').width(), fwdth = $('.full').width();
     $('#list_lesson_question').jqGrid({
         url: baseUrl + '/lesson_question/json?token='+localStorage.getItem('token')+'&id='+lesson_id,
@@ -15,7 +15,8 @@ $(function(){
             {label: 'Trạng thái', name: 'status', width: 100, align: "center", formatter: format_trangthai},
             {label: 'Cập nhật lần cuối', name: 'create_at', width: 150, align:"center"},
             {label: '&nbsp', name: 'id', hidden: true, key: true},
-            {label: '&nbsp', name: 'type_question', hidden: true}
+            {label: '&nbsp', name: 'type_question', hidden: true},
+            {label: '&nbsp', name: 'file', hidden: true}
         ],
         viewrecords: true, height:200, width: gwdth, rowNum: 20, rownumbers: true,
         height:($('.footer').offset().top - $('.page-header').offset().top - 147),
@@ -27,7 +28,8 @@ $(function(){
             }, 0);
         },
         ondblClickRow: function(rowId){
-            $('#view_question').load(baseUrl + '/lesson_question/view_question?token='+localStorage.getItem('token')+'&id='+rowId);
+            var row = $('#list_lesson_question').jqGrid("getRowData", rowId);
+            view_question(rowId, row.type_question);
         }
     });
 });
@@ -57,7 +59,7 @@ function refresh_code(){
 }
 
 function add(){
-    reset_form('#fm');
+    reset_form('#fm'); $('#form_type').empty();
     var number = Math.floor(Math.random() * 999999999); $('#refreshcode').show();
     $('#code').val(number);
     $('#modal-lesson-question').modal('show');
@@ -65,7 +67,18 @@ function add(){
 }
 
 function update(){
-
+    reset_form('#fm'); $('#form_type').empty();
+    var rowKey = $('#list_lesson_question').jqGrid('getGridParam',"selrow");
+    if(rowKey == null){
+        show_message("error", "Vui lòng chọn câu hỏi cần cập nhật");
+        return false;
+    }else{
+        var row = $('#list_lesson_question').jqGrid("getRowData", rowKey);
+        $('#code').val(row.code); $('#title').val(row.title); $('#file_old').val(row.file);
+        $('#type_question').val(row.type_question).trigger('change'); set_load_form(row.type_question, row.id);
+        $('#modal-lesson-question').modal('show');
+        url = baseUrl + '/lesson_question/update?token='+localStorage.getItem('token')+"&id="+row.id;
+    }
 }
 
 function del(){
@@ -91,10 +104,10 @@ function save(){
     }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function set_load_form(idh){
+function set_load_form(val, idh = 0){
     var code_question = $('#code').val();
-    if(idh == 1){ // true/false
-        $('#form_type').load(baseUrl + '/question_true_false/form?token='+localStorage.getItem('token')+'&code='+code_question);
+    if(val == 1){ // true/false
+        $('#form_type').load(baseUrl + '/question_true_false/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
     }
 }
 
@@ -105,4 +118,12 @@ function getParameterByName(name, url = window.location.href) {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function view_question(idh, type){
+    var html = '';
+    if(type == 1){// dang cau hoi dung sai
+        html += ' <iframe src="'+baseUrl+'/question_true_false/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
+    }
+    $('#view_question').html(html);
 }

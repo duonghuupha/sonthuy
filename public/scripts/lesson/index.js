@@ -62,7 +62,7 @@ function add(){
 }
 
 function update(){
-     reset_form('#fm');
+    reset_form('#fm');
     var rowKey = $('#list_lesson').jqGrid('getGridParam',"selrow");
     if(rowKey == null){
         show_message("error", "Vui lòng chọn lớp học cần cập nhật");
