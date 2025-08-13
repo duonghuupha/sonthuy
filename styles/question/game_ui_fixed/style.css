@@ -1,0 +1,71 @@
+/* Basic reset and layout */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg,#f0f6ff,#ffeef7);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+}
+
+/* Animations */
+.fade-in-up { opacity:0; transform:translateY(20px); animation:fadeInUp 0.6s ease forwards; }
+.zoom-in { opacity:0; transform:scale(0.9); animation:zoomIn 0.6s ease forwards; }
+.fly-in-left { opacity:0; transform:translateX(-40px); animation:flyInLeft 0.6s ease forwards; }
+.fly-in-right { opacity:0; transform:translateX(40px); animation:flyInRight 0.6s ease forwards; }
+@keyframes fadeInUp { to{opacity:1; transform:translateY(0);} }
+@keyframes zoomIn { to{opacity:1; transform:scale(1);} }
+@keyframes flyInLeft { to{opacity:1; transform:translateX(0);} }
+@keyframes flyInRight { to{opacity:1; transform:translateX(0);} }
+
+.delay-1 { animation-delay:0.2s; } .delay-2 { animation-delay:0.5s; }
+.delay-3 { animation-delay:0.8s; } .delay-4 { animation-delay:1.1s; }
+.delay-5 { animation-delay:1.4s; }
+
+.container {
+  position:relative;
+  width:95%;
+  max-width:900px;
+  background:#d69a5b;
+  border:8px solid #8b5a2b;
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Title + instruction */
+.title {
+  background:#b22222; color:#fff; padding:8px 12px; border-radius:8px;
+  font-weight:700; text-align:center; font-size:1.25rem;
+}
+.instruction { margin-top:10px; background:#d5a253; color:#fff; padding:8px; text-align:center; border-radius:6px; }
+
+/* Audio bar */
+.audio-bar { display:flex; gap:10px; align-items:center; margin-top:12px; }
+.btn-play { background:transparent; border:none; cursor:pointer; padding:6px; border-radius:8px; transition:transform .12s; }
+.btn-play:active { transform:scale(.98); }
+#playIcon { width:36px; height:36px; display:block; }
+
+.progress { flex:1; background:#fff; padding:6px; border-radius:8px; display:flex; align-items:center; gap:8px; }
+#progressBar { width:100%; }
+
+.scene-frame { margin-top:12px; background:#fff; padding:10px; border-radius:10px; }
+.scene-img { width:100%; border-radius:8px; display:block; }
+
+/* Nav buttons */
+.btn-nav { position:absolute; top:50%; transform:translateY(-50%); background:transparent; border:none; cursor:pointer; }
+.btn-nav img { width:42px; height:42px; display:block; }
+.btn-nav.left { left:-60px; }
+.btn-nav.right { right:-60px; }
+
+.btn-exit { position:absolute; left:-26px; top:-26px; background:transparent; border:none; cursor:pointer; }
+.btn-exit img { width:48px; height:48px; display:block; }
+
+/* Responsive tweaks */
+@media (max-width:768px) {
+  .btn-nav.left { left:-30px; } .btn-nav.right { right:-30px; }
+  .btn-nav img { width:34px; height:34px; }
+  .btn-exit img { width:40px; height:40px; }
+}

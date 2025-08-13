@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sách Lật Trang - Có 4 nút góc</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 4 nút ở 4 góc -->
+  <button class="corner-btn top-left" onclick="openPlayMedia()">🎵 Play media</button>
+  <button class="corner-btn top-right" onclick="openFlashCard()">🃏 Flash Card</button>
+  <button class="corner-btn bottom-left" onclick="openQuestion()">❓ Question</button>
+  <button class="corner-btn bottom-right" onclick="openOther()">⭐ Other</button>
+
+  <div class="book-container">
+    <div class="book">
+      <img id="current-page" src="images/image1.jpg" alt="Trang 1" />
+    </div>
+    <button class="nav-btn prev-btn" onclick="prevPage()">←</button>
+    <button class="nav-btn next-btn" onclick="nextPage()">→</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

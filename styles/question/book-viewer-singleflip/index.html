@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Single Page Flip - Offline</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <div id="book-area">
+    <div id="page" class="page">
+      <img id="page-img" src="images/page1.png" alt="page">
+    </div>
+  </div>
+
+  <!-- corner buttons -->
+  <button class="corner-btn top-left" id="btnMedia">📹 Media</button>
+  <button class="corner-btn top-right" id="btnFlash">🃏 Flash Card</button>
+  <button class="corner-btn bottom-left" id="btnQuestion">❓ Question</button>
+  <div class="corner-btn bottom-right">
+    <button id="btnPrev" class="nav">⬅ Prev</button>
+    <button id="btnNext" class="nav">Next ➡</button>
+  </div>
+</div>
+
+<!-- dialog -->
+<div id="dialog" class="hidden">
+  <div class="dialog-inner">
+    <button id="dlgClose" class="dlg-close">✕</button>
+    <div id="dlgContent"></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

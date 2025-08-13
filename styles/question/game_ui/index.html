@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scene Interaction</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <!-- Nút Thoát -->
+    <button class="btn-exit delay-5">
+        <img src="./assets/btn-exit.png" alt="Exit">
+    </button>
+
+    <!-- Tiêu đề -->
+    <div class="title delay-1">Part 1a</div>
+
+    <!-- Hướng dẫn -->
+    <div class="instruction delay-2">
+        CHOOSE THE CORRECT OBJECTS IN THE SCENE PICTURE:
+    </div>
+
+    <!-- Thanh âm thanh -->
+    <div class="audio-bar delay-3">
+        <button class="btn-play"><img src="assets/btn-play.png" alt="Play"></button>
+        <div class="progress">
+            <input type="range" id="progressBar" value="0" max="100">
+            <span class="time" id="timeDisplay">00:00 / 00:00</span>
+        </div>
+    </div>
+
+    <!-- Khung hình cảnh -->
+    <div class="scene-frame delay-4">
+        <img src="assets/scene.jpg" alt="Scene" class="scene-img">
+    </div>
+
+    <!-- Nút điều hướng -->
+    <button class="btn-nav left delay-5"><img src="assets/btn-left.png" alt="Left"></button>
+    <button class="btn-nav right delay-5"><img src="assets/btn-right.png" alt="Right"></button>
+</div>
+
+<!-- Audio -->
+<audio id="audioPlayer" src="assets/audio.mp3"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
