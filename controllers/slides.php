@@ -6,6 +6,8 @@ class Slides extends Controller{
     }
 
     function index(){
+        $jsonObj = $this->model->get_lesson_cate();
+        $this->view->jsonObj = $jsonObj;
         $this->view->render('slides/index');
     }
 }

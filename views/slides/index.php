@@ -3,9 +3,14 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ebook 9:16 - Sidebar + Nút góc (Fixed)</title>
+    <title>SONTHUY EDUCATION</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link rel="shortcut icon" href="<?php echo URL ?>/styles/assets/images/logo_son_thuy.png" />
     <link rel="stylesheet" href="<?php echo URL.'/styles/slides/' ?>style.css" />
+    <script src="<?php echo URL ?>/styles/assets/js/jquery-2.1.4.min.js"></script>
+    <script>
+        var baseUrl = '<?php echo URL ?>';
+    </script>
 </head>
 
 <body>
@@ -13,7 +18,6 @@
         <!-- Sidebar (trái) -->
         <aside class="sidebar">
             <h4>📚 Danh mục bài giảng</h4>
-            <input id="search" class="search" placeholder="Tìm kiếm... (ví dụ: 'Bài 1')" />
             <div id="tree" class="tree"></div>
         </aside>
 
