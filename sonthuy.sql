@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Aug 05, 2025 at 07:19 PM
+-- Generation Time: Aug 19, 2025 at 09:06 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -211,19 +211,61 @@ INSERT INTO `tbl_lesson_media` (`id`, `code`, `lesson_id`, `file`, `order_media`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_lesson_question_true_false`
+-- Table structure for table `tbl_lesson_question`
 --
 
-CREATE TABLE `tbl_lesson_question_true_false` (
+CREATE TABLE `tbl_lesson_question` (
   `id` int(11) NOT NULL,
   `code` int(11) NOT NULL,
   `lesson_id` int(11) NOT NULL,
+  `type_question` int(11) NOT NULL,
   `title` text COLLATE utf8_unicode_ci NOT NULL,
   `file` text COLLATE utf8_unicode_ci NOT NULL,
-  `answer` int(11) NOT NULL COMMENT '1 là đúng, 0 là sai',
   `status` int(11) NOT NULL,
   `create_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Dạng câu hỏi đúng sai';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Danh sách câu hỏi';
+
+--
+-- Dumping data for table `tbl_lesson_question`
+--
+
+INSERT INTO `tbl_lesson_question` (`id`, `code`, `lesson_id`, `type_question`, `title`, `file`, `status`, `create_at`) VALUES
+(1, 422204237, 2, 1, 'Trái đất quay quanh Mặt trời đúng hay sai?', '1754585171_422204237.jpg', 1, '2025-08-07 23:46:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_question_one_true`
+--
+
+CREATE TABLE `tbl_question_one_true` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `code_question` int(11) NOT NULL,
+  `answer` int(11) NOT NULL,
+  `title` text COLLATE utf8_unicode_ci NOT NULL,
+  `file` text COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Dạng câu hỏi chọn 1 đáp án đúng';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_question_true_false`
+--
+
+CREATE TABLE `tbl_question_true_false` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `code_question` int(11) NOT NULL,
+  `answer` int(11) NOT NULL COMMENT '1 là đúng; 2 là sai'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Dạnh câu hỏi đúng sai';
+
+--
+-- Dumping data for table `tbl_question_true_false`
+--
+
+INSERT INTO `tbl_question_true_false` (`id`, `code`, `code_question`, `answer`) VALUES
+(1, 1754506252, 422204237, 1);
 
 -- --------------------------------------------------------
 
@@ -400,7 +442,7 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-08-05 22:53:17', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0', '7433d097832845931fe65df797eb388d4865f576', 1, 1, '2025-07-22 19:37:03');
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-08-20 00:43:24', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0', 'f9d2b417f35d0cd2f21f37019c4cc69b3bc9844f', 1, 1, '2025-07-22 19:37:03');
 
 --
 -- Indexes for dumped tables
@@ -449,9 +491,21 @@ ALTER TABLE `tbl_lesson_media`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tbl_lesson_question_true_false`
+-- Indexes for table `tbl_lesson_question`
 --
-ALTER TABLE `tbl_lesson_question_true_false`
+ALTER TABLE `tbl_lesson_question`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_question_one_true`
+--
+ALTER TABLE `tbl_question_one_true`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_question_true_false`
+--
+ALTER TABLE `tbl_question_true_false`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -537,10 +591,22 @@ ALTER TABLE `tbl_lesson_media`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `tbl_lesson_question_true_false`
+-- AUTO_INCREMENT for table `tbl_lesson_question`
 --
-ALTER TABLE `tbl_lesson_question_true_false`
+ALTER TABLE `tbl_lesson_question`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tbl_question_one_true`
+--
+ALTER TABLE `tbl_question_one_true`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_question_true_false`
+--
+ALTER TABLE `tbl_question_true_false`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_roles`
