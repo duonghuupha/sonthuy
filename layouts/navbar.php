@@ -54,6 +54,13 @@
                         }
                         ?>
                         <li>
+                            <a href="<?php echo URL.'/slides?token='.$this->_Info[0]['token'] ?>">
+                                <i class="ace-icon fa fa-refresh"></i>
+                                Chuyển đổi giao diện
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
                             <a href="<?php echo URL.'/index/logout' ?>">
                                 <i class="ace-icon fa fa-power-off"></i>
                                 Đăng xuất

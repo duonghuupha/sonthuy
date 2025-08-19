@@ -1,0 +1,113 @@
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color: #222;
+  background: #f5f7fb;
+}
+
+/* Layout: Sidebar (left) + Viewer (right) */
+.app {
+  display: grid;
+  grid-template-columns: 280px 1fr; /* giống col-xs-3 */
+  grid-template-rows: 100vh;
+  overflow: hidden;
+}
+.sidebar {
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  overflow: auto;
+  padding: 12px;
+}
+.sidebar h4 { margin: 6px 0 10px; font-weight: 700; }
+.search { width: 100%; padding: 8px 10px; border: 1px solid #e5e7eb; border-radius: 8px; }
+
+.tree { margin-top: 10px; }
+.tree ul { list-style: none; padding-left: 14px; margin: 4px 0; border-left: 1px dashed #e5e7eb; }
+.tree li { margin: 4px 0; }
+.node { display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 8px; cursor: pointer; }
+.node:hover { background: #f3f4f6; }
+.icon { width: 16px; display: inline-block; text-align: center; }
+.badge { margin-left: auto; font-size: 11px; padding: 2px 6px; background: #eef2ff; border: 1px solid #c7d2fe; color: #4338ca; border-radius: 999px; }
+
+.viewer-wrap {
+  position: relative; /* để định vị nút theo KHUNG HIỂN THỊ */
+  display: grid; place-items: center;
+  background: linear-gradient(180deg, #f9fbff, #eef2f7);
+  overflow: hidden;
+}
+
+/* Book */
+.book {
+  width: min(100%, 520px); /* khung đứng */
+  aspect-ratio: 9/16;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  padding: 14px;
+  perspective: 1600px;
+}
+.book-inner { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 14px; }
+.page { position: absolute; inset: 0; display: grid; place-items: center; background: #fff; }
+.page img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+.flip-layer { position: absolute; inset: 0; transform-origin: left center; backface-visibility: hidden; transition: transform 650ms ease; }
+.flip-layer.back { transform-origin: right center; }
+
+/* Corner buttons anchored to viewer-wrap (NOT the page) */
+.corner-btn {
+  position: absolute; width: 44px; height: 44px;
+  border-radius: 50%; border: none;
+  font-size: 18px;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  cursor: pointer; display: grid; place-items: center;
+}
+.corner-btn:hover { background: #f1f5f9; }
+.top-left { top: 12px; left: 12px; }
+.top-right { top: 12px; right: 12px; }
+.bottom-left { bottom: 12px; left: 12px; }
+/* bottom-right intentionally omitted */
+
+.nav-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  font-size: 28px; width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,0.92); box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  display: grid; place-items: center; cursor: pointer; user-select: none;
+}
+.prev-btn { left: 8px; }
+.next-btn { right: 8px; }
+
+.toolbar {
+  position: absolute; bottom: 12px; right: 12px;
+  background: rgba(255,255,255,0.92); border: 1px solid #e5e7eb; border-radius: 10px;
+  padding: 6px 10px; font-size: 13px;
+}
+
+/* Dialog */
+.dialog { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.5); z-index: 1000; }
+.dialog.show { display: flex; }
+.dialog-content {
+  background: #fff; border-radius: 12px; padding: 16px 16px 18px;
+  width: min(92vw, 720px); max-height: 85vh; overflow: auto; position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+.dialog-title { font-weight: 700; margin-bottom: 8px; }
+.dialog-close { position: absolute; top: 8px; right: 10px; border: none; background: #f3f4f6; border-radius: 8px; padding: 4px 8px; cursor: pointer; }
+.media-list { display: grid; gap: 12px; }
+.flashcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 12px; }
+.card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px; background: #fff; }
+.q-list { display: grid; gap: 12px; }
+.q-item { border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px; background: #fff; }
+.choice { margin-top: 6px; }
+.result { margin-top: 8px; font-weight: 700; }
+
+@media (max-width: 860px){
+  .app { grid-template-columns: 240px 1fr; }
+}
+@media (max-width: 680px){
+  .app { grid-template-columns: 1fr; grid-template-rows: 40vh 60vh; }
+  .sidebar { border-right: none; border-bottom: 1px solid #e5e7eb; }
+}
