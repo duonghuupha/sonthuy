@@ -1,26 +1,85 @@
 $(function(){
-    
+    var height_view = $(window).height() - 100;
+    $('#result_search_lesson').load(baseUrl + '/slides/json_lesson?token='+localStorage.getItem('token')+'&q=');
+    setTimeout(() => {
+        var fotoramaApi = $('.fotorama').data('fotorama'); fotoramaApi.setOptions({height: height_view});
+    }, 100);
 });
 
 function load_lesson(idh){
-    let html = ''; $('.lesson_dc').empty(); 
-    var height_view = $(window).height() - 100;
-    var data = getRemote(baseUrl + '/slides/json_lesson?token='+localStorage.getItem('token')+'&id='+idh);
-    data = JSON.parse(data);
-    for(i in data){
-        html += '<img src="'+baseUrl+'/public/lesson/'+idh+'/dc/'+data[i].image+'"/>';
+    window.location.href = baseUrl + '/slides?token='+localStorage.getItem('token')+'&id='+idh;
+}
+
+function search_lesson(){
+    var value = $('#keyword').val();
+    if(value.length != 0){
+        var keyword = value.replaceAll(" ", "$", 'g');
+    }else{
+        var keyword = '';
     }
-    $('.lesson_dc').html(html);
+    $('#result_search_lesson').load(baseUrl + '/slides/json_lesson?token='+localStorage.getItem('token')+'&q='+keyword);
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function open_media(idh){
+    $('#form-detail').load(baseUrl + '/slides/media?token='+localStorage.getItem('token')+'&id='+idh);
+    $('.modal-dialog').css("width", "50%"); $('.main-media').empty();
+    $('#modal-lesson-extra').modal('show');
+}
+
+function play_media(type, lesson_id, file){
+    var html = '';
+    if(type == 1){ // video
+        html += '<video height="350" style="border:1px solid #307ECC" controls autoplay>';
+            html += '<source src="'+baseUrl+'/public/lesson/'+lesson_id+'/media/'+file+'" type="video/mp4">';
+            html += 'Your browser does not support the video tag.';
+        html += '</video>';
+    }else{ // audio
+        html += '<audio controls autoplay>';
+            html += '<source src="'+baseUrl+'/public/lesson/'+lesson_id+'/media/'+file+'" type="audio/mpeg">';
+            html += 'Your browser does not support the audio element.';
+        html += '</audio>';
+    }
+    $('.main-media').html(html);
+}
+
+function close_media(){
+    $('video, audio').each(function(){
+        this.pause();
+    });
+    $('#modal-lesson-extra').modal('hide');
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function open_flashcard(idh){
+    $('#form-detail').load(baseUrl + '/slides/flashcard?token='+localStorage.getItem('token')+'&id='+idh);
+    $('.modal-dialog').css("width", "50%");
+    $('#modal-lesson-extra').modal('show');
     setTimeout(() => {
-        $('.lesson_dc').fotorama({nav: 'thumbs', allowfullscreen: true});
-        var fotoramaApi = $('.lesson_dc').data('fotorama'); fotoramaApi.setOptions({height: height_view});
+        $('.flash_card').fotorama({
+            height: 500,
+            allowfullscreen: true,
+            nav: 'thumbs'
+        });
     }, 100);
 }
 
-function getRemote(remote_url){
-    return $.ajax({
-        type: 'GET',
-        url: remote_url,
-        async: false
-    }).responseText;
+function close_flash_card(){
+    $('#modal-lesson-extra').modal('hide');
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function open_question(idh){
+    $('#form-detail').load(baseUrl + '/slides/question?token='+localStorage.getItem('token')+'&id='+idh);
+    $('.modal-dialog').css("width", "90%"); $('#content_question').empty();
+    $('#modal-lesson-extra').modal('show');
+}
+
+function view_question(idh, type){
+    var html = ''; $('#content_question').empty();
+    if(type == 1){// dang cau hoi dung sai
+        html += ' <iframe src="'+baseUrl+'/question_true_false/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
+    }
+    $('#content_question').html(html);
+}
+
+function close_question(){
+    $('#modal-lesson-extra').modal('hide');
 }

@@ -54,7 +54,7 @@
                         }
                         ?>
                         <li>
-                            <a href="<?php echo URL.'/slides?token='.$this->_Info[0]['token'] ?>">
+                            <a href="<?php echo URL.'/slides?token='.$this->_Info[0]['token'].'&id=0' ?>">
                                 <i class="ace-icon fa fa-refresh"></i>
                                 Chuyển đổi giao diện
                             </a>

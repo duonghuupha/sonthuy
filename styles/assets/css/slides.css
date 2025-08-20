@@ -57,7 +57,8 @@ body{
 
 .left_slide .left_center{
     flex: 1;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -177,4 +178,66 @@ body{
     display: flex;
     justify-content: center;
     align-items: center; 
+}
+/************************************************************************************************************************************/
+.top-media{
+    width:100%;
+    overflow:hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-bottom:1px solid lightblue;
+    padding-bottom:20px;
+}
+
+.top-media .item{
+    border: 1px solid #ccc;
+    height:100px;
+    width:100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size:30px;
+    border-radius:10px;
+}
+
+.top-media .item a:hover{
+    text-decoration: none;
+}
+
+.main-media{
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.list_question{
+    overflow-x:hidden;
+    overflow-y:auto;
+}
+
+.list_question ul {
+    list-style:none;
+    font-size:16px;
+    font-weight:700;
+    padding:0px;
+}
+
+.list_question li{
+    border: 1px solid #ccc;
+    padding:5px;
+    text-align: center;
+    border-radius: 15px;
+}
+
+.list_question li:hover{
+    background:#756BAD;
+    color:white !important;
+}
+
+.list_question li a:hover{
+    color:white;
+    text-decoration: none;
 }

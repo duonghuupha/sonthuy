@@ -12,12 +12,12 @@
     <script>
         var baseUrl = '<?php echo URL ?>';
     </script>
+    <script src="<?php echo URL ?>/styles/assets/js/jquery-2.1.4.min.js"></script>
+    <script src="<?php echo URL.'/styles/' ?>true_false/quiz-plugin.js"></script>
 </head>
 
 <body>
     <div id="quiz-container">Đang tải câu hỏi...</div>
-    <script src="<?php echo URL ?>/styles/assets/js/jquery-2.1.4.min.js"></script>
-    <script src="<?php echo URL.'/styles/' ?>true_false/quiz-plugin.js"></script>
     <script>
     $(function() {
         $.getJSON('<?php echo URL.'/question_true_false/get_json_question?token='.$_SESSION['data'][0]['token'].'&question_id='.$_REQUEST['question_id'] ?>', function(data) {
