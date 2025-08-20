@@ -1,0 +1,180 @@
+body{
+    margin:0;
+    height:100vh;
+}
+
+.left_slide{
+    height:100vh;
+    display: flex;
+    flex-direction: column;
+    /*justify-content: space-between;*/
+    overflow:hidden;
+    background: lightblue;
+}
+
+.left_slide .left_top{
+    position: relative;
+    top:10px;
+    left:0;
+    width:100%;
+}
+
+.left_slide .left_top span{
+    line-height: 2em;
+    width:100%;
+    text-align: center;
+}
+
+.left_slide .left_top span.title{
+    display: flex;
+    align-items: center;;
+    justify-content: center;
+    text-transform: uppercase;
+    font-weight:700;
+    font-size:20px;
+    color:#756BAD;
+}
+
+.left_slide .left_top span.search_input input{
+    border-radius: 15px;
+    height:35px;
+    border: 1px solid #756BAD;
+}
+
+.left_slide .left_bottom{
+    position: relative;
+    bottom:10px;
+    left:0;
+    width:100%;
+    display: flex;
+    justify-content: center;
+}
+
+.left_slide .left_bottom  button{
+    text-transform: uppercase;
+    font-weight:700;
+}
+
+.left_slide .left_center{
+    flex: 1;
+    overflow: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.left_slide .left_center ul{
+    list-style: none;
+    font-size:16px;
+    padding-left:10px;
+}
+
+.left_slide .left_center ul li a{
+    color:#756BAD;
+}
+
+.left_slide .left_center ul li i{
+    padding-right:5px;
+}
+
+.left_slide .left_center ul li a:hover{
+    text-decoration: none;
+    color:black
+}
+/*****************************************************************/
+.main-slide{
+    height:100vh;
+    background: linear-gradient(to top, 
+  rgba(255, 0, 0, 0.3),   /* đỏ nhạt, trong suốt 30% */
+  rgba(255, 255, 0, 0.3)  /* vàng nhạt, trong suốt 30% */
+    );
+}
+
+.main-slide .main_left{
+    height:100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow:hidden;
+    padding-top:10px;
+    padding-bottom:10px;
+    align-items: center;
+}
+
+.main-slide .main_left .left_slide_top{
+    justify-content: center;
+    align-items: center;
+}
+
+.main-slide .main_left .left_slide_top .btn-media{
+    width:100%;
+    padding: 18px 40px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #756BAD;
+    background: linear-gradient(to top, #a0a0a0, #ffffff);
+    border: none;
+    box-shadow: 0 8px 15px rgba(255, 75, 43, 0.3);
+    transition: all 0.3s ease;
+    user-select: none;
+    text-align: center;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.main-slide .main_left .left_slide_bottom .btn-question{
+    width:100%;
+    padding: 18px 40px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #756BAD;
+    background: linear-gradient(to top, #a0a0a0, #ffffff);
+    border: none;
+    box-shadow: 0 8px 15px rgba(255, 75, 43, 0.3);
+    transition: all 0.3s ease;
+    user-select: none;
+    text-align: center;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.main-slide .main_right{
+    height:100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow:hidden;
+    padding-top:10px;
+    padding-bottom:10px;
+    align-items: center;
+}
+
+.main-slide .main_right .right_slide_top{
+    justify-content: center;
+    align-items: center;
+}
+
+.main-slide .main_right .right_slide_top .btn-flash{
+    width:100%;
+    padding: 18px 40px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #756BAD;
+    background: linear-gradient(to top, #a0a0a0, #ffffff);
+    border: none;
+    box-shadow: 0 8px 15px rgba(255, 75, 43, 0.3);
+    transition: all 0.3s ease;
+    user-select: none;
+    text-align: center;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.main-slide .main_center{
+    display: flex;
+    justify-content: center; /* Căn giữa ngang */
+    align-items: center;     /* Căn giữa dọc */
+    height: 100vh;           /* Hoặc chiều cao mong muốn */
+}
+
+.main-slide .main_center .lesson_dc{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}

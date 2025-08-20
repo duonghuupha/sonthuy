@@ -364,7 +364,7 @@ function getParameterByName(name, url = window.location.href) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function render_view_lesson(lesson_id){
     var height_view = $('.footer').offset().top - $('.page-header').offset().top - 147;
     $('#view_lesson').load(baseUrl + '/lesson/view_lesson?token='+localStorage.getItem('token')+'&id='+btoa(lesson_id));
