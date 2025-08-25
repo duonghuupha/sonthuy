@@ -11,7 +11,8 @@ class Question_true_false_Model extends Model{
     }
 
     function get_info($id){
-        $query = $this->db->query("SELECT * FROM tbl_question_true_false WHERE id = $id");
+        $query = $this->db->query("SELECT * FROM tbl_question_true_false WHERE code_question = (SELECT tbl_lesson_question.code FROM tbl_lesson_question
+                                    WHERE tbl_lesson_question.id = $id)");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 }
