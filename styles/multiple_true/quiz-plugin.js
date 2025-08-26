@@ -1,12 +1,19 @@
 (function ($) {
-	$.fn.mcqQuiz = function (options) {
+	$.fn.multiCorrectQuiz = function (options) {
 		const settings = $.extend({ questions: [] }, options);
-		let originalQuestions = JSON.parse(JSON.stringify(settings.questions));
+		const originalQuestions = JSON.parse(JSON.stringify(settings.questions));
 		return this.each(function () {
 			const container = $(this).empty();
-			function renderQuestions(questions) {
+			function renderQuiz() {
 				container.empty();
-				questions.forEach((q, index) => {
+				originalQuestions.forEach((q, index) => {
+					/*let optionsHTML = '';
+					q.options.forEach((opt, i) => {
+						optionsHTML += `<label class="option-label">
+						<input type="checkbox" name="q${index}" value="${opt.index}" class="quiz-checkbox"/>
+						${opt.text.title}
+						</label>`;
+					});*/
 					const shuffled = q.options.map((opt, i) => ({ text: opt, index: i }));
 					for (let i = shuffled.length - 1; i > 0; i--) {
 						const j = Math.floor(Math.random() * (i + 1));
@@ -17,7 +24,7 @@
 						if(opt.text.file_detail.length > 0) {
 							optionsHTML += `
 								<label class="option-label">
-									<input type="radio" name="q${index}" value="${opt.index}" class="quiz-radio"/>
+									<input type="checkbox" name="q${index}" value="${opt.index}" class="quiz-checkbox"/>
 									<img src="${baseUrl}/public/lesson/${q.lesson_id}/question/${opt.text.file_detail}" class="img_responsive" style="max-height:50px"/>
 									${opt.text.title}
 								</label>
@@ -25,7 +32,7 @@
 						}else{
 							optionsHTML += `
 								<label class="option-label">
-									<input type="radio" name="q${index}" value="${opt.index}" class="quiz-radio"/>
+									<input type="checkbox" name="q${index}" value="${opt.index}" class="quiz-checkbox"/>
 									${opt.text.title}
 								</label>
 							`;
@@ -44,30 +51,31 @@
 					container.append(questionBox);
 				});
 				container.append(`
-				<div class="quiz-controls">
-					<button id="check-answers" class="quiz-button control-button">Kiểm tra</button>
-					<button id="reset-quiz" class="quiz-button control-button">Làm lại</button>
-				</div>
+					<div class="quiz-controls">
+						<button id="check-answers" class="quiz-button">Kiểm tra</button>
+						<button id="reset-quiz" class="quiz-button">Làm lại</button>
+					</div>
 				`);
 			}
-			renderQuestions(originalQuestions);
+			renderQuiz();
 			container.on('click', '#check-answers', function () {
 				container.find('.question-box').each(function () {
 					const box = $(this);
 					const qIndex = box.data('index');
-					const selected = box.find('input.quiz-radio:checked').val();
-					const correct = originalQuestions[qIndex].answer;
+					const correctAnswers = originalQuestions[qIndex].answers.map(String);
+					const selectedAnswers = box.find('input.quiz-checkbox:checked').map(function () { return this.value; }).get();
 					const feedback = box.find('.feedback');
-					if (selected == correct) {
-						feedback.text('✅ Chính xác!').removeClass('incorrect').addClass('correct');
-					} else {
-						feedback.text('❌ Sai rồi!').removeClass('correct').addClass('incorrect');
-					}
+					const isCorrect = selectedAnswers.length === correctAnswers.length &&
+						selectedAnswers.every(val => correctAnswers.includes(val));
+					feedback
+						.text(isCorrect ? "✅ Chính xác!" : "❌ Sai rồi!")
+						.removeClass("correct incorrect")
+						.addClass(isCorrect ? "correct" : "incorrect");
 					box.find('input').prop('disabled', true);
 				});
 			});
 			container.on('click', '#reset-quiz', function () {
-				renderQuestions(originalQuestions); // Gọi lại để xáo trộn lại
+				renderQuiz();
 			});
 		});
 	};

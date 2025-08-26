@@ -6,6 +6,6 @@ $html = '[{"question": "'.$item[0]['title'].'", "file": "'.$item[0]['file'].'", 
         $answer[] = $row['answer'];
     }
 
-$html .= '"options": ['.implode(",", $array).'], "answer": '.array_search(1, $answer).'}]';
+$html .= '"options": ['.implode(",", $array).'], "answers": ['.implode(",", array_keys($answer, 1)).']}]';
 echo $html;
 ?>

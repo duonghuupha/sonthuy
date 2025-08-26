@@ -110,6 +110,8 @@ function set_load_form(val, idh = 0){
         $('#form_type').load(baseUrl + '/question_true_false/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
     }else if(val == 2){ // one_true
         $('#form_type').load(baseUrl + '/one_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+    }else if(val == 3){ // multiple_true
+        $('#form_type').load(baseUrl + '/multiple_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
     }
 }
 
@@ -128,6 +130,8 @@ function view_question(idh, type){
         html += ' <iframe src="'+baseUrl+'/question_true_false/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
     }else if(type == 2){ // dang cau hoi 1 dap an dung
         html += ' <iframe src="'+baseUrl+'/one_true/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
+    }else if(type == 3){ // dang cau hoi nhieu dap an dung
+        html += ' <iframe src="'+baseUrl+'/multiple_true/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
     }
     $('#view_question').html(html);
 }
