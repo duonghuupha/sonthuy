@@ -1,4 +1,4 @@
-<h5 class="mb-3">Danh sách đáp án (tối đa 4)</h5>
+<h5 class="mb-3">Danh sách đáp án (tối đa 4) :: Dạng câu hỏi chọn nhiều đáp án đúng</h5>
 <!-- Vòng lặp 4 đáp án -->
 <div class="row">
 <?php

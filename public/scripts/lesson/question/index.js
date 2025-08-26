@@ -112,6 +112,8 @@ function set_load_form(val, idh = 0){
         $('#form_type').load(baseUrl + '/one_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
     }else if(val == 3){ // multiple_true
         $('#form_type').load(baseUrl + '/multiple_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+    }else if(val == 4){ // match
+        $('#form_type').load(baseUrl + '/match/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
     }
 }
 

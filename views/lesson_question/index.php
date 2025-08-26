@@ -88,7 +88,7 @@
                                             <option value="3">Nhiều đáp án đúng</option>
                                             <option value="4">Nối</option>
                                             <option value="5">Kéo thả</option>
-                                            <option value="6">Sắp xếp</option>
+                                            <option value="6">Sắp xếp chữ cái</option>
                                         </select>
                                     </div>
                                 </div>
