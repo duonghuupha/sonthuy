@@ -20,7 +20,7 @@
     <div id="quiz-container">Đang tải câu hỏi...</div>
     <script>
     $(function() {
-        $.getJSON('<?php echo URL.'/question_true_false/get_json_question?token='.$_SESSION['data'][0]['token'].'&question_id='.$_REQUEST['question_id'] ?>', function(data) {
+        $.getJSON('<?php echo URL.'/true_false/get_json_question?token='.$_SESSION['data'][0]['token'].'&question_id='.$_REQUEST['question_id'] ?>', function(data) {
             $('#quiz-container').trueFalseQuiz({
                 questions: data
             });

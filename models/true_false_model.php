@@ -1,5 +1,5 @@
 <?php
-class Question_true_false_Model extends Model{
+class True_false_Model extends Model{
     function __construct(){
         parent::__construct();
     }

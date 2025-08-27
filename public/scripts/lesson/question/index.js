@@ -1,4 +1,4 @@
-var url, lesson_id;
+var url, lesson_id, myData_match = [];
 $(function(){
     lesson_id = getParameterByName('id'); $('#view_question').empty();
     var gwdth = $('#list_lesson_question').width(), fwdth = $('.full').width();
@@ -98,7 +98,17 @@ function save(){
         }
     });
     if(allRequired){
-        save_form_modal('#fm', url, '#modal-lesson-question', '#list_lesson_question',  baseUrl+'/lesson_question/json?token='+localStorage.getItem('token')); 
+        if($('#type_question').val() == 4){ // dang cau hoi noi
+            if(myData_match.length == 0){
+                show_message("error", "Chưa có đáp án nào được thêm vào");
+                return false;
+            }else{
+                $('#data_match').val(JSON.stringify(myData_match)); 
+                save_form_modal('#fm', url, '#modal-lesson-question', '#list_lesson_question',  baseUrl+'/lesson_question/json?token='+localStorage.getItem('token'));
+            }
+        } else{
+            save_form_modal('#fm', url, '#modal-lesson-question', '#list_lesson_question',  baseUrl+'/lesson_question/json?token='+localStorage.getItem('token'));
+        }
     }else{
         show_message("error", "Chưa điền đủ thông tin");
     }
@@ -107,7 +117,7 @@ function save(){
 function set_load_form(val, idh = 0){
     var code_question = $('#code').val();
     if(val == 1){ // true/false
-        $('#form_type').load(baseUrl + '/question_true_false/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+        $('#form_type').load(baseUrl + '/true_false/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
     }else if(val == 2){ // one_true
         $('#form_type').load(baseUrl + '/one_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
     }else if(val == 3){ // multiple_true
@@ -129,11 +139,51 @@ function getParameterByName(name, url = window.location.href) {
 function view_question(idh, type){
     var html = '';
     if(type == 1){// dang cau hoi dung sai
-        html += ' <iframe src="'+baseUrl+'/question_true_false/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
+        html += ' <iframe src="'+baseUrl+'/true_false/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
     }else if(type == 2){ // dang cau hoi 1 dap an dung
         html += ' <iframe src="'+baseUrl+'/one_true/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
     }else if(type == 3){ // dang cau hoi nhieu dap an dung
         html += ' <iframe src="'+baseUrl+'/multiple_true/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
+    }else if(type == 4){ // dang cau hoi noi
+        html += ' <iframe src="'+baseUrl+'/match/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
     }
     $('#view_question').html(html);
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function add_match_answer(){
+    var html = '';
+    var index = myData_match.length;
+    myData_match.push({id: index, answer_left: '', file_left: '', answer_right: '', file_right: ''});
+    html += '<tr id="row_'+index+'">';
+        html += '<td style="width:45%">'
+            html += '<input type="text" class="form-control" name="answer_left_'+index+'" id="answer_left_'+index+'" value="" placeholder="Nội dung" onchange="change_data_match(1, '+index+', this.value)"/>';
+            html += '<input type="file" id="file_left_'+index+'" name="file_left_'+index+'" class="form-control" style="width:100%;margin-top:5px;" onchange="change_data_match(2, '+index+', this.value)"/>';
+        html += '</td>';
+        html += '<td style="width:45%">'
+            html += '<input type="text" class="form-control" name="answer_right_'+index+'" id="answer_right_'+index+'" value="" placeholder="Nội dung" onchange="change_data_match(3, '+index+', this.value)"/>';
+            html += '<input type="file" id="file_right_'+index+'" name="file_right_'+index+'" class="form-control" style="width:100%;margin-top:5px;" onchange="change_data_match(4, '+index+', this.value)"/>';
+        html += '</td>';
+        html += '<td style="width:5%;text-align:center"><a href="javascript:void(0)" onclick="remove_match_answer('+index+')" title="Xóa"><i class="fa fa-trash" aria-hidden="true"></i></a></td>';
+    html += '</tr>';
+    $('#table_match_tbody').append(html);
+}
+
+function change_data_match(type, idh, data){
+    if(type == 1){ // answer_left
+        myData_match[idh].answer_left = data;
+    }else if(type == 2){ // file_left
+        myData_match[idh].file_left = data;
+    }else if(type == 3){ // answer_right
+        myData_match[idh].answer_right = data;
+    }else if(type == 4){ // file_right
+        myData_match[idh].file_right = data;
+    }
+}
+
+function remove_match_answer(idh){
+    $('#row_'+idh).remove();
+    myData_match = myData_match.filter(function(item){
+        return item.id != idh;
+    });
+    console.log(myData_match);
 }

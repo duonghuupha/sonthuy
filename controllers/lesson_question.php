@@ -143,6 +143,8 @@ class Lesson_question extends Controller{
             return $this->add_and_update_one_true($id, $lesson_id, $code);
         }elseif($type == 3){ // dang cau hoi co nhieu dap an dung
             return $this->add_and_update_multiple_true($id, $lesson_id, $code);
+        }elseif($type == 4){ // dang cau hoi noi
+            return $this->add_and_update_match($id, $lesson_id, $code);
         }
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -280,5 +282,22 @@ class Lesson_question extends Controller{
         return $temp;
     }
             
+    function add_and_update_match($id, $lesson_id, $code){
+        $data_match = $_REQUEST['data_match']; $data_match = json_decode($data_match, true);
+        if($id == 0){
+            foreach($data_match as $row){
+                $data = array("code" => time(), "code_question" => $code, "answer_a" => $row['answer_left'], "file_a" => '', "answer_b" => $row['answer_right'], "file_b" => '');
+                $tmp = $this->model->addObj_match($data);
+                if($tmp){
+                    $temp = true;
+                }else{
+                    $temp = false;
+                }
+            }
+        }else{
+            // code update cau hoi noi
+        }
+        return $temp;
+    }
 }
 ?>

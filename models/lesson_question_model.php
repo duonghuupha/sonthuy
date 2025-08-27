@@ -69,5 +69,10 @@ class Lesson_question_Model extends Model{
         $query = $this->update("tbl_question_multiple_true", $data, "id = $id");
         return $query;
     }
+//////////////////////////////// Dang cau hoi noi/////////////////////////////////////////////////////////////////////////
+    function addObj_match($data){
+        $query = $this->insert("tbl_question_match", $data);
+        return $query;
+    }
 }
 ?>

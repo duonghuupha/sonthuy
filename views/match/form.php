@@ -19,7 +19,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody id="tbody"></tbody>
+            <tbody id="table_match_tbody"></tbody>
         </table>
     </div>
 </div>
