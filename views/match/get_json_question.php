@@ -1,18 +1,16 @@
-{
-"questionText": "Con hãy nối đáp án từ cột bên trái sang cột bên phải.",
-"questions": [
-{ "id": 1, "type": "text", "content": "Hà Nội là thủ đô của?" },
-{ "id": 2, "type": "image", "content": "images/vietnam_flag.png" },
-{ "id": 3, "type": "audio", "content": "audio/bird.mp3" }
-],
-"answers": [
-{ "id": "a", "text": "Việt Nam" },
-{ "id": "b", "text": "Quốc kỳ Việt Nam" },
-{ "id": "c", "text": "Tiếng chim hót" }
-],
-"correct": [
-{ "left": 1, "right": "a" },
-{ "left": 2, "right": "b" },
-{ "left": 3, "right": "c" }
-]
-}
+<?php
+$item = $this->question; $detail = $this->detail;
+$html = '{';
+    // noi dung cau hoi
+    $html .= '"questionText": "'.$item[0]['title'].'", "file_question": "'.$item[0]['file'].'", "lession_id": "'.$item[0]['lesson_id'].'",';
+    foreach($detail as $row){
+        $quest[] = '{"id": '.$row['id'].', "type": "text", "content": "'.$row['answer_a'].'", "file_a": "'.$row['file_a'].'"}';
+        $answ[] = '{"id": '.$row['id'].', "type": "text", "content": "'.$row['answer_b'].'", "file_b": "'.$row['file_b'].'"}';
+        $corr[] = '{"left": '.$row['id'].', "right": '.$row['id'].'}';
+    }
+    $html .= '"questions": ['.implode(",", $quest).'],';
+    $html .= '"answers": ['.implode(",", $answ).'],';
+    $html .= '"correct": ['.implode(",", $corr).']';
+$html .= '}';
+echo $html;
+?>

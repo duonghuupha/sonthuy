@@ -10,7 +10,7 @@ class Match_Model extends Model{
     }
 
     function get_detail_question($code){
-        $query = $this->db->query("SELECT answer, title, file FROM tbl_question_multiple_true WHERE code_question = $code ORDER BY id DESC");
+        $query = $this->db->query("SELECT id, code, code_question, answer_a, file_a, answer_b, file_b FROM tbl_question_match WHERE code_question = $code ORDER BY id DESC");
         return $query->fetchAll();
     }
 

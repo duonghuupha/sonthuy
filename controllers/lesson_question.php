@@ -163,7 +163,7 @@ class Lesson_question extends Controller{
             return false;
         }
     }
-
+/******************************************************************************************************************************/
     function add_and_update_one_true($id, $lesson_id, $code){
         if($id == 0){
             for($i = 1; $i <= 4; $i++){
@@ -222,7 +222,7 @@ class Lesson_question extends Controller{
         }
         return $temp;
     }
-
+/******************************************************************************************************************************/
     function add_and_update_multiple_true($id, $lesson_id, $code){
         if($id == 0){
             for($i = 1; $i <= 4; $i++){
@@ -281,7 +281,7 @@ class Lesson_question extends Controller{
         }
         return $temp;
     }
-            
+/******************************************************************************************************************************/
     function add_and_update_match($id, $lesson_id, $code){
         $data_match = $_REQUEST['data_match']; $data_match = json_decode($data_match, true);
         if($id == 0){
