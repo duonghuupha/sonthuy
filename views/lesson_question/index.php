@@ -111,7 +111,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-8" id="form_type" style="height:calc(100vh-200px); border-right:1px solid #307ECC">
+                        <div class="col-xs-8" id="form_type">
                             
                         </div>
                     </form>

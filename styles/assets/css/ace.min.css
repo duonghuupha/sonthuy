@@ -21729,3 +21729,17 @@ input.typeahead.scrollable~.tt-menu {
 .table-container tr.active_row {
     background-color: #C7D3A9;
 }
+
+#groupsList .group-item,
+#itemsList .item-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+    align-items: center;
+}
+
+#groupsList input,
+#itemsList input,
+#itemsList select {
+    flex: 1;
+}

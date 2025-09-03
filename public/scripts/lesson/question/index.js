@@ -1,4 +1,4 @@
-var url, lesson_id, myData_match = [];
+var url, lesson_id, myData_match = [], myData_drag_drop = []; let groupCount = 0; let itemCount = 0;
 $(function(){
     lesson_id = getParameterByName('id'); $('#view_question').empty();
     var gwdth = $('#list_lesson_question').width(), fwdth = $('.full').width();
@@ -124,6 +124,8 @@ function set_load_form(val, idh = 0){
         $('#form_type').load(baseUrl + '/multiple_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
     }else if(val == 4){ // match
         $('#form_type').load(baseUrl + '/match/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+    }else if(val == 5){ // drag and drop
+        $('#form_type').load(baseUrl + '/drag_drop/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
     }
 }
 
@@ -146,6 +148,8 @@ function view_question(idh, type){
         html += ' <iframe src="'+baseUrl+'/multiple_true/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
     }else if(type == 4){ // dang cau hoi noi
         html += ' <iframe src="'+baseUrl+'/match/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
+    }ekse if(type == 5){ // dang cau hoi keo tha
+        html += ' <iframe src="'+baseUrl+'/drag_drop/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
     }
     $('#view_question').html(html);
 }
@@ -187,3 +191,59 @@ function remove_match_answer(idh){
     });
     console.log(myData_match);
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function addGroup(){
+    groupCount++;
+    $("#groupsList").append(`
+        <div class="group-item" data-id="${groupCount}">
+            <input type="text" class="form-control group-name" placeholder="Tên nhóm (VD: Động vật)" onchange="changeItemGroups()">
+            <button type="button" class="btn btn-danger btn-sm remove-group" onclick="delGroup(this)">X</button>
+        </div>
+    `);
+    updateItemGroups();
+}
+
+function delGroup(ele){
+    $(ele).closest(".group-item").remove();
+    updateItemGroups();
+}
+
+function addItem(){
+    itemCount++;
+    $("#itemsList").append(`
+    <div class="item-row" data-id="${itemCount}">
+        <input type="text" class="form-control item-text" placeholder="Text hoặc link ảnh">
+        <select class="form-select item-group">
+            <option value="">-- Nhóm đúng --</option>
+        </select>
+        <button type="button" class="btn btn-danger btn-sm remove-item" onclick="delItem(this)">X</button>
+    </div>
+    `);
+    updateItemGroups();
+}
+
+function delItem(ele){
+    $(ele).closest(".item-row").remove();
+}
+
+function updateItemGroups() {
+    let groups = [];
+    $(".group-name").each(function () {
+        let val = $(this).val().trim();
+        if (val) groups.push(val);
+    });
+
+    $(".item-group").each(function () {
+        let current = $(this).val();
+        $(this).empty().append(`<option value="">-- Nhóm đúng --</option>`);
+        groups.forEach(g => {
+            $(this).append(`<option value="${g}" ${current === g ? "selected" : ""}>${g}</option>`);
+        });
+    });
+  }
+
+  function changeItemGroups(){
+        updateItemGroups();
+  }
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
