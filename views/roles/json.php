@@ -2,7 +2,7 @@
 $json = $this->jsonObj; $array_action = ['Thêm mới', 'Cập nhật', 'Xóa', 'Nhập từ file', 'Xuất dữ liệu', 'Đặt trước', 'Duyệt yêu cầu'];
 $html = '{"records" : "'.$json['records'].'", "total": "'.$json['total'].'", "rows":[';
 foreach($json['rows'] as $item){
-    $parent_name = ($item['parent_id'] == 0) ? 'Danh mục gốc' : $this->_Data->return_parent_name_roles($item['parent_id']);
+    $parent_name = ($item['parent_id'] == 0) ? 'Danh mục gốc' : '';//$this->_Data->return_parent_name_roles($item['parent_id']);
     if($item['functions'] != ''){
         $arr_fun = explode(",",  $item['functions']);
         foreach($arr_fun as $row){
