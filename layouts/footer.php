@@ -43,6 +43,7 @@
     <script src="<?php echo URL ?>/styles/assets/js/jquery.toast.js"></script>
     <script src="<?php echo URL ?>/styles/assets/js/bootbox.js"></script>
     <script src="<?php echo URL ?>/styles/assets/js/select2.min.js"></script>
+    <script src="<?php echo URL ?>/styles/assets/js/select2-to-tree.min.js"></script>
     <script src="<?php echo URL ?>/styles/assets/js/chosen.jquery.min.js"></script>
     <script src="<?php echo URL ?>/styles/assets/js/jquery.maskedinput.min.js"></script>
     <script src="<?php echo URL ?>/styles/assets/js/tree.min.js"></script>
