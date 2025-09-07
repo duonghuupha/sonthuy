@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 03, 2025 at 08:40 PM
+-- Generation Time: Sep 08, 2025 at 02:03 AM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -415,9 +415,9 @@ INSERT INTO `tbl_roles` (`id`, `parent_id`, `title`, `link`, `functions`, `order
 (7, 0, 'Bài giảng', '#', '', 4, 'folder-open-o', 0, 1),
 (8, 7, 'Danh mục', 'lesson_cate', '1,2,3', 1, 'a', 0, 1),
 (9, 7, 'Quản lý bài giảng', 'lesson', '1,2,3', 2, 'a', 0, 1),
-(10, 7, 'Từ vựng', '#', '', 3, 'a', 0, 1),
+(10, 7, 'Từ vựng', 'vocabulary', '', 3, 'a', 0, 1),
 (11, 0, 'Kiểm tra/Thi', '#', '', 5, 'pencil-square-o', 0, 1),
-(12, 11, 'Danh mục', '#', '', 1, 'a', 0, 1),
+(12, 11, 'Danh mục', 'test_cate', '', 1, 'a', 0, 1),
 (13, 11, 'Quản lý thi/kiểm tra', '#', '', 2, 'a', 0, 1),
 (14, 0, 'Quản lý người dùng', '#', '', 6, 'user', 0, 1),
 (15, 14, 'Tài khoản học sinh', '#', '', 1, 'a', 0, 1),
@@ -535,6 +535,29 @@ INSERT INTO `tbl_teacher` (`id`, `code`, `fullname`, `birthday`, `gender`, `leve
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_test_cate`
+--
+
+CREATE TABLE `tbl_test_cate` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `title` text COLLATE utf8_unicode_ci NOT NULL,
+  `content` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL,
+  `create_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bảng lưu thông tin danh mục bài kiểm tra - Test';
+
+--
+-- Dumping data for table `tbl_test_cate`
+--
+
+INSERT INTO `tbl_test_cate` (`id`, `code`, `parent_id`, `title`, `content`, `status`, `create_at`) VALUES
+(1, 34386557, 0, 'Demo', 'Đây là tiếng nói Việt Nam, phát thanh từ Hà nội thủ đô nước Cộng hóa xã Hội Chủ nghieexa Biệt N', 1, '2025-09-05 23:58:38');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_users`
 --
 
@@ -558,7 +581,30 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-03 23:25:04', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0', '499ff02064f18c5f53971cc3fcba85de0ac9a0b9', 1, 1, '2025-07-22 19:37:03');
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-05 23:17:56', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0', '2759cb46ed3a4f10dd5948c2f80ba328e0132d57', 1, 1, '2025-07-22 19:37:03');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_vocab_cate`
+--
+
+CREATE TABLE `tbl_vocab_cate` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `title` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL,
+  `create_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bảng lưu thông tin danh mục từ vựng';
+
+--
+-- Dumping data for table `tbl_vocab_cate`
+--
+
+INSERT INTO `tbl_vocab_cate` (`id`, `code`, `title`, `status`, `create_at`) VALUES
+(2, 1757008283, 'Trái cây', 1, '2025-09-05 00:51:23'),
+(3, 1757008292, 'Động vật', 1, '2025-09-05 00:51:32'),
+(4, 1757008300, 'Gia đình', 1, '2025-09-05 00:51:40');
 
 --
 -- Indexes for dumped tables
@@ -685,9 +731,21 @@ ALTER TABLE `tbl_teacher`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_test_cate`
+--
+ALTER TABLE `tbl_test_cate`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_vocab_cate`
+--
+ALTER TABLE `tbl_vocab_cate`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -815,10 +873,22 @@ ALTER TABLE `tbl_teacher`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `tbl_test_cate`
+--
+ALTER TABLE `tbl_test_cate`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tbl_vocab_cate`
+--
+ALTER TABLE `tbl_vocab_cate`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

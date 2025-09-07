@@ -32,6 +32,34 @@ $(function(){
     });
 });
 
-function add(){
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function refresh_code(){
+    if($('#code').val().length == 0){
+        show_message("error", "Mã danh Mục chưa được tạo, hoặc đã trùng trong hệ thống");
+    }else{
+        var number = Math.floor(Math.random() * 999999999);
+        $('#code').val(number);
+    }
+}
 
+function add(){
+    reset_form('#fm');
+    var number = Math.floor(Math.random() * 999999999);
+    $('#code').val(number);
+    url = baseUrl + '/test_cate/add?token='+localStorage.getItem('token');
+}
+
+function save(){
+    var required = $('#fm input, #fm textarea, #fm select').filter('[required]:visible');
+    var allRequired = true;
+    required.each(function(){
+        if($(this).val() == ''){
+            allRequired = false;
+        }
+    });
+    if(allRequired){
+        save_reject('#fm', url, baseUrl+'/test_cate?token='+localStorage.getItem('token')); 
+    }else{
+        show_message("error", "Chưa điền đủ thông tin");
+    }
 }

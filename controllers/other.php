@@ -21,5 +21,12 @@ class Other extends Controller{
     function combo_role_link(){
         $this->view->render("other/combo_role_link");
     }
+
+    function combo_test_cate(){
+        $keyword = isset($_REQUEST['q']) ? $_REQUEST['q'] : '';
+        $jsonObj = $this->model->get_combo_test_cate($keyword);
+        $this->view->jsonObj = $jsonObj;
+        $this->view->render("other/combo_test_cate");
+    }
 }
 ?>
