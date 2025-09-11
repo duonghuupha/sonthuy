@@ -2,7 +2,7 @@ var url;
 $(function(){
     var gwdth_cate = $('#list_cate').width();
     $("#list_cate").jqGrid({
-        url: "getTreeData.php",
+        url: baseUrl + '/test_cate/json?token='+localStorage.getItem('token'),
         datatype: "json",
         colModel: [
             { name: "id", key: true, hidden: true },
@@ -45,7 +45,7 @@ function refresh_code(){
 function add(){
     reset_form('#fm');
     var number = Math.floor(Math.random() * 999999999);
-    $('#code').val(number);
+    $('#code').val(number); combo_select_2('#parent_id', baseUrl+'/other/combo_test_cate', 0, '');
     url = baseUrl + '/test_cate/add?token='+localStorage.getItem('token');
 }
 

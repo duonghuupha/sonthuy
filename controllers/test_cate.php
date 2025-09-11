@@ -11,6 +11,10 @@ class Test_cate extends Controller{
         require('layouts/footer.php');
     }
 
+    function json(){
+        $this->view->render('test_cate/json');
+    }
+
     function add(){
         $code = $_REQUEST['code']; $parentid = (isset($_REQUEST['parent_id']) && $_REQUEST['parent_id'] != '') ? $_REQUEST['parent_id'] : 0;
         $title =addslashes($_REQUEST['title']); $content = addslashes($_REQUEST['content']);

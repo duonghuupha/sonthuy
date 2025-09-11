@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 08, 2025 at 02:03 AM
+-- Generation Time: Sep 11, 2025 at 04:01 AM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -581,7 +581,7 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-05 23:17:56', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0', '2759cb46ed3a4f10dd5948c2f80ba328e0132d57', 1, 1, '2025-07-22 19:37:03');
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-10 21:52:13', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0', '370211171b2bf3f37600772acb5dca2cd71ae0c6', 1, 1, '2025-07-22 19:37:03');
 
 -- --------------------------------------------------------
 
