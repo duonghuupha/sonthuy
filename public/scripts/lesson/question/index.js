@@ -148,7 +148,7 @@ function view_question(idh, type){
         html += ' <iframe src="'+baseUrl+'/multiple_true/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
     }else if(type == 4){ // dang cau hoi noi
         html += ' <iframe src="'+baseUrl+'/match/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
-    }ekse if(type == 5){ // dang cau hoi keo tha
+    }else if(type == 5){ // dang cau hoi keo tha
         html += ' <iframe src="'+baseUrl+'/drag_drop/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
     }
     $('#view_question').html(html);
