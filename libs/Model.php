@@ -43,5 +43,14 @@ class Model {
         $query = $this->db->query("SELECT * FROM tbl_roles WHERE parent_id = ".$id." ORDER BY order_position ASC");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Return title cate
+     */
+    function get_parent_title($id){
+        $query = $this->db->query("SELECT title FROM tbl_test_cate WHERE id = $id");
+        $row = $query->fetchAll();
+        return $row[0]['title'];
+    }
 }
 ?>

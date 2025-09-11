@@ -22,5 +22,10 @@ class Test_cate_Model extends Model{
         $query = $this->update('tbl_test_cate', $data, "id = $id");
         return $query;
     }
+
+    function delObj($id){
+        $query = $this->delete("tbl_test_cate", "id = $id");
+        return $query;
+    }
 }
 ?>

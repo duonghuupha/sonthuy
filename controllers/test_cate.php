@@ -60,5 +60,37 @@ class Test_cate extends Controller{
         }
         $this->view->render('test_cate/update');
     }
+
+    function change(){
+        $id = $_REQUEST['id']; $status = $_REQUEST['status'];
+        $data = array("status" => $status);
+        $temp = $this->model->updateObj($id, $data);
+        if($temp){
+            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
+            $jsonObj['success'] = true;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }
+        $this->view->render("test_cate/change");
+    }
+
+    function del(){
+        $id = $_REQUEST['id'];
+        $data = array("status" => $status);
+        $temp = $this->model->delObj($id);
+        if($temp){
+            $jsonObj['msg'] = "Xóa dữ liệu thành công";
+            $jsonObj['success'] = true;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $jsonObj['msg'] = "Xóa dữ liệu không thành công";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }
+        $this->view->render("test_cate/del");
+    }
 }
 ?>
