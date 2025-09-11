@@ -110,3 +110,16 @@
 </div><!-- /.main-content -->
 
 <script src="<?php echo URL.'/public/' ?>scripts/test/cate.js"></script>
+<style>
+/* chỉnh indent cho node */
+.ui-jqgrid .tree-wrap {
+  float: left;
+  height: 18px;
+  line-height: 18px;
+  margin-right: 5px;
+}
+.ui-icon.fa {
+  font-size: 14px;
+  color: #444;
+}
+</style>

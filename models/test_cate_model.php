@@ -17,5 +17,10 @@ class Test_cate_Model extends Model{
         $query = $this->insert('tbl_test_cate', $data); 
         return $query;
     }
+
+    function updateObj($id, $data){
+        $query = $this->update('tbl_test_cate', $data, "id = $id");
+        return $query;
+    }
 }
 ?>

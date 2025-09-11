@@ -1,16 +1,18 @@
 <?php
-function show_parent_test_cate($categories, $parent_id = 0, $char = ''){
-    foreach ($categories as $key => $item){
-        if ($item['parent_id'] == $parent_id){
-            echo '{';
-                echo '"title": "'.$char.$item['title'].'", "id": "'.$item['id'].'"';
-            echo '}';
-            unset($categories[$key]);
-            show_parent_test_cate($categories, $item['id'], $char.'|---');
+function buildFlat(array $elements, $parentId = 0, $prefix = '') {
+    $branch = array();
+    foreach ($elements as $element) {
+        if ($element['parent_id'] == $parentId) {
+            $branch[] = [
+                "id" => $element['id'],
+                "title" => $prefix . $element['title']
+            ];
+            $children = buildFlat($elements, $element['id'], $prefix . '|---');
+            $branch = array_merge($branch, $children);
         }
     }
+    return $branch;
 }
-echo '[';
-show_parent_test_cate($this->jsonObj);
-echo ']';
+$data = buildFlat($this->jsonObj);
+echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 ?>

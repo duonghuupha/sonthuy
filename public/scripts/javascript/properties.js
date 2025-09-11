@@ -143,6 +143,24 @@ function updatePagerIcons(table) {
 
 /**
  * 
+ * @param {*} table 
+ */
+function updatePagerIcons_tree_grid(table) {
+    var replacement = 
+    {
+        'tree-minus' : 'ace-icon fa fa-angle-double-left bigger-140',
+        //'ui-icon-seek-prev' : 'ace-icon fa fa-angle-left bigger-140',
+    };
+    $('.ui-jqgrid-btable > tbody > tr > .ui-row-ltf > .ui-icon').each(function(){
+        var icon = $(this); console.log(icon);
+        var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+        
+        if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+    })
+}
+
+/**
+ * 
  * @param {*} id 
  * @param {*} url_data 
  * @param {*} selected 

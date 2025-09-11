@@ -17,7 +17,7 @@ class Test_cate extends Controller{
 
     function add(){
         $code = $_REQUEST['code']; $parentid = (isset($_REQUEST['parent_id']) && $_REQUEST['parent_id'] != '') ? $_REQUEST['parent_id'] : 0;
-        $title =addslashes($_REQUEST['title']); $content = addslashes($_REQUEST['content']);
+        $title = addslashes($_REQUEST['title']); $content = addslashes($_REQUEST['content']);
         if($this->model->dupliObj(0, $code) > 0){
             $jsonObj['msg'] = "Mã danh mục đã tồn tại !";
             $jsonObj['success'] = false;
@@ -36,6 +36,29 @@ class Test_cate extends Controller{
             }
         }
         $this->view->render('test_cate/add');
+    }
+
+    function update(){
+        $id = $_REQUEST['id']; $code = $_REQUEST['code']; $parentid = (isset($_REQUEST['parent_id']) && $_REQUEST['parent_id'] != '') ? $_REQUEST['parent_id'] : 0;
+        $title = addslashes($_REQUEST['title']); $content = addslashes($_REQUEST['content']);
+        if($this->model->dupliObj($id, $code) > 0){
+            $jsonObj['msg'] = "Mã danh mục đã tồn tại !";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $data = array("parent_id" => $parentid, "title" => $title, "content" => $content);
+            $temp = $this->model->updateObj($id, $data);
+            if($temp){
+                $jsonObj['msg'] = "Cập nhật dữ liệu thành công !";
+                $jsonObj['success'] = true;
+                $this->view->jsonObj = json_encode($jsonObj);
+            }else{
+                $jsonObj['msg'] = "Cập nhật dữ liệu không thành công !";
+                $jsonObj['success'] = false;
+                $this->view->jsonObj = json_encode($jsonObj);
+            }
+        }
+        $this->view->render('test_cate/update');
     }
 }
 ?>
