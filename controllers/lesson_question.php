@@ -1,4 +1,8 @@
 <?php
+require_once('controllers/True_false.php');
+require_once('controllers/One_true.php');
+require_once('controllers/Multiple_true.php');
+require_once('controllers/Match.php');
 class Lesson_question extends Controller{
     function __construct(){
         parent::__construct();
@@ -26,7 +30,7 @@ class Lesson_question extends Controller{
         $title = addslashes($_REQUEST['title']); $status = 1; $create_at = date("Y-m-d H:i:s");
         $file = (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') ? $this->_Convert->convert_file($_FILES['file']['name'], $code) : '';
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        if($this->model->dupliObj(0, $code) > 0){
+        /*if($this->model->dupliObj(0, $code) > 0){
             $jsonObj['msg'] = "Mã câu hỏi đã tồn tại";
             $jsonObj['success'] = false;
             $this->view->jsonObj = json_encode($jsonObj);
@@ -72,7 +76,10 @@ class Lesson_question extends Controller{
                 $jsonObj['success'] = false;
                 $this->view->jsonObj = json_encode($jsonObj);
             }
-        }
+        }*/
+        $jsonObj['msg'] = $this->add_update_detail_question($type_question, $lesson_id, 0, $code);
+        $jsonObj['success'] = false;
+        $this->view->jsonObj = json_encode($jsonObj);
         $this->view->render("lesson_question/add");
     }
 
@@ -133,171 +140,52 @@ class Lesson_question extends Controller{
     }
 
     function del(){
-        
+        $id = $_REQUEST['id']; $info = $this->model->get_info($id);
+        $temp = $this->model->delObj($id);
+        if($temp){
+            // xoa file dinh kem cua cau hoi
+            if(file_exists(DIR_UPLOAD."/lesson/".$id."/question/".$info[0]['file'])){
+                @unlink(DIR_UPLOAD."/lesson/".$id."/question/".$info[0]['file']);
+            }
+            $jsonObj['msg'] = "Xóa dữ liệu thành công";
+            $jsonObj['success'] = true;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $jsonObj['msg'] = "Xóa dữ liệu không thành công";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }
+        $this->view->render("lesson_question/del");
+    }
+
+    function change(){
+        $id = $_REQUEST['id']; $status = $_REQUEST['status'];
+        $data = array("status" => $status);
+        $temp = $this->model->updateObj($id, $data);
+        if($temp){
+            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
+            $jsonObj['success'] = true;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }
+        $this->view->render("lesson_question/change");
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function add_update_detail_question($type, $lesson_id, $id, $code){
+        $trueFalseCtrl = new True_false(); $oneTrueCtrl = new One_true(); $multipleTrueCtrl = new Multiple_true();
+        $matchCtrl = new Match();
         if($type == 1){// dang cau hoi dung sai
-            return $this->add_and_update_true_false($id, $code);
+            return $trueFalseCtrl->add($id, $code);
         }elseif($type == 2){ // dang cau hoi co 1 dap an dung
-            return $this->add_and_update_one_true($id, $lesson_id, $code);
+            return $oneTrueCtrl->action_question($id, $lesson_id, $code);
         }elseif($type == 3){ // dang cau hoi co nhieu dap an dung
-            return $this->add_and_update_multiple_true($id, $lesson_id, $code);
+            return $multipleTrueCtrl->action_question($id, $lesson_id, $code);
         }elseif($type == 4){ // dang cau hoi noi
-            return $this->add_and_update_match($id, $lesson_id, $code);
+            return $matchCtrl->action_question($id, $lesson_id, $code);
         }
-    }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function add_and_update_true_false($id, $code){
-        $answer = $_REQUEST['true_false_value']; $idh = $_REQUEST['id_true_false'];
-        if($id == 0){
-            $data = array("code" => time(), "code_question" => $code, "answer" => $answer);
-            $temp = $this->model->addObj_true_false($data);
-        }else{
-            $data = array("code_question" => $code, "answer" => $answer);
-            $temp = $this->model->updateObj_true_false($idh, $data);
-        }
-        if($temp){
-            return true;
-        }else{
-            return false;
-        }
-    }
-/******************************************************************************************************************************/
-    function add_and_update_one_true($id, $lesson_id, $code){
-        if($id == 0){
-            for($i = 1; $i <= 4; $i++){
-                $answer = (isset($_REQUEST['answer_one_true_'.$i]) && $_REQUEST['answer_one_true_'.$i] != '') ? 1 : 0; 
-                $title = $_REQUEST['title_one_true_'.$i];
-                $file = ($_FILES['file_one_true_'.$i]['name'] != '') ? $this->_Convert->convert_file($_FILES['file_one_true_'.$i]['name'], rand(11111, 99999)) : '';
-                $data = array("code" => time(), "code_question" => $code, "answer" => $answer, "title" => $title, "file" => $file);
-                $tmp = $this->model->addObj_one_true($data);
-                if($tmp){
-                    if($file != ''){
-                        $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
-                        if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                            mkdir($dir_temp);
-                        }
-                        if(move_uploaded_file($_FILES['file_one_true_'.$i]['tmp_name'], $dir_temp.'/'.$file)){
-                            $temp = true;
-                        }else{
-                            $temp = false;
-                        }
-                    }else{
-                        $temp = true;
-                    }
-                }else{
-                    $temp = false;
-                }
-            }
-        }else{
-            $id_answer = $_REQUEST['id_answer']; $id_answer = explode(",", $id_answer);
-            foreach($id_answer as $row){
-                $answer = (isset($_REQUEST['answer_one_true_'.$row]) && $_REQUEST['answer_one_true_'.$row] != '') ? 1 : 0; 
-                $title = $_REQUEST['title_one_true_'.$row];
-                $file = ($_FILES['file_one_true_'.$row]['name'] != '') ? $this->_Convert->convert_file($_FILES['file_one_true_'.$row]['name'], rand(11111, 99999)) : $_REQUEST['file_old_one_true_'.$row];
-                $data = array("answer" => $answer, "title" => $title, "file" => $file);
-                $tmp = $this->model->updateObj_one_true($row, $data);
-                if($tmp){
-                    if($_FILES['file_one_true_'.$row]['name'] != ''){
-                        $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
-                        if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                            mkdir($dir_temp);
-                        }
-                        if(move_uploaded_file($_FILES['file_one_true_'.$row]['tmp_name'], $dir_temp.'/'.$file)){
-                            if(file_exists(DIR_UPLOAD."/lesson/".$lesson_id.'/question/'.$_REQUEST['file_old_one_true_'.$row])){
-                                @unlink(DIR_UPLOAD."/lesson/".$lesson_id.'/question/'.$_REQUEST['file_old_one_true_'.$row]);
-                            }
-                            $temp = true;
-                        }else{
-                            $temp = false;
-                        }
-                    }else{
-                        $temp = true;
-                    }
-                }else{
-                    $temp = false;
-                }
-            }
-        }
-        return $temp;
-    }
-/******************************************************************************************************************************/
-    function add_and_update_multiple_true($id, $lesson_id, $code){
-        if($id == 0){
-            for($i = 1; $i <= 4; $i++){
-                $answer = (isset($_REQUEST['answer_multiple_true_'.$i]) && $_REQUEST['answer_multiple_true_'.$i] != '') ? 1 : 0; 
-                $title = $_REQUEST['title_multiple_true_'.$i];
-                $file = ($_FILES['file_multiple_true_'.$i]['name'] != '') ? $this->_Convert->convert_file($_FILES['file_multiple_true_'.$i]['name'], rand(11111, 99999)) : '';
-                $data = array("code" => time(), "code_question" => $code, "answer" => $answer, "title" => $title, "file" => $file);
-                $tmp = $this->model->addObj_multiple_true($data);
-                if($tmp){
-                    if($file != ''){
-                        $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
-                        if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                            mkdir($dir_temp);
-                        }
-                        if(move_uploaded_file($_FILES['file_multiple_true_'.$i]['tmp_name'], $dir_temp.'/'.$file)){
-                            $temp = true;
-                        }else{
-                            $temp = false;
-                        }
-                    }else{
-                        $temp = true;
-                    }
-                }else{
-                    $temp = false;
-                }
-            }
-        }else{
-            $id_answer = $_REQUEST['id_answer']; $id_answer = explode(",", $id_answer);
-            foreach($id_answer as $row){
-                $answer = (isset($_REQUEST['answer_multiple_true_'.$row]) && $_REQUEST['answer_multiple_true_'.$row] != '') ? 1 : 0; 
-                $title = $_REQUEST['title_multiple_true_'.$row];
-                $file = ($_FILES['file_multiple_true_'.$row]['name'] != '') ? $this->_Convert->convert_file($_FILES['file_multiple_true_'.$row]['name'], rand(11111, 99999)) : $_REQUEST['file_old_multiple_true_'.$row];
-                $data = array("answer" => $answer, "title" => $title, "file" => $file);
-                $tmp = $this->model->updateObj_multiple_true($row, $data);
-                if($tmp){
-                    if($_FILES['file_multiple_true_'.$row]['name'] != ''){
-                        $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
-                        if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                            mkdir($dir_temp);
-                        }
-                        if(move_uploaded_file($_FILES['file_multiple_true_'.$row]['tmp_name'], $dir_temp.'/'.$file)){
-                            if(file_exists(DIR_UPLOAD."/lesson/".$lesson_id.'/question/'.$_REQUEST['file_old_multiple_true_'.$row])){
-                                @unlink(DIR_UPLOAD."/lesson/".$lesson_id.'/question/'.$_REQUEST['file_old_multiple_true_'.$row]);
-                            }
-                            $temp = true;
-                        }else{
-                            $temp = false;
-                        }
-                    }else{
-                        $temp = true;   
-                    }
-                }else{
-                    $temp = false;
-                }
-            }
-        }
-        return $temp;
-    }
-/******************************************************************************************************************************/
-    function add_and_update_match($id, $lesson_id, $code){
-        $data_match = $_REQUEST['data_match']; $data_match = json_decode($data_match, true);
-        if($id == 0){
-            foreach($data_match as $row){
-                $data = array("code" => time(), "code_question" => $code, "answer_a" => $row['answer_left'], "file_a" => '', "answer_b" => $row['answer_right'], "file_b" => '');
-                $tmp = $this->model->addObj_match($data);
-                if($tmp){
-                    $temp = true;
-                }else{
-                    $temp = false;
-                }
-            }
-        }else{
-            // code update cau hoi noi
-        }
-        return $temp;
     }
 }
 ?>

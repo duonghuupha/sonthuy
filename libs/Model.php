@@ -52,5 +52,35 @@ class Model {
         $row = $query->fetchAll();
         return $row[0]['title'];
     }
+////////////////////////////////// Dang cau hoi dung sai///////////////////////////////////////////////////////////////////////
+    function addObj_true_false($data){
+        $query = $this->insert("tbl_question_true_false", $data);
+        return $query;
+    }
+
+    function updateObj_true_false($id, $data){
+        $query = $this->update("tbl_question_true_false", $data, "id = $id");
+        return $query;
+    }
+//////////////////////////////// Dang cau hoi 1 dap an dung////////////////////////////////////////////////////////////////////
+    function addObj_one_true($data){
+        $query = $this->insert("tbl_question_one_true", $data);
+        return $query;
+    }
+
+    function updateObj_one_true($id, $data){
+        $query = $this->update("tbl_question_one_true", $data, "id = $id");
+        return $query;
+    }
+//////////////////////////////// Dang cau hoi nhieu dap an dung////////////////////////////////////////////////////////////////////
+    function addObj_multiple_true($data){
+        $query = $this->insert("tbl_question_multiple_true", $data);
+        return $query;
+    }
+
+    function updateObj_multiple_true($id, $data){
+        $query = $this->update("tbl_question_multiple_true", $data, "id = $id");
+        return $query;
+    }
 }
 ?>

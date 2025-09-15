@@ -22,5 +22,21 @@ class True_false extends Controller{
         $this->view->jsonObj = $jsonObj;
         $this->view->render('true_false/get_json_question');
     }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    function add($id, $code){
+        $answer = $_REQUEST['true_false_value']; $idh = $_REQUEST['id_true_false'];
+        if($id == 0){
+            $data = array("code" => time(), "code_question" => $code, "answer" => $answer);
+            $temp = $this->_Data->addObj_true_false($data);
+        }else{
+            $data = array("code_question" => $code, "answer" => $answer);
+            $temp = $this->_Data->updateObj_true_false($idh, $data);
+        }
+        if($temp){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 ?>

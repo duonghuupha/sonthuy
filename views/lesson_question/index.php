@@ -66,10 +66,7 @@
                             <div class="col-xs-12">
                                 <div class="form-group">
                                     <label for="form-field-username">
-                                        Mã bài giảng <span style="color:red">(*)</span> &nbsp;
-                                        <a href="javascript:void(0)" onclick="refresh_code()" title="Tạo mã code" id="refreshcode">
-                                            <i class="fa fa-refresh"></i>
-                                        </a>
+                                        Mã bài giảng <span style="color:red">(*)</span>
                                     </label>
                                     <div>
                                         <input type="text" id="code" name="code" required="" placeholder="Mã câu hỏi" style="width:100%" readonly=""/>
@@ -133,3 +130,4 @@
 <!-- End formm don vi tinh-->
 
 <script src="<?php echo URL.'/public/' ?>scripts/lesson/question/index.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/lesson/question/match.js"></script>

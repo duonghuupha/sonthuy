@@ -19,5 +19,26 @@ class Match_Model extends Model{
                                     WHERE tbl_lesson_question.id = $id)");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    function check_dupli_id_temp($id_temp){
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_question_match WHERE id_temp = $id_temp");
+        $row = $query->fetchAll();
+        return $row[0]['Total'];
+    }
+
+    function addObj($data){
+        $query = $this->insert("tbl_question_match", $data);
+        return $query;
+    }
+
+    function updateObj($id, $data){
+        $query = $this->update("tbl_question_match", $data, "id = $id");
+        return $query;
+    }
+
+    function updateObj_via_id_temp($id, $data){
+        $query = $this->update("tbl_question_match", $data, "id_temp = $id");
+        return $query;
+    }
 }
 ?>

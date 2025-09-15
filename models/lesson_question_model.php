@@ -39,40 +39,15 @@ class Lesson_question_Model extends Model{
         $query = $this->delete("tbl_lesson_question", "code = $code");
         return $query;
     }
-////////////////////////////////// Dang cau hoi dung sai///////////////////////////////////////////////////////////////////////
-    function addObj_true_false($data){
-        $query = $this->insert("tbl_question_true_false", $data);
+
+    function delObj($id){
+        $query = $this->delete("tbl_lesson_question", "id = $id");
         return $query;
     }
 
-    function updateObj_true_false($id, $data){
-        $query = $this->update("tbl_question_true_false", $data, "id = $id");
-        return $query;
-    }
-//////////////////////////////// Dang cau hoi 1 dap an dung////////////////////////////////////////////////////////////////////
-    function addObj_one_true($data){
-        $query = $this->insert("tbl_question_one_true", $data);
-        return $query;
-    }
-
-    function updateObj_one_true($id, $data){
-        $query = $this->update("tbl_question_one_true", $data, "id = $id");
-        return $query;
-    }
-//////////////////////////////// Dang cau hoi nhieu dap an dung////////////////////////////////////////////////////////////////////
-    function addObj_multiple_true($data){
-        $query = $this->insert("tbl_question_multiple_true", $data);
-        return $query;
-    }
-
-    function updateObj_multiple_true($id, $data){
-        $query = $this->update("tbl_question_multiple_true", $data, "id = $id");
-        return $query;
-    }
-//////////////////////////////// Dang cau hoi noi/////////////////////////////////////////////////////////////////////////
-    function addObj_match($data){
-        $query = $this->insert("tbl_question_match", $data);
-        return $query;
+    function get_info($id){
+        $query = $this->db->query("SELECT * FROM tbl_lesson_question WHERE id = $id");
+        return $query->fetchAll();
     }
 }
 ?>

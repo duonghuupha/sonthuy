@@ -82,11 +82,20 @@ function update(){
 }
 
 function del(){
-
+    var rowKey = $('#list_lesson_question').jqGrid('getGridParam',"selrow");
+    if(rowKey == null){
+        show_message("error", "Vui lòng chọn câu hỏi cần cập nhật");
+        return false;
+    }else{
+        var data_str = "token="+localStorage.getItem('token')+'&id='+rowKey;
+        del_data(data_str, "Bạn có chắc chắn muốn xóa câu hỏi này?", baseUrl + '/lesson_question/del', '#list_lesson_question', baseUrl + '/lesson_question/json?token='+localStorage.getItem('token'));
+        $('#view_question').empty();
+    }
 }
 
-function change(){
-
+function change(status, idh){
+    var data_str = "token="+localStorage.getItem('token')+'&id='+idh+'&status='+status;
+        del_data(data_str, "Bạn có chắc chắn muốn cập nhật trạng thái cho câu hỏi này?", baseUrl + '/lesson_question/change', '#list_lesson_question', baseUrl + '/lesson_question/json?token='+localStorage.getItem('token'));
 }
 
 function save(){
@@ -118,12 +127,16 @@ function set_load_form(val, idh = 0){
     var code_question = $('#code').val();
     if(val == 1){ // true/false
         $('#form_type').load(baseUrl + '/true_false/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+        $('#close_modal').removeAttr('onclick', 'cancel_match()').attr('data-dismiss', 'modal');
     }else if(val == 2){ // one_true
         $('#form_type').load(baseUrl + '/one_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+        $('#close_modal').removeAttr('onclick', 'cancel_match()').attr('data-dismiss', 'modal');
     }else if(val == 3){ // multiple_true
         $('#form_type').load(baseUrl + '/multiple_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+        $('#close_modal').removeAttr('onclick', 'cancel_match()').attr('data-dismiss', 'modal');
     }else if(val == 4){ // match
         $('#form_type').load(baseUrl + '/match/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+        $('#close_modal').attr('onclick', 'cancel_match()').removeAttr('data-dismiss');
     }else if(val == 5){ // drag and drop
         $('#form_type').load(baseUrl + '/drag_drop/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
     }
@@ -153,97 +166,4 @@ function view_question(idh, type){
     }
     $('#view_question').html(html);
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function add_match_answer(){
-    var html = '';
-    var index = myData_match.length;
-    myData_match.push({id: index, answer_left: '', file_left: '', answer_right: '', file_right: ''});
-    html += '<tr id="row_'+index+'">';
-        html += '<td style="width:45%">'
-            html += '<input type="text" class="form-control" name="answer_left_'+index+'" id="answer_left_'+index+'" value="" placeholder="Nội dung" onchange="change_data_match(1, '+index+', this.value)"/>';
-            html += '<input type="file" id="file_left_'+index+'" name="file_left_'+index+'" class="form-control" style="width:100%;margin-top:5px;" onchange="change_data_match(2, '+index+', this.value)"/>';
-        html += '</td>';
-        html += '<td style="width:45%">'
-            html += '<input type="text" class="form-control" name="answer_right_'+index+'" id="answer_right_'+index+'" value="" placeholder="Nội dung" onchange="change_data_match(3, '+index+', this.value)"/>';
-            html += '<input type="file" id="file_right_'+index+'" name="file_right_'+index+'" class="form-control" style="width:100%;margin-top:5px;" onchange="change_data_match(4, '+index+', this.value)"/>';
-        html += '</td>';
-        html += '<td style="width:5%;text-align:center"><a href="javascript:void(0)" onclick="remove_match_answer('+index+')" title="Xóa"><i class="fa fa-trash" aria-hidden="true"></i></a></td>';
-    html += '</tr>';
-    $('#table_match_tbody').append(html);
-}
-
-function change_data_match(type, idh, data){
-    if(type == 1){ // answer_left
-        myData_match[idh].answer_left = data;
-    }else if(type == 2){ // file_left
-        myData_match[idh].file_left = data;
-    }else if(type == 3){ // answer_right
-        myData_match[idh].answer_right = data;
-    }else if(type == 4){ // file_right
-        myData_match[idh].file_right = data;
-    }
-}
-
-function remove_match_answer(idh){
-    $('#row_'+idh).remove();
-    myData_match = myData_match.filter(function(item){
-        return item.id != idh;
-    });
-    console.log(myData_match);
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function addGroup(){
-    groupCount++;
-    $("#groupsList").append(`
-        <div class="group-item" data-id="${groupCount}">
-            <input type="text" class="form-control group-name" placeholder="Tên nhóm (VD: Động vật)" onchange="changeItemGroups()">
-            <button type="button" class="btn btn-danger btn-sm remove-group" onclick="delGroup(this)">X</button>
-        </div>
-    `);
-    updateItemGroups();
-}
-
-function delGroup(ele){
-    $(ele).closest(".group-item").remove();
-    updateItemGroups();
-}
-
-function addItem(){
-    itemCount++;
-    $("#itemsList").append(`
-    <div class="item-row" data-id="${itemCount}">
-        <input type="text" class="form-control item-text" placeholder="Text hoặc link ảnh">
-        <select class="form-select item-group">
-            <option value="">-- Nhóm đúng --</option>
-        </select>
-        <button type="button" class="btn btn-danger btn-sm remove-item" onclick="delItem(this)">X</button>
-    </div>
-    `);
-    updateItemGroups();
-}
-
-function delItem(ele){
-    $(ele).closest(".item-row").remove();
-}
-
-function updateItemGroups() {
-    let groups = [];
-    $(".group-name").each(function () {
-        let val = $(this).val().trim();
-        if (val) groups.push(val);
-    });
-
-    $(".item-group").each(function () {
-        let current = $(this).val();
-        $(this).empty().append(`<option value="">-- Nhóm đúng --</option>`);
-        groups.forEach(g => {
-            $(this).append(`<option value="${g}" ${current === g ? "selected" : ""}>${g}</option>`);
-        });
-    });
-  }
-
-  function changeItemGroups(){
-        updateItemGroups();
-  }
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   

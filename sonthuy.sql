@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 11, 2025 at 04:01 AM
+-- Generation Time: Sep 15, 2025 at 10:26 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -226,16 +226,6 @@ CREATE TABLE `tbl_lesson_question` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Danh sách câu hỏi';
 
 --
--- Dumping data for table `tbl_lesson_question`
---
-
-INSERT INTO `tbl_lesson_question` (`id`, `code`, `lesson_id`, `type_question`, `title`, `file`, `status`, `create_at`) VALUES
-(1, 422204237, 2, 1, 'Trái đất quay quanh Mặt trời đúng hay sai?', '1754585171_422204237.jpg', 1, '2025-08-07 23:46:11'),
-(11, 224744769, 2, 2, 'Thủ đô của Việt Nam là gì?', '1756146195_224744769.jpg', 1, '2025-08-26 23:50:26'),
-(13, 936088864, 2, 3, 'Con vật nào là con vật biết bay trong những con vật dưới đây?', '1756229933_936088864.jpg', 1, '2025-08-27 00:43:03'),
-(14, 554804771, 2, 4, 'Hãy nối đáp án ở cột bên trái với đáp án phù hợp ở cột bên phải?', '', 1, '2025-08-28 00:58:13');
-
---
 -- Triggers `tbl_lesson_question`
 --
 DELIMITER $$
@@ -288,17 +278,10 @@ CREATE TABLE `tbl_question_match` (
   `answer_a` text COLLATE utf8_unicode_ci NOT NULL,
   `file_a` text COLLATE utf8_unicode_ci NOT NULL,
   `answer_b` text COLLATE utf8_unicode_ci NOT NULL,
-  `file_b` text COLLATE utf8_unicode_ci NOT NULL
+  `file_b` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL,
+  `id_temp` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Dạng câu hỏi nối';
-
---
--- Dumping data for table `tbl_question_match`
---
-
-INSERT INTO `tbl_question_match` (`id`, `code`, `code_question`, `answer_a`, `file_a`, `answer_b`, `file_b`) VALUES
-(1, 1756317493, 554804771, 'Thủ đô của Việt Nam là', '', 'Hà Nội', ''),
-(2, 1756317493, 554804771, 'Đà Nẵng có danh lam thắng cảnh', '', 'Cầu Vàng', ''),
-(3, 1756317493, 554804771, 'Huế là kinh đô của Việt Nam vào thời', '', 'Nhà Nguyễn', '');
 
 -- --------------------------------------------------------
 
@@ -315,16 +298,6 @@ CREATE TABLE `tbl_question_multiple_true` (
   `file` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Dạng câu hỏi chọn nhiều đáp án đúng';
 
---
--- Dumping data for table `tbl_question_multiple_true`
---
-
-INSERT INTO `tbl_question_multiple_true` (`id`, `code`, `code_question`, `answer`, `title`, `file`) VALUES
-(1, 1756228690, 936088864, 1, 'Chim', '1756230183_51149.png'),
-(2, 1756228690, 936088864, 0, 'Cá', '1756230183_90576.jpg'),
-(3, 1756228690, 936088864, 1, 'Bướm', '1756230183_80737.jpg'),
-(4, 1756228690, 936088864, 0, 'Chó', '1756230183_18135.png');
-
 -- --------------------------------------------------------
 
 --
@@ -339,16 +312,6 @@ CREATE TABLE `tbl_question_one_true` (
   `title` text COLLATE utf8_unicode_ci NOT NULL,
   `file` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Dạng câu hỏi chọn 1 đáp án đúng';
-
---
--- Dumping data for table `tbl_question_one_true`
---
-
-INSERT INTO `tbl_question_one_true` (`id`, `code`, `code_question`, `answer`, `title`, `file`) VALUES
-(9, 1756143314, 224744769, 1, 'Hà Nội', '1756226928_69192.jpg'),
-(10, 1756143314, 224744769, 0, 'Huế', '1756227026_95080.jpg'),
-(11, 1756143314, 224744769, 0, 'Đà Nẵng', '1756227026_34039.webp'),
-(12, 1756143314, 224744769, 0, 'Tp.Hồ Chí Minh', '1756227026_30639.jpg');
 
 -- --------------------------------------------------------
 
@@ -375,13 +338,6 @@ CREATE TABLE `tbl_question_true_false` (
   `code_question` int(11) NOT NULL,
   `answer` int(11) NOT NULL COMMENT '1 là đúng; 2 là sai'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Dạnh câu hỏi đúng sai';
-
---
--- Dumping data for table `tbl_question_true_false`
---
-
-INSERT INTO `tbl_question_true_false` (`id`, `code`, `code_question`, `answer`) VALUES
-(1, 1754506252, 422204237, 1);
 
 -- --------------------------------------------------------
 
@@ -553,7 +509,8 @@ CREATE TABLE `tbl_test_cate` (
 --
 
 INSERT INTO `tbl_test_cate` (`id`, `code`, `parent_id`, `title`, `content`, `status`, `create_at`) VALUES
-(1, 34386557, 0, 'Demo', 'Đây là tiếng nói Việt Nam, phát thanh từ Hà nội thủ đô nước Cộng hóa xã Hội Chủ nghieexa Biệt N', 1, '2025-09-05 23:58:38');
+(1, 34386557, 0, 'Demo', 'Danh mục cha để lưu trữ các bài kiểm tra - bài test', 1, '2025-09-05 23:58:38'),
+(3, 911277307, 1, 'Lớp 1', 'Các bài test liên quan đến lớp 1', 1, '2025-09-12 01:27:28');
 
 -- --------------------------------------------------------
 
@@ -581,7 +538,7 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-10 21:52:13', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0', '370211171b2bf3f37600772acb5dca2cd71ae0c6', 1, 1, '2025-07-22 19:37:03');
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-16 01:40:48', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0', 'f652e5cfb6b78e24049af82edcb653b590773daf', 1, 1, '2025-07-22 19:37:03');
 
 -- --------------------------------------------------------
 
@@ -798,7 +755,7 @@ ALTER TABLE `tbl_lesson_media`
 -- AUTO_INCREMENT for table `tbl_lesson_question`
 --
 ALTER TABLE `tbl_lesson_question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_drag_dropp_target`
@@ -816,19 +773,19 @@ ALTER TABLE `tbl_question_drag_drop_item`
 -- AUTO_INCREMENT for table `tbl_question_match`
 --
 ALTER TABLE `tbl_question_match`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_multiple_true`
 --
 ALTER TABLE `tbl_question_multiple_true`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_one_true`
 --
 ALTER TABLE `tbl_question_one_true`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_sort_alphabet`
@@ -840,7 +797,7 @@ ALTER TABLE `tbl_question_sort_alphabet`
 -- AUTO_INCREMENT for table `tbl_question_true_false`
 --
 ALTER TABLE `tbl_question_true_false`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_roles`
@@ -876,7 +833,7 @@ ALTER TABLE `tbl_teacher`
 -- AUTO_INCREMENT for table `tbl_test_cate`
 --
 ALTER TABLE `tbl_test_cate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`
