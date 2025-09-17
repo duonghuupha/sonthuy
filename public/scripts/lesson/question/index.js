@@ -139,6 +139,9 @@ function set_load_form(val, idh = 0){
         $('#close_modal').attr('onclick', 'cancel_match()').removeAttr('data-dismiss');
     }else if(val == 5){ // drag and drop
         $('#form_type').load(baseUrl + '/drag_drop/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+    }else if(val == 6){ // sort alphabet
+        $('#form_type').load(baseUrl + '/sort_alphabet/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+        $('#close_modal').removeAttr('onclick', 'cancel_match()').attr('data-dismiss', 'modal');
     }
 }
 
@@ -163,6 +166,8 @@ function view_question(idh, type){
         html += ' <iframe src="'+baseUrl+'/match/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
     }else if(type == 5){ // dang cau hoi keo tha
         html += ' <iframe src="'+baseUrl+'/drag_drop/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
+    }else{
+        html += ' <iframe src="'+baseUrl+'/sort_alphabet/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
     }
     $('#view_question').html(html);
 }

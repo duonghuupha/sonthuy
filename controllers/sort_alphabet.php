@@ -24,7 +24,7 @@ class Sort_alphabet extends Controller{
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function action_question($id, $code){
-        $answer = $_REQUEST['answer_sort']; $idh = $_REQUEST['id_sort'];
+        $answer = $_REQUEST['answer_sort_alphabet']; $idh = $_REQUEST['id_sort'];
         if($id == 0){
             $data = array("code" => time(), "code_question" => $code, "answer" => $answer);
             $temp = $this->_Data->addObj_sort_alphabet($data);
