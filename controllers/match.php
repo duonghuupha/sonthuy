@@ -97,8 +97,10 @@ class Match extends Controller{
         $this->view->render("match/add_item");
     }
 
-    function update_item(){
-
+    function action_question($id, $lession_id, $code){
+        $data = array("status" => 1, "id_temp" => '');
+        $temp = $this->_Data->updateObj_via_code_question_match($code, $data);
+        return $temp;
     }
 }
 ?>

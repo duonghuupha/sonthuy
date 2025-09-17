@@ -82,5 +82,10 @@ class Model {
         $query = $this->update("tbl_question_multiple_true", $data, "id = $id");
         return $query;
     }
+/////////////////////////// Dang cau hoi noi /////////////////////////////////////////////////////////////////////////////////////
+    function updateObj_via_code_question_match($code, $data){
+        $query = $this->update("tbl_question_match", $data, "code_question = $code");
+        return $query;
+    }
 }
 ?>
