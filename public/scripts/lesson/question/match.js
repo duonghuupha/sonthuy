@@ -35,7 +35,8 @@ function add_match_answer(){
 }
 
 function change_data_match(type, idh, id_form){
-    upload_file_match('#'+id_form+idh, baseUrl + '/match/add_item?token='+localStorage.getItem('token')+'&type='+type+'&id_temp='+idh);
+    var lesson_id = getParameterByName('id'), code_question = $('#code').val();
+    upload_file_match('#'+id_form+idh, baseUrl + '/match/add_item?token='+localStorage.getItem('token')+'&type='+type+'&id_temp='+idh+'&code_question='+code_question+'&lesson_id='+atob(lesson_id));
 }
 
 function remove_match_answer(idh){
@@ -73,4 +74,13 @@ function upload_file_match(id_form, post_url){
         contentType: false,
         processData: false
     });
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
