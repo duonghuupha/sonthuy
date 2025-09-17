@@ -40,5 +40,10 @@ class Match_Model extends Model{
         $query = $this->update("tbl_question_match", $data, "id_temp = $id");
         return $query;
     }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    function check_exit_file_match($id_temp){
+        $query = $this->db->query("SELECT file_a, file_b FROM tbl_question_match WHERE id_temp = $id_temp");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

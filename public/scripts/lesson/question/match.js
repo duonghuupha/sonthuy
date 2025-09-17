@@ -3,15 +3,19 @@ function add_match_answer(){
     $('#table_match_tbody').append(`
         <tr id="row_${index}">
             <td style="width:45%;height:100px">
-                <form id="left_${index}" method="post" enctype="multipart/form-data">
-                    <input type="text" class="form-control" name="answer_left_${index}" id="answer_left_${index}" value="" placeholder="Nội dung" onchange="change_data_match(1, ${index}, 'left')" style="margin-bottom:7px;"/>
-                    <input type="file" class="file_attach" name="file_left_${index}" id="file_left_${index}" style="width:100%;" onchange="change_data_match(2, ${index})"/>
+                <form id="left_title_${index}" method="post" enctype="multipart/form-data">
+                    <input type="text" class="form-control" name="answer_left_${index}" id="answer_left_${index}" value="" placeholder="Nội dung" onchange="change_data_match(1, ${index}, 'left_title_')" style="margin-bottom:7px;"/>
+                </form>
+                <form id="left_file_${index}">
+                    <input type="file" class="file_attach" name="file_left_${index}" id="file_left_${index}" style="width:100%;" onchange="change_data_match(2, ${index}, 'left_file_')"/>
                 </form>
                 </td>
             <td style="width:45%">
-                <form id="right_${index}" method="post" enctype="multipart/form-data">
-                    <input type="text" class="form-control" name="answer_right_${index}" id="answer_right_${index}" value="" placeholder="Nội dung" onchange="change_data_match(3, ${index}, 'right')" style="margin-bottom:7px;"/>
-                    <input type="file" class="file_attach" name="file_right_${index}" id="file_right_${index}" style="width:100%;" onchange="change_data_match(4, ${index})"/>
+                <form id="right_title_${index}" method="post" enctype="multipart/form-data">
+                    <input type="text" class="form-control" name="answer_right_${index}" id="answer_right_${index}" value="" placeholder="Nội dung" onchange="change_data_match(3, ${index}, 'right_title_')" style="margin-bottom:7px;"/>
+                </form>
+                <form id="right_file_${index}">
+                    <input type="file" class="file_attach" name="file_right_${index}" id="file_right_${index}" style="width:100%;" onchange="change_data_match(4, ${index}, 'right_file_')"/>
                 </form>
                 </td>
             <td style="width:5%;text-align:center">
@@ -30,8 +34,8 @@ function add_match_answer(){
     }, 50);
 }
 
-function change_data_match(type, idh, str_data){
-    upload_file_match('#left_'+idh, baseUrl + '/match/add_item?token='+localStorage.getItem('token')+'&type='+type+'&id_temp='+idh+'&str_code='+str_data);
+function change_data_match(type, idh, id_form){
+    upload_file_match('#'+id_form+idh, baseUrl + '/match/add_item?token='+localStorage.getItem('token')+'&type='+type+'&id_temp='+idh);
 }
 
 function remove_match_answer(idh){
