@@ -87,5 +87,17 @@ class Model {
         $query = $this->update("tbl_question_match", $data, "code_question = $code");
         return $query;
     }
+/////////////////////////////////Dang cau hoi keo tha//////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////// Dang cau hoi sap xep tu/////////////////////////////////////////////////////////////////////////
+    function addObj_sort_alphabet($data){
+        $query = $this->insert("tbl_question_sort_alphabet", $data);
+        return $query;
+    }
+
+    function updateObj_sort_alphabet($id, $data){
+        $query = $this->update("tbl_question_sort_alphabet", $data, "id = $id");
+        return $query;
+    }
 }
 ?>

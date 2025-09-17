@@ -1,8 +1,9 @@
 <?php
-require_once('controllers/True_false.php');
-require_once('controllers/One_true.php');
-require_once('controllers/Multiple_true.php');
-require_once('controllers/Match.php');
+require_once('controllers/true_false.php');
+require_once('controllers/one_true.php');
+require_once('controllers/multiple_true.php');
+require_once('controllers/match.php');
+require_once('controllers/sort_alphabet.php');
 class Lesson_question extends Controller{
     function __construct(){
         parent::__construct();
@@ -30,7 +31,7 @@ class Lesson_question extends Controller{
         $title = addslashes($_REQUEST['title']); $status = 1; $create_at = date("Y-m-d H:i:s");
         $file = (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') ? $this->_Convert->convert_file($_FILES['file']['name'], $code) : '';
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /*if($this->model->dupliObj(0, $code) > 0){
+        if($this->model->dupliObj(0, $code) > 0){
             $jsonObj['msg'] = "Mã câu hỏi đã tồn tại";
             $jsonObj['success'] = false;
             $this->view->jsonObj = json_encode($jsonObj);
@@ -76,10 +77,7 @@ class Lesson_question extends Controller{
                 $jsonObj['success'] = false;
                 $this->view->jsonObj = json_encode($jsonObj);
             }
-        }*/
-        $jsonObj['msg'] = $this->add_update_detail_question($type_question, $lesson_id, 0, $code);
-        $jsonObj['success'] = false;
-        $this->view->jsonObj = json_encode($jsonObj);
+        }
         $this->view->render("lesson_question/add");
     }
 
@@ -176,7 +174,7 @@ class Lesson_question extends Controller{
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function add_update_detail_question($type, $lesson_id, $id, $code){
         $trueFalseCtrl = new True_false(); $oneTrueCtrl = new One_true(); $multipleTrueCtrl = new Multiple_true();
-        $matchCtrl = new Match();
+        $matchCtrl = new Match(); $sortCtrl = new Sort_alphabet();
         if($type == 1){// dang cau hoi dung sai
             return $trueFalseCtrl->add($id, $code);
         }elseif($type == 2){ // dang cau hoi co 1 dap an dung
@@ -185,6 +183,10 @@ class Lesson_question extends Controller{
             return $multipleTrueCtrl->action_question($id, $lesson_id, $code);
         }elseif($type == 4){ // dang cau hoi noi
             return $matchCtrl->action_question($id, $lesson_id, $code);
+        }elseif($type == 5){
+
+        }else{ // dang cau hoi sawp xep chu cai
+            return $sortCtrl->action_question($id, $code);
         }
     }
 }

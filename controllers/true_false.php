@@ -32,11 +32,7 @@ class True_false extends Controller{
             $data = array("code_question" => $code, "answer" => $answer);
             $temp = $this->_Data->updateObj_true_false($idh, $data);
         }
-        if($temp){
-            return true;
-        }else{
-            return false;
-        }
+        return $temp;
     }
 }
 ?>
