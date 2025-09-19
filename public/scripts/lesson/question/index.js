@@ -107,17 +107,7 @@ function save(){
         }
     });
     if(allRequired){
-        if($('#type_question').val() == 4){ // dang cau hoi noi
-            if(myData_match.length == 0){
-                show_message("error", "Chưa có đáp án nào được thêm vào");
-                return false;
-            }else{
-                $('#data_match').val(JSON.stringify(myData_match)); 
-                save_form_modal('#fm', url, '#modal-lesson-question', '#list_lesson_question',  baseUrl+'/lesson_question/json?token='+localStorage.getItem('token'));
-            }
-        } else{
-            save_form_modal('#fm', url, '#modal-lesson-question', '#list_lesson_question',  baseUrl+'/lesson_question/json?token='+localStorage.getItem('token'));
-        }
+        save_form_modal('#fm', url, '#modal-lesson-question', '#list_lesson_question',  baseUrl+'/lesson_question/json?token='+localStorage.getItem('token'));
     }else{
         show_message("error", "Chưa điền đủ thông tin");
     }
@@ -139,6 +129,7 @@ function set_load_form(val, idh = 0){
         $('#close_modal').attr('onclick', 'cancel_match()').removeAttr('data-dismiss');
     }else if(val == 5){ // drag and drop
         $('#form_type').load(baseUrl + '/drag_drop/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+        $('#close_modal').attr('onclick', 'cancel_drag_drop()').removeAttr('data-dismiss');
     }else if(val == 6){ // sort alphabet
         $('#form_type').load(baseUrl + '/sort_alphabet/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
         $('#close_modal').removeAttr('onclick', 'cancel_match()').attr('data-dismiss', 'modal');

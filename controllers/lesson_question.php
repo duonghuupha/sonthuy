@@ -4,6 +4,7 @@ require_once('controllers/one_true.php');
 require_once('controllers/multiple_true.php');
 require_once('controllers/match.php');
 require_once('controllers/sort_alphabet.php');
+require_once('controllers/drag_drop.php');
 class Lesson_question extends Controller{
     function __construct(){
         parent::__construct();
@@ -174,7 +175,7 @@ class Lesson_question extends Controller{
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function add_update_detail_question($type, $lesson_id, $id, $code){
         $trueFalseCtrl = new True_false(); $oneTrueCtrl = new One_true(); $multipleTrueCtrl = new Multiple_true();
-        $matchCtrl = new Match(); $sortCtrl = new Sort_alphabet();
+        $matchCtrl = new Match(); $sortCtrl = new Sort_alphabet(); $dragdropCtrl = new Drag_drop();
         if($type == 1){// dang cau hoi dung sai
             return $trueFalseCtrl->add($id, $code);
         }elseif($type == 2){ // dang cau hoi co 1 dap an dung
@@ -184,7 +185,7 @@ class Lesson_question extends Controller{
         }elseif($type == 4){ // dang cau hoi noi
             return $matchCtrl->action_question($id, $lesson_id, $code);
         }elseif($type == 5){
-
+            return $dragdropCtrl->action_question($id, $lesson_id, $code);
         }else{ // dang cau hoi sawp xep chu cai
             return $sortCtrl->action_question($id, $code);
         }

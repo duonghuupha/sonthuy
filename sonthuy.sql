@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 15, 2025 at 10:26 PM
+-- Generation Time: Sep 19, 2025 at 09:37 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -226,29 +226,28 @@ CREATE TABLE `tbl_lesson_question` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Danh sách câu hỏi';
 
 --
+-- Dumping data for table `tbl_lesson_question`
+--
+
+INSERT INTO `tbl_lesson_question` (`id`, `code`, `lesson_id`, `type_question`, `title`, `file`, `status`, `create_at`) VALUES
+(1, 497385103, 2, 6, 'Hãy xắp sếp các chữ cái sau thành một từ có nghĩa', '', 1, '2025-09-17 20:43:11'),
+(4, 41247395, 2, 5, 'Hãy kéo thả các đáp án vào đúng ô của nó', '', 1, '2025-09-20 01:13:28');
+
+--
 -- Triggers `tbl_lesson_question`
 --
 DELIMITER $$
 CREATE TRIGGER `del_detail_question_after_del_question` AFTER DELETE ON `tbl_lesson_question` FOR EACH ROW BEGIN
 	DELETE FROM tbl_question_true_false WHERE code_question = old.code;
     DELETE FROM  tbl_question_one_true WHERE code_question = old.code;
+    DELETE FROM tbl_question_multiple_true WHERE code_question = old.code;
+    DELETE FROM tbl_question_match WHERE code_question = old.code;
+    DELETE FROM tbl_question_drag_drop_target WHERE code_question = old.code;
+    DELETE FROM tbl_question_drag_drop_item WHERE code_question = old.code;
+    DELETE FROM tbl_question_sort_alphabet WHERE code_question = old.code;
 END
 $$
 DELIMITER ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_question_drag_dropp_target`
---
-
-CREATE TABLE `tbl_question_drag_dropp_target` (
-  `id` int(11) NOT NULL,
-  `code` int(11) NOT NULL,
-  `code_question` int(11) NOT NULL,
-  `title` text COLLATE utf8_unicode_ci NOT NULL,
-  `file` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Dạng câu hỏi kéo thả - Target';
 
 -- --------------------------------------------------------
 
@@ -260,10 +259,54 @@ CREATE TABLE `tbl_question_drag_drop_item` (
   `id` int(11) NOT NULL,
   `code` int(11) NOT NULL,
   `code_question` int(11) NOT NULL,
-  `code_target` int(11) NOT NULL,
+  `target_id` int(11) NOT NULL,
   `title` text COLLATE utf8_unicode_ci NOT NULL,
-  `file` text COLLATE utf8_unicode_ci NOT NULL
+  `file` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL,
+  `id_temp` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Dạng câu hỏi kéo thả - Item';
+
+--
+-- Dumping data for table `tbl_question_drag_drop_item`
+--
+
+INSERT INTO `tbl_question_drag_drop_item` (`id`, `code`, `code_question`, `target_id`, `title`, `file`, `status`, `id_temp`) VALUES
+(2, 1758305578, 41247395, 2, 'Mèo', '', 1, 85271),
+(3, 1758305583, 41247395, 2, 'Chó', '', 1, 46083),
+(4, 1758305598, 41247395, 3, 'Chích chòe', '', 1, 96713),
+(5, 1758305605, 41247395, 3, 'Địa bàng', '', 1, 48071);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_question_drag_drop_target`
+--
+
+CREATE TABLE `tbl_question_drag_drop_target` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `code_question` int(11) NOT NULL,
+  `title` text COLLATE utf8_unicode_ci NOT NULL,
+  `file` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL,
+  `id_temp` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Dạng câu hỏi kéo thả - Target';
+
+--
+-- Dumping data for table `tbl_question_drag_drop_target`
+--
+
+INSERT INTO `tbl_question_drag_drop_target` (`id`, `code`, `code_question`, `title`, `file`, `status`, `id_temp`) VALUES
+(2, 1758305566, 41247395, 'Thú', '', 1, 96166),
+(3, 1758305571, 41247395, 'Chim', '', 1, 57012);
+
+--
+-- Triggers `tbl_question_drag_drop_target`
+--
+DELIMITER $$
+CREATE TRIGGER `update_status_answer_drag_drop_after_update_drag_drop` AFTER UPDATE ON `tbl_question_drag_drop_target` FOR EACH ROW UPDATE tbl_question_drag_drop_item SET status = new.status WHERE target_id = id
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -325,6 +368,13 @@ CREATE TABLE `tbl_question_sort_alphabet` (
   `code_question` int(11) NOT NULL,
   `answer` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Dạng câu hỏi sắp xếp chữ cái';
+
+--
+-- Dumping data for table `tbl_question_sort_alphabet`
+--
+
+INSERT INTO `tbl_question_sort_alphabet` (`id`, `code`, `code_question`, `answer`) VALUES
+(1, 1758116591, 497385103, 'MOUNTIAN');
 
 -- --------------------------------------------------------
 
@@ -538,7 +588,7 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-16 01:40:48', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0', 'f652e5cfb6b78e24049af82edcb653b590773daf', 1, 1, '2025-07-22 19:37:03');
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-19 23:13:44', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0', 'd2981512d225167f13e0192e6c6a2fb830bc140d', 1, 1, '2025-07-22 19:37:03');
 
 -- --------------------------------------------------------
 
@@ -616,15 +666,15 @@ ALTER TABLE `tbl_lesson_question`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tbl_question_drag_dropp_target`
---
-ALTER TABLE `tbl_question_drag_dropp_target`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `tbl_question_drag_drop_item`
 --
 ALTER TABLE `tbl_question_drag_drop_item`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_question_drag_drop_target`
+--
+ALTER TABLE `tbl_question_drag_drop_target`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -755,19 +805,19 @@ ALTER TABLE `tbl_lesson_media`
 -- AUTO_INCREMENT for table `tbl_lesson_question`
 --
 ALTER TABLE `tbl_lesson_question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `tbl_question_drag_dropp_target`
---
-ALTER TABLE `tbl_question_drag_dropp_target`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_drag_drop_item`
 --
 ALTER TABLE `tbl_question_drag_drop_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `tbl_question_drag_drop_target`
+--
+ALTER TABLE `tbl_question_drag_drop_target`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_match`
@@ -791,7 +841,7 @@ ALTER TABLE `tbl_question_one_true`
 -- AUTO_INCREMENT for table `tbl_question_sort_alphabet`
 --
 ALTER TABLE `tbl_question_sort_alphabet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_true_false`

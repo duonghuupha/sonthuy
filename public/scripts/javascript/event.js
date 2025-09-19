@@ -184,6 +184,39 @@ function save_form_reset_form(id_form, post_url, id_content, url_refresh){
 
 /**
  * 
+ * @param {*} id_form 
+ * @param {*} post_url 
+ */
+function save_inline_form(id_form, post_url){
+    var xhr = new XMLHttpRequest();
+    var formData = new FormData($(id_form)[0]);
+    $('.overlay').show();
+    $.ajax({
+        url: post_url,  //server script to process data
+        type: 'POST',
+        xhr: function() {
+            return xhr;
+        },
+        data: formData,
+        success: function(data){
+            var result = JSON.parse(data);
+            if(result.success == true){
+                $('.overlay').hide();
+                show_message('success', result.msg);
+            }else{
+                $('.overlay').hide();
+                show_message('error', result.msg);
+                return false;
+            }
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+}
+
+/**
+ * 
  * @param {*} str_data 
  * @param {*} notify 
  * @param {*} post_url 

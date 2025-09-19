@@ -95,7 +95,7 @@
                                 <div class="form-group">
                                     <label for="form-field-username">Nội dung câu hỏi <span style="color:red">(*)</span></label>
                                     <div>
-                                        <textarea  id="title" name="title" placeholder="Nội dung câu hỏi" style="width:100%;height:70px;resize:none"></textarea>
+                                        <textarea  id="title" name="title" placeholder="Nội dung câu hỏi" style="width:100%;height:70px;resize:none" required=""></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -131,3 +131,4 @@
 
 <script src="<?php echo URL.'/public/' ?>scripts/lesson/question/index.js"></script>
 <script src="<?php echo URL.'/public/' ?>scripts/lesson/question/match.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/lesson/question/drag_drop.js"></script>

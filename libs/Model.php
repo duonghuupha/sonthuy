@@ -88,7 +88,10 @@ class Model {
         return $query;
     }
 /////////////////////////////////Dang cau hoi keo tha//////////////////////////////////////////////////////////////////////////////
-
+    function updateobj_via_code_question_drag_drop($code, $data){
+        $query = $this->update("tbl_question_drag_drop_target", $data, "code_question = $code");
+        return $query;
+    }
 ////////////////////////////////// Dang cau hoi sap xep tu/////////////////////////////////////////////////////////////////////////
     function addObj_sort_alphabet($data){
         $query = $this->insert("tbl_question_sort_alphabet", $data);
