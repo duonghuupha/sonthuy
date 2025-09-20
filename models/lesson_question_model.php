@@ -49,5 +49,11 @@ class Lesson_question_Model extends Model{
         $query = $this->db->query("SELECT * FROM tbl_lesson_question WHERE id = $id");
         return $query->fetchAll();
     }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    function get_info_lesson($id){
+        $query = $this->db->query("SELECT id, code, title, cate_id, content, (SELECT tbl_lesson_cate.title FROM tbl_lesson_cate
+                                    WHERE tbl_lesson_cate.id = cate_id) AS cate_title FROM tbl_lesson WHERE id = $id");
+        return $query->fetchAll();
+    }
 }
 ?>

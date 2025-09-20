@@ -13,6 +13,8 @@ class Lesson_question extends Controller{
 
     function index(){
         require('layouts/header.php');
+        $id = base64_decode($_REQUEST['id']);
+        $this->view->info = $this->model->get_info_lesson($id);
         $this->view->render('lesson_question/index');
         require('layouts/footer.php');
     }
@@ -38,7 +40,7 @@ class Lesson_question extends Controller{
             $this->view->jsonObj = json_encode($jsonObj);
         }else{
             $data = array("code" => $code, "lesson_id" => $lesson_id, "type_question" => $type_question, "title" => $title, "file" => $file,
-                            "status" => $status, "create_at" => $create_at);
+                            "status" => $status, "create_at" => $create_at, "source_edu" => 1, "cate_vocab_id" => 0, "test_cate_id" => 0, "level" => 0);
             $temp = $this->model->addObj($data);
             if($temp){
                 if($file != ''){ // tai file dinh kem cua cau hoi
@@ -101,7 +103,7 @@ class Lesson_question extends Controller{
                         mkdir($dir_temp);
                     }
                     if(move_uploaded_file($_FILES['file']['tmp_name'], $dir_temp.'/'.$file)){
-                        if($this->add_and_update_true_false($id, $code)){
+                        if($this->add_update_detail_question($type_question, $lesson_id, $id, $code)){
                             if(file_exists(DIR_UPLOAD."/lesson/".$lesson_id.'/question/'.$_REQUEST['file_old'])){
                                 @unlink(DIR_UPLOAD."/lesson/".$lesson_id.'/question/'.$_REQUEST['file_old']);
                             }

@@ -10,6 +10,9 @@ class Match extends Controller{
     }
 
     function form(){
+        $code_question = $_REQUEST['code'];
+        $detail = $this->model->get_detail_question_edit($code_question);
+        $this->view->detail = $detail;
         $this->view->render('match/form');
     }
 
@@ -97,8 +100,12 @@ class Match extends Controller{
         $this->view->render("match/add_item");
     }
 
+    function update_item(){
+        
+    }
+
     function action_question($id, $lession_id, $code){
-        $data = array("status" => 1, "id_temp" => '');
+        $data = array("status" => 1, "id_temp" => 0);
         $temp = $this->_Data->updateObj_via_code_question_match($code, $data);
         return $temp;
     }

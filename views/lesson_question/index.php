@@ -33,15 +33,33 @@
             </div><!-- /.page-header -->
             <div class="row">
                 <div class="col-xs-12 col-sm-6">
+                    <div class="" id="view_detail">
+                        <ul class="list-unstyled spaced2">
+                            <li>
+                                <i class="ace-icon fa fa-circle green"></i>
+                                <b>Mã bài giảng:</b> <?php echo $this->info[0]['code'] ?>
+                            </li>
+                            <li class="text-warning bigger-110 orange">
+                                <i class="ace-icon fa fa-exclamation-triangle"></i>
+                                <b>Danh mục bài giảng:</b> <?php echo $this->info[0]['cate_title'] ?>
+                            </li>
+                            <li class="muted">
+                                <i class="ace-icon fa fa-angle-right bigger-110"></i>
+                                <b>Tên bài giảng:</b> <?php echo $this->info[0]['title'] ?>
+                            </li>
+                            <li>
+                                <i class="ace-icon fa fa-share green bigger-110"></i>
+                                <b>Nội dung:</b> <?php echo $this->info[0]['content'] ?>
+                            </li>
+                        </ul>
+                    </div>
                     <table id="list_lesson_question" 
                         class="table" 
                         role="grid"
                         aria-describedby="dynamic-table_info"></table>
                     <div id="lesson_question_pager"></div>
                 </div>
-                <div class="col-xs-12 col-sm-6 haft" id="view_question">
-                    
-                </div>
+                <div class="col-xs-12 col-sm-6 haft" id="view_question"></div>
             </div><!-- /.row -->
         </div><!-- /.page-content -->
     </div>
@@ -61,7 +79,6 @@
                     <form id="fm" method="POST" enctype="multipart/form-data">
                         <input id="lesson_id" name="lesson_id" type="hidden" value="<?php echo base64_decode($_REQUEST['id']) ?>"/>
                         <input id="file_old" name="file_old" type="hidden"/>
-                        <input id="data_match" name="data_match" type="hidden"/>
                         <div class="col-xs-4">
                             <div class="col-xs-12">
                                 <div class="form-group">
@@ -132,3 +149,4 @@
 <script src="<?php echo URL.'/public/' ?>scripts/lesson/question/index.js"></script>
 <script src="<?php echo URL.'/public/' ?>scripts/lesson/question/match.js"></script>
 <script src="<?php echo URL.'/public/' ?>scripts/lesson/question/drag_drop.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/lesson/question/one_true.js"></script>

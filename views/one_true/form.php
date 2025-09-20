@@ -96,5 +96,8 @@ $(function(){
         btn_change:'Thay đổi',droppable:false,
         onchange:null,thumbnail:true
     });
+    $('#fm input[type=radio]').on("change", function(){
+        $('#fm input[type=radio]').not(this).prop("checked", false);
+    });
 })
 </script>

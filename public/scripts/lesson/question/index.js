@@ -19,7 +19,7 @@ $(function(){
             {label: '&nbsp', name: 'file', hidden: true}
         ],
         viewrecords: true, height:200, width: gwdth, rowNum: 20, rownumbers: true,
-        height:($('.footer').offset().top - $('.page-header').offset().top - 147),
+        height:($('.footer').offset().top - $('#view_detail').offset().top - 227),
         pager: "#lesson_question_pager", rowList:[10,20,30],
         loadComplete : function() {
             var table = this;
