@@ -22,10 +22,9 @@ class Match_Model extends Model{
     }
 
     function check_dupli_id_temp($id_temp){
-        /*$query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_question_match WHERE id_temp = $id_temp");
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_question_match WHERE id_temp = $id_temp");
         $row = $query->fetchAll();
-        return $row[0]['Total'];*/
-        return "SELECT COUNT(*) AS Total FROM tbl_question_match WHERE id_temp = $id_temp";
+        return $row[0]['Total'];
     }
 
     function addObj($data){
@@ -44,7 +43,7 @@ class Match_Model extends Model{
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function get_detail_question_edit($code_question){
-        $query = $this->db->query("SELECT id, answer_a, answer_b, file_a, file_b FROM tbl_question_match WHERE code_question = $code_question");
+        $query = $this->db->query("SELECT id, answer_a, answer_b, file_a, file_b, id_temp FROM tbl_question_match WHERE code_question = $code_question");
         return $query->fetchAll();
     }
 }

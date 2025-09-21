@@ -30,7 +30,7 @@ class Match extends Controller{
         if($type == 1){ // answer_a
             $answer = $_REQUEST['answer_left_'.$id_temp];
             if($this->model->check_dupli_id_temp($id_temp) == 0){
-                $data = array("code" => time(), "code_question" => $code_question, "answer_a" => $answer, "file_a" => '', "answer_b" => '', "file_b" => 1, 
+                $data = array("code" => time(), "code_question" => $code_question, "answer_a" => $answer, "file_a" => '', "answer_b" => '', "file_b" => '', 
                                 "status" => 0, "id_temp" => $id_temp);
                 $temp = $this->model->addObj($data);
             }else{
@@ -59,7 +59,7 @@ class Match extends Controller{
             }
         }elseif($type == 3){ // answer_b
             $answer = $_REQUEST['answer_right_'.$id_temp];
-            if($this->model->check_dupli_id_temp($id_temp) > 0){
+            if($this->model->check_dupli_id_temp($id_temp) == 0){
                 $data = array("code" => time(), "code_question" => $code_question, "answer_a" => '', "file_a" => '', "answer_b" => $answer, "file_b" => '', 
                                 "status" => 0, "id_temp" => $id_temp);
                 $temp = $this->model->addObj($data);
@@ -101,7 +101,51 @@ class Match extends Controller{
     }
 
     function update_item(){
-        
+        $type = $_REQUEST['type']; $id_temp = $_REQUEST['id_temp']; $code_question = $_REQUEST['code_question']; $lesson_id = $_REQUEST['lesson_id'];
+        $id = $_REQUEST['id'];
+        if($type == 1){ // answer_a
+            $answer = $_REQUEST['answer_left_'.$id];
+            $data = array("answer_a" => $answer);
+            $temp = $this->model->updateObj($id, $data);
+        }elseif($type == 2){ // file_a
+            $file = $this->_Convert->convert_file($_FILES['file_left_'.$id]['name'], rand(11111, 99999));
+            $data = array("file_a" => $file);
+            $tmp = $this->model->updateObj($id, $data);
+            if($tmp){
+                $temp = move_uploaded_file($_FILES['file_left_'.$id]['tmp_name'], DIR_UPLOAD.'/lesson/'.$lesson_id.'/question/'.$file);
+            }else{
+                $temp = false;
+            }
+        }elseif($type == 3){ // answer_b
+            $answer = $_REQUEST['answer_right_'.$id];
+            $data = array("answer_b" => $answer);
+            $temp = $this->model->updateObj($id, $data);
+        }else{ // file_b
+            $file = $this->_Convert->convert_file($_FILES['file_right_'.$id]['name'], rand(11111, 99999));
+            $data = array("file_b" => $file);
+            $tmp = $this->model->updateObj($id, $data);
+            if($tmp){
+                $temp = move_uploaded_file($_FILES['file_right_'.$id]['tmp_name'], DIR_UPLOAD.'/lesson/'.$lesson_id.'/question/'.$file);
+            }else{
+                $temp = false;
+            }
+        }
+        if($temp){
+            if(isset($_FILES['file_left_'.$id]['name']) && $_FILES['file_left_'.$id]['name'] != ''){
+                @unlink(DIR_UPLOAD.'/lesson/'.$lession_id.'/question/'.$_REQUEST['file_left_old_'.$id]);
+            } 
+            if(isset($_FILES['file_right_'.$id]['name']) && $_FILES['file_right_'.$id]['name'] != ''){
+                @unlink(DIR_UPLOAD.'/lesson/'.$lession_id.'/question/'.$_REQUEST['file_right_old_'.$id]);
+            }
+            $jsonObj['msg'] = "Thành công";
+            $jsonObj['success'] = true;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $jsonObj['msg'] = "Thêm dữ liệu không thành công";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }
+        $this->view->render("match/update_item");
     }
 
     function action_question($id, $lession_id, $code){

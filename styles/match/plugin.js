@@ -14,8 +14,8 @@
 			$container.empty();
 			connections = [];
 			// Thêm phần nội dung câu hỏi (title)
-			if(data.questionText){
-				$container.append('<div class="quiz-title">'+data.questionText+'</div>');
+			if (data.questionText) {
+				$container.append('<div class="quiz-title">' + data.questionText + '</div>');
 			}
 			// shuffle arrays
 			let leftItems = shuffle([...data.questions]);
@@ -26,13 +26,20 @@
 			let $svg = $('<svg class="connection-layer"></svg>');
 			leftItems.forEach(q => {
 				let $item = $('<div class="item"></div>').attr("data-id", q.id);
-				if (q.type === "text") $item.text(q.content);
-				if (q.type === "image") $item.append(`<img src="${q.content}" style="max-width:100%">`);
-				if (q.type === "audio") $item.append(`<audio controls src="${q.content}"></audio>`);
+				if(q.file_a.length > 0){
+					$item.append(`<img src="${baseUrl}/public/lesson/${q.lesson_id}/question/${q.file_a}" class="img_responsive" style="max-height:50px">`);
+				}
+				$item.append(q.content);
+				//if (q.type === "image") $item.append(`<img src="${q.content}" style="max-width:100%">`);
+				//if (q.type === "audio") $item.append(`<audio controls src="${q.content}"></audio>`);
 				$left.append($item);
 			});
 			rightItems.forEach(a => {
-				let $item = $('<div class="item"></div>').attr("data-id", a.id).text(a.content);
+				let $item = $('<div class="item"></div>').attr("data-id", a.id);
+				if(a.file_b.length > 0){
+					$item.append(`<img src="${baseUrl}/public/lesson/${a.lesson_id}/question/${a.file_b}" class="img_responsive" style="max-height:50px">`);
+				}
+				$item.append(a.content);
 				$right.append($item);
 			});
 			$columns.append($left).append($right).append($svg);

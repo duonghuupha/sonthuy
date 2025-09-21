@@ -15,20 +15,22 @@
 		return this.each(function () {
 			const container = $(this);
 			container.addClass("quiz-container");
+			// phát hiện mobile
+			var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 			function renderQuiz(data) {
 				shuffleArray(data.options);
 
 				container.html(`
-          <h2>${data.question}</h2>
-          <div class="drag-area"></div>
-          <div class="drop-area"></div>
-          <div class="btn-group">
-            <button class="submit-btn">Kiểm tra</button>
-            <button class="reset-btn">Làm lại</button>
-          </div>
-          <div class="result"></div>
-        `);
+					<h2>${data.question}</h2>
+					<div class="drag-area"></div>
+					<div class="drop-area"></div>
+					<div class="btn-group">
+						<button class="submit-btn">Kiểm tra</button>
+						<button class="reset-btn">Làm lại</button>
+					</div>
+					<div class="result"></div>
+				`);
 
 				data.options.forEach((item, i) => {
 					const content = item.text
@@ -47,7 +49,7 @@
              </div>`
 					);
 				});
-
+				/*
 				container.find(".draggable").on("dragstart", function (e) {
 					e.originalEvent.dataTransfer.setData("text", $(this).attr("id"));
 				});
@@ -71,26 +73,74 @@
 					$target.data("matches").push(match);
 
 					$target.find('.answer-wrap').append(clone);
-				});
+				});*/
+				if (!isMobile) {
+					// PC: dùng drag & drop như cũ
+					container.find(".draggable").on("dragstart", function (e) {
+						e.originalEvent.dataTransfer.setData("text", $(this).attr("id"));
+					});
+					container.find(".droppable").on("dragover", function (e) {
+						e.preventDefault();
+					});
+					container.find(".droppable").on("drop", function (e) {
+						e.preventDefault();
+						const id = e.originalEvent.dataTransfer.getData("text");
+						const $el = $('#' + id);
+						const clone = $el.clone();
+						clone.removeAttr("id").removeAttr("draggable").css({ cursor: "default" });
+						$el.remove();
+						$(this).find(".answer-wrap").append(clone);
+					});
+				} else {
+					// Mobile: click chọn -> click thả
+					let selected = null;
+					container.on("click", ".draggable", function(){
+						if($(this).closest(".droppable").length){
+							const $target = $(this).closest(".droppable");
+							// xóa đáp án khỏi matches
+							let matches = $target.data("matches") || [];
+							matches = matches.filter(m => m !== $(this).data("match"));
+							$target.data("matches", matches);
+							container.find(".drag-area").append($(this));
+							return;
+						}
+						$(".draggable", container).removeClass("selected");
+						selected = $(this).addClass("selected");
+					});
+					container.on("click", ".droppable", function(){
+						if(selected){
+							const $target = $(this);
+							$target.find(".answer-wrap").append(selected.removeClass("selected"));
+
+							// cập nhật lại matches
+							let matches = $target.data("matches") || [];
+							matches.push(selected.data("match"));
+							$target.data("matches", matches);
+
+							selected = null;
+						}
+					});
+				}
 
 				container.find(".submit-btn").on("click", function () {
 					let correct = 0;
 					const total = data.targets.length;
-
 					container.find(".droppable").each(function () {
 						const expected = $(this).data("accept");
-						const matches = $(this).data("matches") || [];
-						const allCorrect = matches.every(m => m === expected);
-						const hasAnswer = matches.length > 0;
-
-						if (allCorrect && hasAnswer) {
+						const given = [];
+						// Lấy toàn bộ đáp án đã bỏ vào ô này
+						$(this).find(".answer-wrap .draggable").each(function () {
+							given.push($(this).data("match"));
+						});
+						const hasAnswer = given.length > 0;
+						const allCorrect = hasAnswer && given.every(m => m === expected);
+						if (allCorrect) {
 							correct++;
 							$(this).css("border-color", "green");
 						} else {
 							$(this).css("border-color", "red");
 						}
 					});
-
 					container.find(".result").text(`Bạn làm đúng ${correct} / ${total}`);
 					settings.onComplete(correct, total);
 				});

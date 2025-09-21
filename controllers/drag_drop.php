@@ -71,7 +71,7 @@ class Drag_drop extends Controller{
     }
 
     function action_question($id, $lession_id, $code){
-        $data = array("status" => 1, "id_temp" => '');
+        $data = array("status" => 1, "id_temp" => 0);
         $temp = $this->_Data->updateobj_via_code_question_drag_drop($code, $data);
         return $temp;
     }

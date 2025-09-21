@@ -72,7 +72,8 @@ function change_data(type, id_temp, prefix){
         var lesson_id = getParameterByName('id'), code_question = $('#code').val();
         save_inline_form('#'+prefix+'_'+id_temp, baseUrl + '/drag_drop/add_target?token='+localStorage.getItem('token')+'&type='+type+'&id_temp='+id_temp+'&code_question='+code_question+'&lesson_id='+atob(lesson_id));
     }else{
-        show_message("error", "Chưa nhập đủ thông tin");
+        //show_message("error", "Chưa nhập đủ thông tin");
+        return false;
     }
 }
 
@@ -89,7 +90,8 @@ function change_data_answer(type, id_temp, prefix){
         var lesson_id = getParameterByName('id'), code_question = $('#code').val();
         save_inline_form('#'+prefix+'_'+id_temp, baseUrl + '/drag_drop/add_answer?token='+localStorage.getItem('token')+'&type='+type+'&id_temp='+id_temp+'&code_question='+code_question+'&lesson_id='+atob(lesson_id));
     }else{
-        show_message("error", "Chưa nhập đủ thông tin");
+        //show_message("error", "Chưa nhập đủ thông tin");
+        return false;
     }
 }
 

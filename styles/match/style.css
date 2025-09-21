@@ -106,3 +106,20 @@ svg.connection-layer {
 .quiz-result.incorrect {
 	color: red;
 }
+
+/* Cập nhật style cho cột A có hình ảnh */
+.left .item, .right .item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    text-align: left; /* chữ canh trái */
+}
+
+.right .item img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain; /* giữ tỷ lệ ảnh */
+    flex-shrink: 0;
+    border-radius: 6px;
+}
