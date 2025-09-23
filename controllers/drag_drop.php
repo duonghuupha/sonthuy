@@ -10,6 +10,9 @@ class Drag_drop extends Controller{
     }
 
     function form(){
+        $code = $_REQUEST['code'];
+        $this->view->target = $this->model->get_target_edit($code);
+        $this->view->answer = $this->model->get_answer_edit($code);
         $this->view->render('drag_drop/form');
     }
 

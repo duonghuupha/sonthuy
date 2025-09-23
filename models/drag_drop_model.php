@@ -70,5 +70,15 @@ class Drag_drop_Model extends Model{
         $query = $this->db->query("SELECT id, title FROM tbl_question_drag_drop_target WHERE code_question = $code_question");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    function get_target_edit($code_question){
+        $query = $this->db->query("SELECT * FROM tbl_question_drag_drop_target WHERE code_question = $code_question");
+        return $query->fetchAll();
+    }
+
+    function get_answer_edit($code_question){
+        $query = $this->db->query("SELECT * FROM tbl_question_drag_drop_item WHERE code_question = $code_question");
+        return $query->fetchAll();
+    }
 }
 ?>

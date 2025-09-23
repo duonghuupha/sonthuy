@@ -9,7 +9,7 @@ $item = $this->jsonObj;
         <label for="form-field-username">Nhập câu trả lời <span style="color:red">(*)</span></label>
         <div>
             <input type="text" id="answer_sort_alphabet" name="answer_sort_alphabet" required="" placeholder="Câu trả lời"
-            style="text-transform:uppercase;width:100%" oninput="this.value = this.value.toUpperCase()"/>
+            style="text-transform:uppercase;width:100%" oninput="this.value = this.value.toUpperCase()" value="<?php echo $item[0]['answer'] ?>"/>
         </div>
     </div>
 </div>

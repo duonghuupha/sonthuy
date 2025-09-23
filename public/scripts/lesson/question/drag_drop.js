@@ -3,12 +3,12 @@ function add_target(){
     var index = Math.floor(Math.random() * 99999);
     $('#drag_drop_target').append(`
         <fieldset style="margin-top:10px;" id="fm_target_${index}">
-                <legend style="font-weight:normal;font-size:14px;margin-bottom:5px;">
-                    Ô đích
-                    <a href="javascript:void(0)" onclick="remove_drag_drop_target(${index})">
-                        <i class="ace-icon fa fa-trash"></i> 
-                    </a>
-                </legend>
+            <legend style="font-weight:normal;font-size:14px;margin-bottom:5px;">
+                Ô đích
+                <a href="javascript:void(0)" onclick="remove_drag_drop_target(${index})">
+                    <i class="ace-icon fa fa-trash"></i> 
+                </a>
+            </legend>
             <form id="target_${index}" method="post" enctype="multipart/form-data">
                 <input type="text" class="form-control" name="target_title_${index}" id="target_title_${index}" value="" 
                 placeholder="Nội dung" onchange="change_data(1, ${index}, 'target')" style="margin-bottom:7px;" required=""/>
