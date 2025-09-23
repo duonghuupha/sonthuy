@@ -77,7 +77,10 @@ class Drag_drop_Model extends Model{
     }
 
     function get_answer_edit($code_question){
-        $query = $this->db->query("SELECT * FROM tbl_question_drag_drop_item WHERE code_question = $code_question");
+        $query = $this->db->query("SELECT id, code, code_question, target_id, title, file, status, id_temp, 
+                                    (SELECT tbl_question_drag_drop_target.title FROM tbl_question_drag_drop_target
+                                    WHERE tbl_question_drag_drop_target.id = target_id) AS target_title
+                                    FROM tbl_question_drag_drop_item WHERE code_question = $code_question");
         return $query->fetchAll();
     }
 }
