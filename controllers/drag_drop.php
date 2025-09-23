@@ -35,10 +35,13 @@ class Drag_drop extends Controller{
             $data = array("code" => time(), "code_question" => $code_question, "title" => $title, "file" => $file, "status" => 0, "id_temp" => $id_temp);
             $temp = $this->model->addObj_target($data);
         }else{
-            $data = array("title" => $target_title, "file" => $file);
+            $data = array("title" => $title, "file" => $file);
             $temp = $this->model->updateObj_via_id_temp_target($id_temp, $data);
         }
         if($temp){
+            if($_FILES['file_target_'.$id_temp]['name'] != ''){
+                move_uploaded_file($_FILES['file_target_'.$id_temp]['tmp_name'], DIR_UPLOAD.'/lesson/'.$lesson_id.'/question/'.$file);
+            }
             $jsonObj['msg'] = "Thành công";
             $jsonObj['success'] = true;
             $this->view->jsonObj = json_encode($jsonObj);
@@ -62,6 +65,9 @@ class Drag_drop extends Controller{
             $temp = $this->model->updateObj_via_id_temp_answer($id_temp, $data);
         }
         if($temp){
+            if($_FILES['file_answer_'.$id_temp]['name'] != ''){
+                move_uploaded_file($_FILES['file_answer_'.$id_temp]['tmp_name'], DIR_UPLOAD.'/lesson/'.$lesson_id.'/question/'.$file);
+            }
             $jsonObj['msg'] = "Thành công";
             $jsonObj['success'] = true;
             $this->view->jsonObj = json_encode($jsonObj);
@@ -77,6 +83,50 @@ class Drag_drop extends Controller{
         $data = array("status" => 1, "id_temp" => 0);
         $temp = $this->_Data->updateobj_via_code_question_drag_drop($code, $data);
         return $temp;
+    }
+/********************************************************************************************************************************************************/
+    function update_target(){
+        $type = $_REQUEST['type']; $id_temp = $_REQUEST['id_temp']; $code_question = $_REQUEST['code_question']; $lesson_id = $_REQUEST['lesson_id']; $id = $_REQUEST['id'];
+        $title = addslashes($_REQUEST['target_title_'.$id]);
+        $file = (isset($_FILES['file_target_'.$id]['name']) && $_FILES['file_target_'.$id]['name'] != '') ? $this->_Convert->convert_file($_FILES['file_target_'.$id]['name'], 'target_'.rand(111111, 9999999)) : $_REQUEST['file_target_old_'.$id];
+        $data = array("title" => $title, "file" => $file);
+        $temp = $this->model->updateObj_target($id, $data);
+        if($temp){
+            if($_FILES['file_target_'.$id]['name'] != ''){
+                move_uploaded_file($_FILES['file_target_'.$id]['tmp_name'], DIR_UPLOAD.'/lesson/'.$lesson_id.'/question/'.$file);
+            }
+            $jsonObj['msg'] = "Thành công";
+            $jsonObj['success'] = true;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $jsonObj['msg'] = "Thêm dữ liệu không thành công";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }
+        $this->view->render("drag_drop/update_target");
+    }
+
+    function update_answer(){
+        $type = $_REQUEST['type']; $id_temp = $_REQUEST['id_temp']; $code_question = $_REQUEST['code_question']; $lesson_id = $_REQUEST['lesson_id']; $id = $_REQUEST['id'];
+        $title = addslashes($_REQUEST['answer_title_'.$id]); $target = $_REQUEST['target_'.$id];
+        $file = (isset($_FILES['file_answer_'.$id]['name']) && $_FILES['file_answer_'.$id]['name'] != '') ? $this->_Convert->convert_file($_FILES['file_answer_'.$id]['name'], 'answer_'.rand(111111, 9999999)) : $_REQUEST['file_answer_old_'.$id];
+        
+        $data = array("target_id" => $target, "title" => $title, "file" => $file);
+        $temp = $this->model->updateObj_answer($id, $data);
+ 
+        if($temp){
+            if($_FILES['file_answer_'.$id]['name'] != ''){
+                move_uploaded_file($_FILES['file_answer_'.$id]['tmp_name'], DIR_UPLOAD.'/lesson/'.$lesson_id.'/question/'.$file);
+            }
+            $jsonObj['msg'] = "Thành công";
+            $jsonObj['success'] = true;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $jsonObj['msg'] = "Thêm dữ liệu không thành công";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }
+        $this->view->render("drag_drop/update_answer");
     }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function combo_target(){

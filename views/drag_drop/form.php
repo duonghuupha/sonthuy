@@ -25,9 +25,12 @@
                     <form id="target_<?php echo $row_t['id'] ?>" method="post" enctype="multipart/form-data">
                         <input type="text" class="form-control" name="target_title_<?php echo $row_t['id'] ?>" 
                         id="target_title_<?php echo $row_t['id'] ?>" value="<?php echo $row_t['title'] ?>" 
-                        placeholder="Nội dung" onchange="change_data(1, <?php echo $row_t['id'] ?>, 'target')" style="margin-bottom:7px;" required=""/>
+                        placeholder="Nội dung" onchange="change_data(1, <?php echo $row_t['id_temp'] ?>, 'target', 1, <?php echo $row_t['id'] ?>)" style="margin-bottom:7px;" required=""/>
+
+                        <input id="file_target_old_<?php echo $row_t['id'] ?>" name="file_target_old_<?php echo $row_t['id'] ?>" type="hidden" value="<?php echo $row_t['file'] ?>"/>
+
                         <input type="file" class="file_attach" name="file_target_<?php echo $row_t['id'] ?>" id="file_target_<?php echo $row_t['id'] ?>" style="width:100%;" 
-                        onchange="change_data(2, <?php echo $row_t['id'] ?>, 'target')"/>
+                        onchange="change_data(2, <?php echo $row_t['id_temp'] ?>, 'target', 1, <?php echo $row_t['id'] ?>)"/>
                     </form>
                 </fieldset>
                 <?php
@@ -66,13 +69,17 @@
                         <form id="answer_<?php echo $row_i['id'] ?>" method="post" enctype="multipart/form-data">
                             <select class="select2" data-placeholder="Lựa chọn đích..." style="width:100%;" required="" 
                             id="target_combo_<?php echo $row_i['id'] ?>" name="target_<?php echo $row_i['id'] ?>" data-minimum-results-for-search="Infinity"
-                            onchange="change_data_answer(0, <?php echo $row_i['id'] ?>, 'answer')">
+                            onchange="change_data_answer(0, <?php echo $row_i['id_temp'] ?>, 'answer', 1, <?php echo $row_i['id'] ?>)">
                             </select>
+
                             <input type="text" class="form-control" name="answer_title_<?php echo $row_i['id'] ?>" id="answer_title_<?php echo $row_i['id'] ?>" 
-                            value="<?php echo $row_i['title'] ?>" required="" placeholder="Nội dung" onchange="change_data_answer(1, <?php echo $row_i['id'] ?>, 'answer')" 
+                            value="<?php echo $row_i['title'] ?>" required="" placeholder="Nội dung" onchange="change_data_answer(1, <?php echo $row_i['id_temp'] ?>, 'answer', 1, <?php echo $row_i['id'] ?>)" 
                             style="margin-bottom:7px;margin-top:7px;"/>
+
+                            <input id="file_answer_old_<?php echo $row_i['id'] ?>" name="file_answer_old_<?php echo $row_i['id'] ?>" type="hidden" value="<?php echo $row_i['file'] ?>"/>
+
                             <input type="file" class="file_attach" name="file_answer_<?php echo $row_i['id'] ?>" id="file_answer_<?php echo $row_i['id'] ?>" style="width:100%;" 
-                            onchange="change_data_answer(2, <?php echo $row_i['id'] ?>, 'answer')"/>
+                            onchange="change_data_answer(2, <?php echo $row_i['id_temp'] ?>, 'answer', 1, <?php echo $row_i['id'] ?>)"/>
                         </form>
                     </fieldset>
                 </div>

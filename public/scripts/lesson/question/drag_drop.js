@@ -39,13 +39,13 @@ function add_answer(){
                 </legend>
                 <form id="answer_${index}" method="post" enctype="multipart/form-data">
                     <select class="select2" data-placeholder="Lựa chọn đích..." style="width:100%;" required="" 
-                    id="target_${index}" name="target_${index}" data-minimum-results-for-search="Infinity"
-                    onchange="change_data_answer(0, ${index}, 'answer')">
+                    id="target_combo_${index}" name="target_${index}" data-minimum-results-for-search="Infinity"
+                    onchange="change_data_answer(0, ${index}, 'answer', 0, 0)">
                     </select>
                     <input type="text" class="form-control" name="answer_title_${index}" id="answer_title_${index}" value="" required=""
-                    placeholder="Nội dung" onchange="change_data_answer(1, ${index}, 'answer')" style="margin-bottom:7px;margin-top:7px;"/>
+                    placeholder="Nội dung" onchange="change_data_answer(1, ${index}, 'answer', 0, 0)" style="margin-bottom:7px;margin-top:7px;"/>
                     <input type="file" class="file_attach" name="file_answer_${index}" id="file_answer_${index}" style="width:100%;" 
-                    onchange="change_data_answer(2, ${index}, 'answer')"/>
+                    onchange="change_data_answer(2, ${index}, 'answer', 0, 0)"/>
                 </form>
             </fieldset>
         </div>
@@ -56,11 +56,11 @@ function add_answer(){
             btn_change:'Thay đổi',droppable:false,
             onchange:null,thumbnail:true
         });
-        combo_select_2('#target_'+index, baseUrl + '/drag_drop/combo_target?token='+localStorage.getItem('token')+'&code_question='+$('#code').val(), 0, '');
+        combo_select_2('#target_combo_'+index, baseUrl + '/drag_drop/combo_target?token='+localStorage.getItem('token')+'&code_question='+$('#code').val(), 0, '');
     }, 50);
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function change_data(type, id_temp, prefix){
+function change_data(type, id_temp, prefix, type_edit, idh){
     var required = $('#'+prefix+'_'+id_temp+' input, #'+prefix+'_'+id_temp+' textarea, #'+prefix+'_'+id_temp+' select').filter('[required]:visible');
     var allRequired = true;
     required.each(function(){
@@ -70,14 +70,17 @@ function change_data(type, id_temp, prefix){
     });
     if(allRequired){
         var lesson_id = getParameterByName('id'), code_question = $('#code').val();
-        save_inline_form('#'+prefix+'_'+id_temp, baseUrl + '/drag_drop/add_target?token='+localStorage.getItem('token')+'&type='+type+'&id_temp='+id_temp+'&code_question='+code_question+'&lesson_id='+atob(lesson_id));
+        if(type_edit == 0){
+            save_inline_form('#'+prefix+'_'+id_temp, baseUrl + '/drag_drop/add_target?token='+localStorage.getItem('token')+'&type='+type+'&id_temp='+id_temp+'&code_question='+code_question+'&lesson_id='+atob(lesson_id));
+        }else{
+            save_inline_form('#'+prefix+'_'+idh, baseUrl + '/drag_drop/update_target?token='+localStorage.getItem('token')+'&type='+type+'&id_temp='+id_temp+'&code_question='+code_question+'&lesson_id='+atob(lesson_id)+'&id='+idh);
+        }
     }else{
-        //show_message("error", "Chưa nhập đủ thông tin");
         return false;
     }
 }
 
-function change_data_answer(type, id_temp, prefix){
+function change_data_answer(type, id_temp, prefix, type_edit, idh){
     //console.log($('#target_'+id_temp).val());
     var required = $('#answer_'+id_temp+' input, #answer_'+id_temp+' textarea, #answer_'+id_temp+' select').filter('[required]:visible');
     var allRequired = true;
@@ -86,12 +89,22 @@ function change_data_answer(type, id_temp, prefix){
             allRequired = false;
         }
     });
-    if(allRequired && $('#target_'+id_temp).val() != null){
-        var lesson_id = getParameterByName('id'), code_question = $('#code').val();
-        save_inline_form('#'+prefix+'_'+id_temp, baseUrl + '/drag_drop/add_answer?token='+localStorage.getItem('token')+'&type='+type+'&id_temp='+id_temp+'&code_question='+code_question+'&lesson_id='+atob(lesson_id));
+    if(type_edit == 0){
+        if(allRequired && $('#target_combo_'+id_temp).val() != null){
+            var lesson_id = getParameterByName('id'), code_question = $('#code').val();
+            save_inline_form('#'+prefix+'_'+id_temp, baseUrl + '/drag_drop/add_answer?token='+localStorage.getItem('token')+'&type='+type+'&id_temp='+id_temp+'&code_question='+code_question+'&lesson_id='+atob(lesson_id));
+        }else{
+            //show_message("error", "Chưa nhập đủ thông tin");
+            return false;
+        }
     }else{
-        //show_message("error", "Chưa nhập đủ thông tin");
-        return false;
+        if(allRequired && $('#target_combo_'+idh).val() != null){
+            var lesson_id = getParameterByName('id'), code_question = $('#code').val();
+            save_inline_form('#'+prefix+'_'+idh, baseUrl + '/drag_drop/update_answer?token='+localStorage.getItem('token')+'&type='+type+'&id_temp='+id_temp+'&code_question='+code_question+'&lesson_id='+atob(lesson_id)+'&id='+idh);
+        }else{
+            //show_message("error", "Chưa nhập đủ thông tin");
+            return false;
+        }
     }
 }
 

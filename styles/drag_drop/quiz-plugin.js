@@ -33,47 +33,27 @@
 				`);
 
 				data.options.forEach((item, i) => {
-					const content = item.text
-						? item.text
-						: `<img src="${item.image}" alt="image" class="opt-img"/>`;
-					container.find('.drag-area').append(
-						`<div class="draggable" draggable="true" id="drag-${i}" data-match="${item.match}">${content}</div>`
-					);
+					var content;
+					if(item.image.length > 0){
+						content = `<img src="${baseUrl}/public/lesson/${item.lesson_id}/question/${item.image}" alt="image" class="opt-img"/>${item.text}`;
+					}else{
+						content = item.text;
+					}
+
+					container.find('.drag-area').append(`
+						<div class="draggable" draggable="true" id="drag-${i}" data-match="${item.match}">
+							${content}
+						</div>
+					`);
 				});
 
 				data.targets.forEach((target, i) => {
 					container.find('.drop-area').append(
-						`<div class="droppable" data-accept="${target.accept}">
-               ${target.text}
-               <div class="answer-wrap"></div>
-             </div>`
-					);
+					`
+						<div class="img_target"><img src="${baseUrl}/public/lesson/${target.lesson_id}/question/${target.file}" class="img_responsive" style="max-height:50px;"/></div>
+						<div class="droppable" data-accept="${target.accept}">${target.text}<div class="answer-wrap"></div></div>
+					`);
 				});
-				/*
-				container.find(".draggable").on("dragstart", function (e) {
-					e.originalEvent.dataTransfer.setData("text", $(this).attr("id"));
-				});
-
-				container.find(".droppable").on("dragover", function (e) {
-					e.preventDefault();
-				});
-
-				container.find(".droppable").on("drop", function (e) {
-					e.preventDefault();
-					const id = e.originalEvent.dataTransfer.getData("text");
-					const $el = $('#' + id);
-					const match = $el.data("match");
-
-					const clone = $el.clone();
-					clone.removeAttr("id").removeAttr("draggable").css({ cursor: "default" });
-					$el.remove();
-
-					const $target = $(this);
-					if (!$target.data("matches")) $target.data("matches", []);
-					$target.data("matches").push(match);
-
-					$target.find('.answer-wrap').append(clone);
-				});*/
 				if (!isMobile) {
 					// PC: dùng drag & drop như cũ
 					container.find(".draggable").on("dragstart", function (e) {
