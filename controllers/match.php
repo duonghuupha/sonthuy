@@ -28,7 +28,7 @@ class Match extends Controller{
     function add_item(){
         $type = $_REQUEST['type']; $id_temp = $_REQUEST['id_temp']; $code_question = $_REQUEST['code_question']; $lesson_id = $_REQUEST['lesson_id'];
         if($type == 1){ // answer_a
-            $answer = $_REQUEST['answer_left_'.$id_temp];
+            $answer = addslashes($_REQUEST['answer_left_'.$id_temp]);
             if($this->model->check_dupli_id_temp($id_temp) == 0){
                 $data = array("code" => time(), "code_question" => $code_question, "answer_a" => $answer, "file_a" => '', "answer_b" => '', "file_b" => '', 
                                 "status" => 0, "id_temp" => $id_temp);
@@ -58,7 +58,7 @@ class Match extends Controller{
                 }
             }
         }elseif($type == 3){ // answer_b
-            $answer = $_REQUEST['answer_right_'.$id_temp];
+            $answer = addslashes($_REQUEST['answer_right_'.$id_temp]);
             if($this->model->check_dupli_id_temp($id_temp) == 0){
                 $data = array("code" => time(), "code_question" => $code_question, "answer_a" => '', "file_a" => '', "answer_b" => $answer, "file_b" => '', 
                                 "status" => 0, "id_temp" => $id_temp);
@@ -104,7 +104,7 @@ class Match extends Controller{
         $type = $_REQUEST['type']; $id_temp = $_REQUEST['id_temp']; $code_question = $_REQUEST['code_question']; $lesson_id = $_REQUEST['lesson_id'];
         $id = $_REQUEST['id'];
         if($type == 1){ // answer_a
-            $answer = $_REQUEST['answer_left_'.$id];
+            $answer = addslashes($_REQUEST['answer_left_'.$id]);
             $data = array("answer_a" => $answer);
             $temp = $this->model->updateObj($id, $data);
         }elseif($type == 2){ // file_a
@@ -117,7 +117,7 @@ class Match extends Controller{
                 $temp = false;
             }
         }elseif($type == 3){ // answer_b
-            $answer = $_REQUEST['answer_right_'.$id];
+            $answer = addslashes($_REQUEST['answer_right_'.$id]);
             $data = array("answer_b" => $answer);
             $temp = $this->model->updateObj($id, $data);
         }else{ // file_b
@@ -131,12 +131,6 @@ class Match extends Controller{
             }
         }
         if($temp){
-            if(isset($_FILES['file_left_'.$id]['name']) && $_FILES['file_left_'.$id]['name'] != ''){
-                @unlink(DIR_UPLOAD.'/lesson/'.$lession_id.'/question/'.$_REQUEST['file_left_old_'.$id]);
-            } 
-            if(isset($_FILES['file_right_'.$id]['name']) && $_FILES['file_right_'.$id]['name'] != ''){
-                @unlink(DIR_UPLOAD.'/lesson/'.$lession_id.'/question/'.$_REQUEST['file_right_old_'.$id]);
-            }
             $jsonObj['msg'] = "Thành công";
             $jsonObj['success'] = true;
             $this->view->jsonObj = json_encode($jsonObj);
@@ -152,6 +146,24 @@ class Match extends Controller{
         $data = array("status" => 1, "id_temp" => 0);
         $temp = $this->_Data->updateObj_via_code_question_match($code, $data);
         return $temp;
+    }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    function cancel_match(){
+        $code = $_REQUEST['code_question'];
+        $list_id = $this->model->get_list_id_edit($code);
+        $this->model->delObj_cancel($code);
+        foreach($list_id as $row){
+            $title_a = addslashes($_REQUEST['answer_left_old'.$row['id']]);
+            $title_b = addslashes($_REQUEST['answer_right_old'.$row['id']]);
+            $file_a = $_REQUEST['file_left_old_'.$row['id']];
+            $file_b = $_REQUEST['file_right_old_'.$row['id']];
+            $data = array("answer_a" => $title_a, "file_a" => $file_a, "answer_b" => $title_b, "file_b" => $file_b);
+            $this->model->updateObj($row['id'], $data);
+        }
+        $jsonObj['msg'] = "Thành công";
+        $jsonObj['success'] = true;
+        $this->view->jsonObj = json_encode($jsonObj);
+        $this->view->render("match/cancel_match");
     }
 }
 ?>

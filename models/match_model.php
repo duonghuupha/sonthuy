@@ -46,5 +46,15 @@ class Match_Model extends Model{
         $query = $this->db->query("SELECT id, answer_a, answer_b, file_a, file_b, id_temp FROM tbl_question_match WHERE code_question = $code_question");
         return $query->fetchAll();
     }
+
+    function get_list_id_edit($code){
+        $query = $this->db->query("SELECT id FROM tbl_question_match WHERE code_question = $code");
+        return $query->fetchAll();
+    }
+
+    function delObj_cancel($code){
+        $query = $this->delete("tbl_question_match", "code_question = $code AND id_temp != 0");
+        return $query;
+    }
 }
 ?>

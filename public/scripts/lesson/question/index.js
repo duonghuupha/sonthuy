@@ -75,7 +75,7 @@ function update(){
     }else{
         var row = $('#list_lesson_question').jqGrid("getRowData", rowKey);
         $('#code').val(row.code); $('#title').val(row.title); $('#file_old').val(row.file);
-        $('#type_question').val(row.type_question).trigger('change'); set_load_form(row.type_question, row.id);
+        $('#type_question').val(row.type_question).trigger('change'); set_load_form(row.type_question, row.id, 1);
         $('#modal-lesson-question').modal('show');
         url = baseUrl + '/lesson_question/update?token='+localStorage.getItem('token')+"&id="+row.id;
     }
@@ -113,26 +113,26 @@ function save(){
     }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function set_load_form(val, idh = 0){
+function set_load_form(val, idh = 0, id_edit = 0){
     var code_question = $('#code').val();
     if(val == 1){ // true/false
         $('#form_type').load(baseUrl + '/true_false/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').removeAttr('onclick', 'cancel_match()').attr('data-dismiss', 'modal');
+        $('#close_modal').removeAttr('onclick', 'cancel_match('+id_edit+')').attr('data-dismiss', 'modal');
     }else if(val == 2){ // one_true
         $('#form_type').load(baseUrl + '/one_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').removeAttr('onclick', 'cancel_match()').attr('data-dismiss', 'modal');
+        $('#close_modal').removeAttr('onclick', 'cancel_match('+id_edit+')').attr('data-dismiss', 'modal');
     }else if(val == 3){ // multiple_true
         $('#form_type').load(baseUrl + '/multiple_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').removeAttr('onclick', 'cancel_match()').attr('data-dismiss', 'modal');
+        $('#close_modal').removeAttr('onclick', 'cancel_match('+id_edit+')').attr('data-dismiss', 'modal');
     }else if(val == 4){ // match
         $('#form_type').load(baseUrl + '/match/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').attr('onclick', 'cancel_match()').removeAttr('data-dismiss');
+        $('#close_modal').attr('onclick', 'cancel_match('+id_edit+')').removeAttr('data-dismiss');
     }else if(val == 5){ // drag and drop
         $('#form_type').load(baseUrl + '/drag_drop/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').attr('onclick', 'cancel_drag_drop()').removeAttr('data-dismiss');
+        $('#close_modal').attr('onclick', 'cancel_drag_drop('+id_edit+')').removeAttr('data-dismiss');
     }else if(val == 6){ // sort alphabet
         $('#form_type').load(baseUrl + '/sort_alphabet/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').removeAttr('onclick', 'cancel_match()').attr('data-dismiss', 'modal');
+        $('#close_modal').removeAttr('onclick', 'cancel_match('+id_edit+')').attr('data-dismiss', 'modal');
     }
 }
 
@@ -162,4 +162,35 @@ function view_question(idh, type){
     }
     $('#view_question').html(html);
 }
-  
+
+function cancel_match(id_edit){
+    var code = $('#code').val(), data_str = "token="+localStorage.getItem('token')+'&code_question='+code;
+    if(id_edit == 0){
+        $('#modal-lesson-question').modal('hide');
+    }else{
+        console.log('asdf');
+        $.ajax({
+            type: "POST",
+            url: baseUrl + '/match/cancel_match',
+            data: data_str, // serializes the form's elements.
+            success: function(data){
+                var result = JSON.parse(data);
+                if(result.success == true){
+                    $('#modal-lesson-question').modal('hide');
+                }else{
+                    show_message('error', result.msg);
+                    return false;
+                }
+            }
+        });
+    }
+}
+
+function cancel_drag_drop(id_edit){
+    var code = $('#code').val();
+    if(id_edit == 0){
+        $('#modal-lesson-question').modal('hide');
+    }else{
+        //$('#modal-lesson-question').modal('hide');
+    }
+}

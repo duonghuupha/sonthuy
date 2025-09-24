@@ -28,6 +28,7 @@
                         <form id="left_title_<?php echo $row['id'] ?>" method="post" enctype="multipart/form-data">
                             <input type="text" class="form-control" name="answer_left_<?php echo $row['id'] ?>" id="answer_left_<?php echo $row['id'] ?>" value="<?php echo $row['answer_a'] ?>" 
                             placeholder="Nội dung" onchange="change_data_match(1, <?php echo $row['id_temp'] ?>, 'left_title_', 1, <?php echo $row['id'] ?>)" style="margin-bottom:7px;"/>
+                            <input id="answer_left_old_<?php echo $row['id'] ?>" name="answer_left_old_<?php echo $row['id'] ?>" type="hidden" value="<?php echo $row['answer_a'] ?>"/>
                         </form>
                         <form id="left_file_<?php echo $row['id'] ?>">
                             <input id="file_left_old_<?php echo $row['id'] ?>" name="file_left_old_<?php echo $row['id'] ?>" type="hidden" value="<?php echo $row['file_a'] ?>"/>
@@ -39,6 +40,7 @@
                         <form id="right_title_<?php echo $row['id'] ?>" method="post" enctype="multipart/form-data">
                             <input type="text" class="form-control" name="answer_right_<?php echo $row['id'] ?>" id="answer_right_<?php echo $row['id'] ?>" value="<?php echo $row['answer_b'] ?>" 
                             placeholder="Nội dung" onchange="change_data_match(3, <?php echo $row['id_temp'] ?>, 'right_title_', 1, <?php echo $row['id'] ?>)" style="margin-bottom:7px;"/>
+                            <input id="answer_right_old_<?php echo $row['id'] ?>" name="answer_right_old_<?php echo $row['id'] ?>" type="hidden" value="<?php echo $row['answer_b'] ?>"/>
                         </form>
                         <form id="right_file_<?php echo $row['id'] ?>">
                             <input id="file_right_old_<?php echo $row['id'] ?>" name="file_right_old_<?php echo $row['id'] ?>" type="hidden" value="<?php echo $row['file_b'] ?>"/>
