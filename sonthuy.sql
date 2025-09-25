@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 25, 2025 at 12:14 PM
+-- Generation Time: Sep 25, 2025 at 10:22 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -81,16 +81,17 @@ CREATE TABLE `tbl_lesson` (
 --
 
 INSERT INTO `tbl_lesson` (`id`, `code`, `cate_id`, `title`, `content`, `status`, `create_at`) VALUES
-(2, 12069348, 3, 'Unit 1: Hello', 'Unit 1 - Hello: Làm quen với tiếng anh', 1, '2025-08-01 00:59:12');
+(2, 12069348, 3, 'Unit 1: Hello', 'Unit 1 - Hello: Làm quen với tiếng anh', 1, '2025-08-01 00:59:12'),
+(7, 713188288, 3, 'asdf', 'asdf', 1, '2025-09-26 01:59:35');
 
 --
 -- Triggers `tbl_lesson`
 --
 DELIMITER $$
 CREATE TRIGGER `del_lesson_extra_after_del_lesson` AFTER DELETE ON `tbl_lesson` FOR EACH ROW BEGIN
-DELETE FROM tbl_lesson_dc WHERE code_lesson = old.code;
-DELETE FROM tbl_lesson_media WHERE code_lesson = old.code;
-DELETE FROM tbl_lesson_card WHERE code_lesson = old.code;
+DELETE FROM tbl_lesson_dc WHERE lesson_id = old.id;
+DELETE FROM tbl_lesson_media WHERE lesson_id = old.id;
+DELETE FROM tbl_lesson_card WHERE lesson_id = old.id;
 END
 $$
 DELIMITER ;
@@ -239,7 +240,8 @@ INSERT INTO `tbl_lesson_question` (`id`, `code`, `source_edu`, `lesson_id`, `typ
 (4, 325750605, 1, 2, 3, 'Em hãy lựa chọn các con vật biết bay nhé!', '1758388367_325750605.jpg', 1, '2025-09-21 00:12:47', 0, 0, 0),
 (5, 310556130, 1, 2, 4, 'Em hãy nối đáp án của cột A với đáp án của cột B', '', 1, '2025-09-25 16:07:53', 0, 0, 0),
 (6, 890901372, 1, 2, 5, 'Kéo thả đáp án vào đúng ô nhé', '', 1, '2025-09-21 20:22:26', 0, 0, 0),
-(7, 345711435, 1, 2, 6, 'Sắp xếp các chữ sau thành một từ có nghĩa', '', 1, '2025-09-21 20:25:46', 0, 0, 0);
+(7, 345711435, 1, 2, 6, 'Sắp xếp các chữ sau thành một từ có nghĩa', '', 1, '2025-09-21 20:25:46', 0, 0, 0),
+(19, 491149882, 1, 2, 5, 'fsdgsdfg', '', 1, '2025-09-26 00:49:56', 0, 0, 0);
 
 --
 -- Triggers `tbl_lesson_question`
@@ -282,7 +284,11 @@ INSERT INTO `tbl_question_drag_drop_item` (`id`, `code`, `code_question`, `targe
 (1, 1758460915, 890901372, 3, 'a', '', 1, 0),
 (2, 1758460920, 890901372, 3, 'b', '', 1, 0),
 (3, 1758460927, 890901372, 4, 'c', '', 1, 0),
-(4, 1758460930, 890901372, 4, 'd', '', 1, 0);
+(4, 1758460930, 890901372, 4, 'd', '', 1, 0),
+(23, 1758822596, 491149882, 79147, 'a', '1758822585_answer_1115.png', 1, 0),
+(24, 1758822596, 491149882, 79147, 'b', '1758822588_answer_6735.png', 1, 0),
+(25, 1758822596, 491149882, 72439, 'c', '1758822591_answer_6115.jpg', 1, 0),
+(26, 1758822596, 491149882, 72439, 'd', '1758822593_answer_7652.jpg', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -306,13 +312,15 @@ CREATE TABLE `tbl_question_drag_drop_target` (
 
 INSERT INTO `tbl_question_drag_drop_target` (`id`, `code`, `code_question`, `title`, `file`, `status`, `id_temp`) VALUES
 (3, 1758460889, 890901372, '1', '', 1, 0),
-(4, 1758460893, 890901372, '2', '', 1, 0);
+(4, 1758460893, 890901372, '2', '', 1, 0),
+(25, 1758822596, 491149882, '1', '1758822580_target_1614.jpg', 1, 79147),
+(26, 1758822596, 491149882, '2', '1758822583_target_9348.webp', 1, 72439);
 
 --
 -- Triggers `tbl_question_drag_drop_target`
 --
 DELIMITER $$
-CREATE TRIGGER `update_status_answer_drag_drop_after_update_drag_drop` AFTER DELETE ON `tbl_question_drag_drop_target` FOR EACH ROW DELETE FROM tbl_question_drag_drop_item WHERE target_id = old.id
+CREATE TRIGGER `update_status_answer_drag_drop_after_update_drag_drop` AFTER DELETE ON `tbl_question_drag_drop_target` FOR EACH ROW DELETE FROM tbl_question_drag_drop_item WHERE target_id = old.id_temp
 $$
 DELIMITER ;
 
@@ -649,7 +657,7 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-25 08:18:22', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', '771f3471054039182003412b27491e6abbdbce8c', 1, 1, '2025-07-22 19:37:03');
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-26 02:01:58', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', 'a09c30f53ff82cb040cc3366fa9be5078a9bcf57', 1, 1, '2025-07-22 19:37:03');
 
 -- --------------------------------------------------------
 
@@ -842,7 +850,7 @@ ALTER TABLE `tbl_group_role`
 -- AUTO_INCREMENT for table `tbl_lesson`
 --
 ALTER TABLE `tbl_lesson`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_lesson_card`
@@ -860,7 +868,7 @@ ALTER TABLE `tbl_lesson_cate`
 -- AUTO_INCREMENT for table `tbl_lesson_dc`
 --
 ALTER TABLE `tbl_lesson_dc`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `tbl_lesson_media`
@@ -872,19 +880,19 @@ ALTER TABLE `tbl_lesson_media`
 -- AUTO_INCREMENT for table `tbl_lesson_question`
 --
 ALTER TABLE `tbl_lesson_question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_drag_drop_item`
 --
 ALTER TABLE `tbl_question_drag_drop_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_drag_drop_target`
 --
 ALTER TABLE `tbl_question_drag_drop_target`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_match`
