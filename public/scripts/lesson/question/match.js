@@ -1,34 +1,38 @@
 function add_match_answer(){
     var index = Math.floor(Math.random() * 9999);
-    $('#table_match_tbody').append(`
-        <tr id="row_${index}">
-            <td style="width:45%;height:100px">
-                <form id="left_title_${index}" method="post" enctype="multipart/form-data">
-                    <input type="text" class="form-control" name="answer_left_${index}" id="answer_left_${index}" value="" placeholder="Nội dung" 
-                    onchange="change_data_match(1, ${index}, 'left_title_', 0, 0)" style="margin-bottom:7px;"/>
-                </form>
-                <form id="left_file_${index}">
-                    <input type="file" class="file_attach" name="file_left_${index}" id="file_left_${index}" style="width:100%;" 
-                    onchange="change_data_match(2, ${index}, 'left_file_', 0, 0)"/>
-                </form>
+    var str = {'id': index, 'answer_a': '', 'file_a': '', 'answer_b': '', 'file_b': '', 'file_a_old': '', 'file_b_old': ''};
+    myData_match.push(str);
+    render_data_match();
+}
+
+function render_data_match(){
+    var html = ''; $('#table_match_tbody').empty();
+    for(i in myData_match){
+        html += `
+            <tr id="row_${myData_match[i].id}">
+                <td style="width:45%;height:100px">
+                    <input type="text" class="form-control" name="answer_left_${myData_match[i].id}" id="answer_left_${myData_match[i].id}" value="" placeholder="Nội dung" 
+                    onchange="change_data_match(1, ${myData_match[i].id})" style="margin-bottom:7px;"/>
+
+                    <input type="file" class="file_attach" name="file_left_${myData_match[i].id}" id="file_left_${myData_match[i].id}" style="width:100%;" 
+                    onchange="change_data_match(2, ${myData_match[i].id})"/>
                 </td>
-            <td style="width:45%">
-                <form id="right_title_${index}" method="post" enctype="multipart/form-data">
-                    <input type="text" class="form-control" name="answer_right_${index}" id="answer_right_${index}" value="" 
-                    placeholder="Nội dung" onchange="change_data_match(3, ${index}, 'right_title_', 0, 0)" style="margin-bottom:7px;"/>
-                </form>
-                <form id="right_file_${index}">
-                    <input type="file" class="file_attach" name="file_right_${index}" id="file_right_${index}" style="width:100%;" 
-                    onchange="change_data_match(4, ${index}, 'right_file_', 0, 0)"/>
-                </form>
+                <td style="width:45%">
+                    <input type="text" class="form-control" name="answer_right_${myData_match[i].id}" id="answer_right_${myData_match[i].id}" value="" 
+                    placeholder="Nội dung" onchange="change_data_match(3, ${myData_match[i].id})" style="margin-bottom:7px;"/>
+
+                    <input type="file" class="file_attach" name="file_right_${myData_match[i].id}" id="file_right_${myData_match[i].id}" style="width:100%;" 
+                    onchange="change_data_match(4, ${myData_match[i].id})"/>
                 </td>
-            <td style="width:5%;text-align:center">
-                <a href="javascript:void(0)" onclick="remove_match_answer(${index})" title="Xóa" style="color:red">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
+                <td style="width:5%;text-align:center">
+                    <a href="javascript:void(0)" onclick="remove_match_answer(${myData_match[i].id})" title="Xóa" style="color:red">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
                     </a>
-            </td>
-        </tr>
-    `);
+                </td>
+            </tr>
+        `;
+    }
+    $('#table_match_tbody').html(html);
     setTimeout(() => {
         $('.file_attach').ace_file_input({
             no_file:'Không có file ...',btn_choose:'Lựa chọn',
@@ -38,57 +42,47 @@ function add_match_answer(){
     }, 50);
 }
 
-function change_data_match(type, idh_temp, id_form, edit_id, idh){
-    var lesson_id = getParameterByName('id'), code_question = $('#code').val();
-    if(edit_id == 0){
-        save_inline_form('#'+id_form+idh_temp, baseUrl + '/match/add_item?token='+localStorage.getItem('token')+'&type='+type+'&id_temp='+idh_temp+'&code_question='+code_question+'&lesson_id='+atob(lesson_id));
-    }else{
-        save_inline_form('#'+id_form+idh, baseUrl + '/match/update_item?token='+localStorage.getItem('token')+'&type='+type+'&id_temp='+idh_temp+'&code_question='+code_question+'&lesson_id='+atob(lesson_id)+'&id='+idh);
+function change_data_match(type, idh_temp){
+    var objIndex = myData_match.findIndex(item => item.id == idh_temp);
+    if(type == 1){ // title a
+        myData_match[objIndex].answer_a = $('#answer_left_'+idh_temp).val();
+    }else if(type == 2){ // file a
+        var file = $('#file_left_'+idh_temp)[0].files[0]; var formData = new FormData();
+        formData.append('file', file);
+        $.ajax({
+            url: baseUrl + '/match/upload_file?token='+localStorage.getItem('token'),
+            type: 'POST', data: formData, contentType: false, processData: false,
+            success: function(data) {
+                var result = JSON.parse(data);
+                if(result.success){
+                    myData_match[objIndex].file_a = result.file;
+                }else{
+                    show_message("error", "Tải file không thành công");
+                    return;
+                }
+            }
+        });
+    }else if(type == 3){ // title b
+        myData_match[objIndex].answer_b = $('#answer_right_'+idh_temp).val();
+    }else{ // file b
+        var file = $('#file_right_'+idh_temp)[0].files[0]; var formData = new FormData();
+        formData.append('file', file);
+        $.ajax({
+            url: baseUrl + '/match/upload_file?token='+localStorage.getItem('token'),
+            type: 'POST', data: formData, contentType: false, processData: false,
+            success: function(data) {
+                var result = JSON.parse(data);
+                if(result.success){
+                    myData_match[objIndex].file_b = result.file;
+                }else{
+                    show_message("error", "Tải file không thành công");
+                    return;
+                }
+            }
+        });
     }
 }
 
 function remove_match_answer(idh){
     $('#row_'+idh).remove();
-}
-
-function cancel_match(){
-    $('#code').val();
-    $('#')
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function upload_file_match(id_form, post_url){
-    var xhr = new XMLHttpRequest();
-    var formData = new FormData($(id_form)[0]);
-    $('.overlay').show();
-    $.ajax({
-        url: post_url,  //server script to process data
-        type: 'POST',
-        xhr: function() {
-            return xhr;
-        },
-        data: formData,
-        success: function(data){
-            var result = JSON.parse(data);
-            if(result.success == true){
-                $('.overlay').hide();
-                show_message('success', result.msg);
-            }else{
-                $('.overlay').hide();
-                show_message('error', result.msg);
-                return false;
-            }
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-    });
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function getParameterByName(name, url = window.location.href) {
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }

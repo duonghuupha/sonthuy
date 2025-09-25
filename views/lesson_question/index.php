@@ -79,6 +79,7 @@
                     <form id="fm" method="POST" enctype="multipart/form-data">
                         <input id="lesson_id" name="lesson_id" type="hidden" value="<?php echo base64_decode($_REQUEST['id']) ?>"/>
                         <input id="file_old" name="file_old" type="hidden"/>
+                        <input id="data_match" name="data_match" type="hidden"/>
                         <div class="col-xs-4">
                             <div class="col-xs-12">
                                 <div class="form-group">
@@ -132,11 +133,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-sm btn-danger pull-left" id="close_modal" data-dismiss="modal">
+                <button class="btn btn-sm btn-danger pull-left" id="close_modal" data-dismiss="modal" type="button">
                     <i class="ace-icon fa fa-times"></i>
                     Đóng
                 </button>
-                <button class="btn btn-sm btn-primary pull-right" id="save_modal" onclick="save()">
+                <button class="btn btn-sm btn-primary pull-right" id="save_modal" onclick="save()" type="button">
                     <i class="ace-icon fa fa-save"></i>
                     Ghi dữ liệu
                 </button>

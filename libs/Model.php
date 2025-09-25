@@ -83,8 +83,8 @@ class Model {
         return $query;
     }
 /////////////////////////// Dang cau hoi noi /////////////////////////////////////////////////////////////////////////////////////
-    function updateObj_via_code_question_match($code, $data){
-        $query = $this->update("tbl_question_match", $data, "code_question = $code");
+    function addObj_match($data){
+        $query = $this->insert("tbl_question_match", $data);
         return $query;
     }
 /////////////////////////////////Dang cau hoi keo tha//////////////////////////////////////////////////////////////////////////////

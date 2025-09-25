@@ -1,4 +1,5 @@
-var url, lesson_id, myData_match = [], myData_drag_drop = []; let groupCount = 0; let itemCount = 0;
+var url, lesson_id;
+let myData_match = [], myData_drag_drop = [];
 $(function(){
     lesson_id = getParameterByName('id'); $('#view_question').empty();
     var gwdth = $('#list_lesson_question').width(), fwdth = $('.full').width();
@@ -100,14 +101,31 @@ function change(status, idh){
 
 function save(){
     var required = $('#fm input, #fm textarea, #fm select').filter('[required]:visible');
-    var allRequired = true;
+    var allRequired = true, required_all = true;
     required.each(function(){
         if($(this).val() == ''){
             allRequired = false;
         }
     });
     if(allRequired){
-        save_form_modal('#fm', url, '#modal-lesson-question', '#list_lesson_question',  baseUrl+'/lesson_question/json?token='+localStorage.getItem('token'));
+        if($('#type_question').val() == 4){
+            if(myData_match.length == 0){
+                required_all = false;
+            }else{
+                for(i in myData_match){
+                    if((myData_match[i].answer_a.length == 0 || myData_match[i].file_a.length == 0)
+                    && (myData_match[i].answer_b.length == 0 || myData_match[i].file_b.length == 0)){
+                        required_all = false;
+                    }
+                }
+            }
+        }
+        if(required_all){
+            $('#data_match').val(JSON.stringify(myData_match));
+            save_form_modal('#fm', url, '#modal-lesson-question', '#list_lesson_question',  baseUrl+'/lesson_question/json?token='+localStorage.getItem('token'));
+        }else{
+            show_message("error", "Chưa điền đủ thông tin");
+        }
     }else{
         show_message("error", "Chưa điền đủ thông tin");
     }
@@ -117,22 +135,22 @@ function set_load_form(val, idh = 0, id_edit = 0){
     var code_question = $('#code').val();
     if(val == 1){ // true/false
         $('#form_type').load(baseUrl + '/true_false/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').removeAttr('onclick', 'cancel_match('+id_edit+')').attr('data-dismiss', 'modal');
+        $('#close_modal').removeAttr('onclick').attr('data-dismiss', 'modal');
     }else if(val == 2){ // one_true
         $('#form_type').load(baseUrl + '/one_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').removeAttr('onclick', 'cancel_match('+id_edit+')').attr('data-dismiss', 'modal');
+        $('#close_modal').removeAttr('onclick').attr('data-dismiss', 'modal');
     }else if(val == 3){ // multiple_true
         $('#form_type').load(baseUrl + '/multiple_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').removeAttr('onclick', 'cancel_match('+id_edit+')').attr('data-dismiss', 'modal');
+        $('#close_modal').removeAttr('onclick').attr('data-dismiss', 'modal');
     }else if(val == 4){ // match
         $('#form_type').load(baseUrl + '/match/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').attr('onclick', 'cancel_match('+id_edit+')').removeAttr('data-dismiss');
+        $('#close_modal').attr('onclick', 'match_cancel('+id_edit+')').removeAttr('data-dismiss');
     }else if(val == 5){ // drag and drop
         $('#form_type').load(baseUrl + '/drag_drop/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
         $('#close_modal').attr('onclick', 'cancel_drag_drop('+id_edit+')').removeAttr('data-dismiss');
     }else if(val == 6){ // sort alphabet
         $('#form_type').load(baseUrl + '/sort_alphabet/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').removeAttr('onclick', 'cancel_match('+id_edit+')').attr('data-dismiss', 'modal');
+        $('#close_modal').removeAttr('onclick').attr('data-dismiss', 'modal');
     }
 }
 
@@ -163,16 +181,15 @@ function view_question(idh, type){
     $('#view_question').html(html);
 }
 
-function cancel_match(id_edit){
-    var code = $('#code').val(), data_str = "token="+localStorage.getItem('token')+'&code_question='+code;
+function match_cancel(id_edit){
+    var code = $('#code').val();
     if(id_edit == 0){
         $('#modal-lesson-question').modal('hide');
     }else{
-        console.log('asdf');
         $.ajax({
             type: "POST",
             url: baseUrl + '/match/cancel_match',
-            data: data_str, // serializes the form's elements.
+            data: "token="+localStorage.getItem('token')+'&code_question='+code, // serializes the form's elements.
             success: function(data){
                 var result = JSON.parse(data);
                 if(result.success == true){

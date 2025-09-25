@@ -33,6 +33,7 @@ class Lesson_question extends Controller{
         $code = $_REQUEST['code']; $lesson_id = $_REQUEST['lesson_id']; $type_question = $_REQUEST['type_question'];
         $title = addslashes($_REQUEST['title']); $status = 1; $create_at = date("Y-m-d H:i:s");
         $file = (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') ? $this->_Convert->convert_file($_FILES['file']['name'], $code) : '';
+        $data_match = json_decode($_REQUEST['data_match'], true);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         if($this->model->dupliObj(0, $code) > 0){
             $jsonObj['msg'] = "Mã câu hỏi đã tồn tại";
@@ -49,7 +50,7 @@ class Lesson_question extends Controller{
                         mkdir($dir_temp);
                     }
                     if(move_uploaded_file($_FILES['file']['tmp_name'], $dir_temp.'/'.$file)){
-                        if($this->add_update_detail_question($type_question, $lesson_id, 0, $code)){
+                        if($this->add_update_detail_question($type_question, $lesson_id, 0, $code, $data_match)){
                             $jsonObj['msg'] = "Ghi dữ liệu thành công";
                             $jsonObj['success'] = true;
                             $this->view->jsonObj = json_encode($jsonObj);
@@ -65,7 +66,7 @@ class Lesson_question extends Controller{
                         $this->view->jsonObj = json_encode($jsonObj);
                     }
                 }else{// khong co file dinh kem cua cau hoi
-                    if($this->add_update_detail_question($type_question, $lesson_id, 0, $code)){
+                    if($this->add_update_detail_question($type_question, $lesson_id, 0, $code, $data_match)){
                         $jsonObj['msg'] = "Ghi dữ liệu thành công";
                         $jsonObj['success'] = true;
                         $this->view->jsonObj = json_encode($jsonObj);
@@ -88,6 +89,7 @@ class Lesson_question extends Controller{
         $code = $_REQUEST['code']; $lesson_id = $_REQUEST['lesson_id']; $type_question = $_REQUEST['type_question'];
         $title = addslashes($_REQUEST['title']); $status = 1; $create_at = date("Y-m-d H:i:s"); $id = $_REQUEST['id'];
         $file = (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') ? $this->_Convert->convert_file($_FILES['file']['name'], $code) : $_REQUEST['file_old'];
+        $data_match = json_decode($_REQUEST['data_match'], true);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         if($this->model->dupliObj($id, $code) > 0){
             $jsonObj['msg'] = "Mã câu hỏi đã tồn tại";
@@ -103,7 +105,7 @@ class Lesson_question extends Controller{
                         mkdir($dir_temp);
                     }
                     if(move_uploaded_file($_FILES['file']['tmp_name'], $dir_temp.'/'.$file)){
-                        if($this->add_update_detail_question($type_question, $lesson_id, $id, $code)){
+                        if($this->add_update_detail_question($type_question, $lesson_id, $id, $code, $data_match)){
                             if(file_exists(DIR_UPLOAD."/lesson/".$lesson_id.'/question/'.$_REQUEST['file_old'])){
                                 @unlink(DIR_UPLOAD."/lesson/".$lesson_id.'/question/'.$_REQUEST['file_old']);
                             }
@@ -121,7 +123,7 @@ class Lesson_question extends Controller{
                         $this->view->jsonObj = json_encode($jsonObj);
                     }
                 }else{
-                    if($this->add_update_detail_question($type_question, $lesson_id, $id, $code)){
+                    if($this->add_update_detail_question($type_question, $lesson_id, $id, $code, $data_match)){
                         $jsonObj['msg'] = "Ghi dữ liệu thành công";
                         $jsonObj['success'] = true;
                         $this->view->jsonObj = json_encode($jsonObj);
@@ -175,7 +177,7 @@ class Lesson_question extends Controller{
         $this->view->render("lesson_question/change");
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function add_update_detail_question($type, $lesson_id, $id, $code){
+    function add_update_detail_question($type, $lesson_id, $id, $code, $data_match){
         $trueFalseCtrl = new True_false(); $oneTrueCtrl = new One_true(); $multipleTrueCtrl = new Multiple_true();
         $matchCtrl = new Match(); $sortCtrl = new Sort_alphabet(); $dragdropCtrl = new Drag_drop();
         if($type == 1){// dang cau hoi dung sai
@@ -185,7 +187,7 @@ class Lesson_question extends Controller{
         }elseif($type == 3){ // dang cau hoi co nhieu dap an dung
             return $multipleTrueCtrl->action_question($id, $lesson_id, $code);
         }elseif($type == 4){ // dang cau hoi noi
-            return $matchCtrl->action_question($id, $lesson_id, $code);
+            return $matchCtrl->action_question($id, $lesson_id, $code, $data_match);
         }elseif($type == 5){
             return $dragdropCtrl->action_question($id, $lesson_id, $code);
         }else{ // dang cau hoi sawp xep chu cai
