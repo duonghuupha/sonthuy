@@ -108,13 +108,14 @@ function save(){
         }
     });
     if(allRequired){
+        console.log(myData_match);
         if($('#type_question').val() == 4){
             if(myData_match.length == 0){
                 required_all = false;
             }else{
                 for(i in myData_match){
-                    if((myData_match[i].answer_a.length == 0 || myData_match[i].file_a.length == 0)
-                    && (myData_match[i].answer_b.length == 0 || myData_match[i].file_b.length == 0)){
+                    if(myData_match[i].answer_a.length == 0 && myData_match[i].file_a.length == 0
+                    && myData_match[i].answer_b.length == 0 && myData_match[i].file_b.length == 0){
                         required_all = false;
                     }
                 }
@@ -124,7 +125,7 @@ function save(){
             $('#data_match').val(JSON.stringify(myData_match));
             save_form_modal('#fm', url, '#modal-lesson-question', '#list_lesson_question',  baseUrl+'/lesson_question/json?token='+localStorage.getItem('token'));
         }else{
-            show_message("error", "Chưa điền đủ thông tin");
+            show_message("error", "Chưa điền đủ thông tin 1");
         }
     }else{
         show_message("error", "Chưa điền đủ thông tin");
@@ -135,22 +136,26 @@ function set_load_form(val, idh = 0, id_edit = 0){
     var code_question = $('#code').val();
     if(val == 1){ // true/false
         $('#form_type').load(baseUrl + '/true_false/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').removeAttr('onclick').attr('data-dismiss', 'modal');
     }else if(val == 2){ // one_true
         $('#form_type').load(baseUrl + '/one_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').removeAttr('onclick').attr('data-dismiss', 'modal');
     }else if(val == 3){ // multiple_true
         $('#form_type').load(baseUrl + '/multiple_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').removeAttr('onclick').attr('data-dismiss', 'modal');
     }else if(val == 4){ // match
         $('#form_type').load(baseUrl + '/match/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').attr('onclick', 'match_cancel('+id_edit+')').removeAttr('data-dismiss');
+        if(id_edit == 1){
+            var data_str = getRemote(baseUrl + '/match/json_edit?token='+localStorage.getItem('token')+'&code='+code_question);
+            //console.log(data_str);
+            myData_match = (data_str.length != 0) ? JSON.parse(data_str) : [];
+            setTimeout(() => {
+                render_data_match_edit();
+            }, 50);
+        }else{
+            myData_match = [];
+        }
     }else if(val == 5){ // drag and drop
         $('#form_type').load(baseUrl + '/drag_drop/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').attr('onclick', 'cancel_drag_drop('+id_edit+')').removeAttr('data-dismiss');
     }else if(val == 6){ // sort alphabet
         $('#form_type').load(baseUrl + '/sort_alphabet/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        $('#close_modal').removeAttr('onclick').attr('data-dismiss', 'modal');
     }
 }
 
@@ -180,34 +185,48 @@ function view_question(idh, type){
     }
     $('#view_question').html(html);
 }
-
-function match_cancel(id_edit){
-    var code = $('#code').val();
-    if(id_edit == 0){
-        $('#modal-lesson-question').modal('hide');
-    }else{
-        $.ajax({
-            type: "POST",
-            url: baseUrl + '/match/cancel_match',
-            data: "token="+localStorage.getItem('token')+'&code_question='+code, // serializes the form's elements.
-            success: function(data){
-                var result = JSON.parse(data);
-                if(result.success == true){
-                    $('#modal-lesson-question').modal('hide');
-                }else{
-                    show_message('error', result.msg);
-                    return false;
-                }
-            }
-        });
-    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function getRemote(remote_url){
+    return $.ajax({
+        type: 'GET',
+        url: remote_url,
+        async: false
+    }).responseText;
 }
 
-function cancel_drag_drop(id_edit){
-    var code = $('#code').val();
-    if(id_edit == 0){
-        $('#modal-lesson-question').modal('hide');
-    }else{
-        //$('#modal-lesson-question').modal('hide');
+function render_data_match_edit(){
+    var html = ''; $('#table_match_tbody').empty();
+    for(i in myData_match){
+        html += `
+            <tr id="row_${myData_match[i].id}">
+                <td style="width:45%;height:100px">
+                    <input type="text" class="form-control" name="answer_left_${myData_match[i].id}" id="answer_left_${myData_match[i].id}" value="${myData_match[i].answer_a}" 
+                    placeholder="Nội dung" onchange="change_data_match(1, ${myData_match[i].id})" style="margin-bottom:7px;"/>
+
+                    <input type="file" class="file_attach" name="file_left_${myData_match[i].id}" id="file_left_${myData_match[i].id}" style="width:100%;" 
+                    onchange="change_data_match(2, ${myData_match[i].id})"/>
+                </td>
+                <td style="width:45%">
+                    <input type="text" class="form-control" name="answer_right_${myData_match[i].id}" id="answer_right_${myData_match[i].id}" value="${myData_match[i].answer_b}" 
+                    placeholder="Nội dung" onchange="change_data_match(3, ${myData_match[i].id})" style="margin-bottom:7px;"/>
+
+                    <input type="file" class="file_attach" name="file_right_${myData_match[i].id}" id="file_right_${myData_match[i].id}" style="width:100%;" 
+                    onchange="change_data_match(4, ${myData_match[i].id})"/>
+                </td>
+                <td style="width:5%;text-align:center">
+                    <a href="javascript:void(0)" onclick="remove_match_answer(${myData_match[i].id})" title="Xóa" style="color:red">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        `;
     }
+    $('#table_match_tbody').html(html);
+    setTimeout(() => {
+        $('.file_attach').ace_file_input({
+            no_file:'Không có file ...',btn_choose:'Lựa chọn',
+            btn_change:'Thay đổi',droppable:false,
+            onchange:null,thumbnail:true
+        });
+    }, 50);
 }

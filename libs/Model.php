@@ -87,6 +87,11 @@ class Model {
         $query = $this->insert("tbl_question_match", $data);
         return $query;
     }
+
+    function delObj_match($code){
+        $query = $this->delete("tbl_question_match", "code_question = $code");
+        return $query;
+    }
 /////////////////////////////////Dang cau hoi keo tha//////////////////////////////////////////////////////////////////////////////
     function updateobj_via_code_question_drag_drop($code, $data){
         $query = $this->update("tbl_question_drag_drop_target", $data, "code_question = $code");

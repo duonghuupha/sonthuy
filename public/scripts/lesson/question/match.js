@@ -81,6 +81,7 @@ function change_data_match(type, idh_temp){
             }
         });
     }
+    console.log(myData_match);
 }
 
 function remove_match_answer(idh){
