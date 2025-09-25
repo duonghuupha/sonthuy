@@ -12,7 +12,7 @@
         ?>
         <div class="item">
             <a href="javascript:void(0)" onclick="play_media(1, <?php echo $_REQUEST['id'] ?>, '<?php echo $row['file'] ?>')">
-                <i class="fa fa-youtube-play"></i>
+                <i class="fa-solid fa-play"></i>
                 <?php echo $row['order_media'] ?>
             </a>
         </div>
@@ -21,7 +21,7 @@
         ?>
         <div class="item">
             <a href="javascript:void(0)" onclick="play_media(2, <?php echo $_REQUEST['id'] ?>, '<?php echo $row['file'] ?>')">
-                <i class="fa fa-music"></i>
+                <i class="fa-solid fa-music"></i>
                 <?php echo $row['order_media'] ?>
             </a>
         </div>

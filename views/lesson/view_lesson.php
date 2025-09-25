@@ -9,10 +9,6 @@
         <i class="ace-icon fa fa-cc-mastercard bigger-160"></i>
         Flash Card
     </button>
-    <button class="btn btn-info btn-block" type="button" onclick="view_question(<?php echo $this->lesson_id ?>)">
-        <i class="ace-icon fa fa-question bigger-160"></i>
-        Question
-    </button>
 </div>
 <div class="col-xs-10" style="display:flex;justify-content: center">
     <div class="fotorama" data-nav="thumbs" data-width="800" data-allowfullscreen="true">

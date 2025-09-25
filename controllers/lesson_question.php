@@ -48,7 +48,7 @@ class Lesson_question extends Controller{
                 if($file != ''){ // tai file dinh kem cua cau hoi
                     $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
                     if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                        mkdir($dir_temp);
+                        mkdir($dir_temp, 0777, true);
                     }
                     if(move_uploaded_file($_FILES['file']['tmp_name'], $dir_temp.'/'.$file)){
                         if($this->add_update_detail_question($type_question, $lesson_id, 0, $code, $data_match, $data_target, $data_answer)){
@@ -104,7 +104,7 @@ class Lesson_question extends Controller{
                 if($_FILES['file']['name'] != ''){
                     $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
                     if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                        mkdir($dir_temp);
+                        mkdir($dir_temp, 0777, true);
                     }
                     if(move_uploaded_file($_FILES['file']['tmp_name'], $dir_temp.'/'.$file)){
                         if($this->add_update_detail_question($type_question, $lesson_id, $id, $code, $data_match, $data_target, $data_answer)){

@@ -1,3 +1,9 @@
+body {
+	background: linear-gradient(to right, #ffecd2, #fcb69f);
+	margin: 0;
+	padding: 20px;
+}
+
 .quiz-container {
 	background: #fff;
 	border-radius: 16px;
@@ -6,7 +12,7 @@
 	text-align: center;
 	max-width: 800px;
 	margin: auto;
-	font-family: 'Coiny', cursive;
+	font-family: 'Roboto Condensed', cursive;
 }
 
 .drag-area, .drop-area {

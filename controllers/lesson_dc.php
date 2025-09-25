@@ -16,7 +16,7 @@ class Lesson_dc extends Controller{
         $lesson_id = $_REQUEST['id']; $file = $_FILES['image']['name']; $total = count($file);
         $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/dc';
         if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-            mkdir($dir_temp);
+            mkdir($dir_temp, 0777, true);
         }
         for($i = 0; $i < $total; $i++){
             $code = rand(); $new_File_name = $this->_Convert->convert_file($_FILES['image']['name'][$i], $code);

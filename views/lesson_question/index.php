@@ -16,6 +16,10 @@
                 <h1>
                     Câu hỏi tương tác của bài giảng
                     <small class="pull-right">
+                        <button class="btn btn-sm btn-info" id="add_personnel" onclick="window.location.href='<?php echo URL.'/lesson/detail?token='.$_SESSION['data'][0]['token'].'&id='.$_REQUEST['id'] ?>'">
+                            <i class="ace-icon fa fa-arrow-left"></i>
+                            Quay lại
+                        </button>
                         <button class="btn btn-sm btn-primary" id="add_personnel" onclick="add()">
                             <i class="ace-icon fa fa-plus"></i>
                             Thêm mới

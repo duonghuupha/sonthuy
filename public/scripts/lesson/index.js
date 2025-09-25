@@ -108,7 +108,31 @@ function save(){
         }
     });
     if(allRequired){
-        save_form_modal('#fm', url, '#modal-lesson', '#list_lesson',  baseUrl+'/lesson/json?token='+localStorage.getItem('token')); 
+        //save_form_modal('#fm', url, '#modal-lesson', '#list_lesson',  baseUrl+'/lesson/json?token='+localStorage.getItem('token')); 
+        var xhr = new XMLHttpRequest();
+        var formData = new FormData($('#fm')[0]);
+        $('.overlay').show();
+        $.ajax({
+            url: url,  //server script to process data
+            type: 'POST',
+            xhr: function() {
+                return xhr;
+            },
+            data: formData,
+            success: function(data){
+                var result = JSON.parse(data);
+                if(result.success == true){
+                    window.location.href = baseUrl + '/lesson/detail?token='+localStorage.getItem('token')+'&id='+btoa(result.id);
+                }else{
+                    $('.overlay').hide();
+                    show_message('error', result.msg);
+                    return false;
+                }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
     }else{
         show_message("error", "Chưa điền đủ thông tin");
     }

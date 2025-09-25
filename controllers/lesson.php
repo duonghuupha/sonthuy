@@ -32,6 +32,7 @@ class Lesson extends Controller{
                             "create_at" => date("Y-m-d H:i:s"));
             $temp = $this->model->addObj($data);
             if($temp){
+                $jsonObj['id'] = $this->model->get_id_via_code($code);
                 $jsonObj['msg'] = "Ghi dữ liệu thành công";
                 $jsonObj['success'] = true;
                 $this->view->jsonObj = json_encode($jsonObj);

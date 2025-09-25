@@ -27,12 +27,12 @@ class Drag_drop extends Controller{
         $this->view->render('drag_drop/get_json_question');
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function action_question($id, $lession_id, $code, $data_darg_drop_target, $data_darg_drop_answer){
+    function action_question($id, $lesson_id, $code, $data_darg_drop_target, $data_darg_drop_answer){
         if($id != 0){
             $this->_Data->delObj_drag_drop_target($code);
         }
         foreach($data_darg_drop_target as $row_t){
-            $file = (strlen($row['file']) != 0) ? $row_t['file'] : $row_t['file_old']; 
+            $file = (strlen($row_t['file']) != 0) ? $row_t['file'] : $row_t['file_old']; 
             $data = array("code" => time(), "code_question" => $code, "title" => $row_t['title'], "file" => $file, "status" => 1,
                             "id_temp" => $row_t['id_temp']);
             $tmp = $this->_Data->addObj_drag_drop_target($data);
@@ -40,7 +40,7 @@ class Drag_drop extends Controller{
                 if($row_t['file'] != '' && $row_t['file'] != $row_t['file_old']){
                     $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
                     if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                        mkdir($dir_temp);
+                        mkdir($dir_temp, 0777, true);
                     }
                     $sourcePath = DIR_UPLOAD.'/lesson/temp/'.$row_t['file'];
                     $desPatch = $dir_temp.'/'.$row_t['file'];
@@ -50,7 +50,7 @@ class Drag_drop extends Controller{
             }
         }
         foreach($data_darg_drop_answer as $row_a){
-            $file = (strlen($row['file']) != 0) ? $row_a['file'] : $row_a['file_old']; 
+            $file = (strlen($row_a['file']) != 0) ? $row_a['file'] : $row_a['file_old']; 
             $data = array("code" => time(), "code_question" => $code, "title" => $row_a['title'], "file" => $file, "status" => 1,
                             "target_id" => $row_a['target_id'], "id_temp" => 0);
             $tmp = $this->_Data->addObj_drag_drop_item($data);
@@ -58,7 +58,7 @@ class Drag_drop extends Controller{
                 if($row_a['file'] != '' && $row_a['file'] != $row_a['file_old']){
                     $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
                     if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                        mkdir($dir_temp);
+                        mkdir($dir_temp, 0777, true);
                     }
                     $sourcePath = DIR_UPLOAD.'/lesson/temp/'.$row_a['file'];
                     $desPatch = $dir_temp.'/'.$row_a['file'];

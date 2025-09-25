@@ -75,9 +75,19 @@ function open_question(idh){
 function view_question(idh, type){
     var html = ''; $('#content_question').empty();
     if(type == 1){// dang cau hoi dung sai
-        html += ' <iframe src="'+baseUrl+'/question_true_false/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
+        html += ' <iframe src="'+baseUrl+'/true_false/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
+    }else if(type == 2){ // dang cau hoi 1 dap an dung
+        html += ' <iframe src="'+baseUrl+'/one_true/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
+    }else if(type == 3){ // dang cau hoi nhieu dap an dung
+        html += ' <iframe src="'+baseUrl+'/multiple_true/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
+    }else if(type == 4){ // dang cau hoi noi
+        html += ' <iframe src="'+baseUrl+'/match/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
+    }else if(type == 5){ // dang cau hoi keo tha
+        html += ' <iframe src="'+baseUrl+'/drag_drop/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
+    }else{
+        html += ' <iframe src="'+baseUrl+'/sort_alphabet/index?token='+localStorage.getItem('token')+'&question_id='+idh+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
     }
-    $('#content_question').html(html);
+    $('#content_question').html(html); $(".question-list button").removeClass("active"); $('.btn_'+idh).addClass('active');
 }
 
 function close_question(){

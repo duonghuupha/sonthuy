@@ -44,7 +44,7 @@ class Multiple_true extends Controller{
                 if($file != ''){
                     $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
                     if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                        mkdir($dir_temp);
+                        mkdir($dir_temp, 0777, true);
                     }
                     if(move_uploaded_file($_FILES['file_multiple_true_'.$i]['tmp_name'], $dir_temp.'/'.$file)){
                         $temp = true;

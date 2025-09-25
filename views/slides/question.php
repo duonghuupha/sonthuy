@@ -6,20 +6,22 @@
 <div class="modal-body" style="height:calc(100vh - 200px)">
     <div class="row">
         <div class="col-xs-2 list_question" style="height:calc(100vh - 230px); border-right: 1px solid #ccc">
-            <ul>
-                <?php
-                foreach($this->jsonObj as $row){
-                ?>
-                <li>
-                    <a href="javascript:void(0)" onclick="view_question(<?php echo $row['id'].', '.$row['type_question'] ?>)">
-                        <i class="fa fa-question"></i>
-                        Câu hỏi số 1
-                    </a>
-                </li>
-                <?php
-                }
-                ?>
-            </ul>
+            <div class="question-panel">
+                <div class="question-list">
+                    <?php
+                    $i = 0;
+                    foreach($this->jsonObj as $row){
+                        $i++;
+                        echo '
+                        <button type="button" onclick="view_question('.$row['id'].', '.$row['type_question'].')" class="btn_'.$row['id'].'">
+                            <i class="fa fa-question"></i>
+                            Câu hỏi số '.$i.'
+                        </button>
+                        ';
+                    }
+                    ?>
+                </div>
+            </div>
         </div>
         <div class="col-xs-10" id="content_question">
 

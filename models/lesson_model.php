@@ -64,5 +64,11 @@ class Lesson_Model extends Model{
         $query = $this->db->query("SELECT id, image FROM tbl_lesson_card WHERE lesson_id = $id AND status = 1  ORDER BY order_card ASC");
         return $query->fetchAll();
     }
+
+    function get_id_via_code($code){
+        $query = $this->db->query("SELECT id FROM tbl_lesson WHERE code = $code");
+        $row = $query->fetchAll();
+        return $row['id'];
+    }
 }
 ?>

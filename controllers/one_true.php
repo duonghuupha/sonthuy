@@ -44,7 +44,7 @@ class One_true extends Controller{
                 if($file != ''){
                     $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
                     if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                        mkdir($dir_temp);
+                        mkdir($dir_temp, 0777, true);
                     }
                     if(move_uploaded_file($_FILES['file_one_true_'.$i]['tmp_name'], $dir_temp.'/'.$file)){
                         $temp = true;
@@ -73,7 +73,7 @@ class One_true extends Controller{
                 if($_FILES['file_one_true_'.$row]['name'] != ''){
                     $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
                     if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                        mkdir($dir_temp);
+                        mkdir($dir_temp, 0777, true);
                     }
                     if(move_uploaded_file($_FILES['file_one_true_'.$row]['tmp_name'], $dir_temp.'/'.$file)){
                         if(file_exists(DIR_UPLOAD."/lesson/".$lesson_id.'/question/'.$_REQUEST['file_old_one_true_'.$row])){

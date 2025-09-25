@@ -36,7 +36,7 @@ class Match extends Controller{
                 if($row['file_a'] != '' && $row['file_a'] != $row['file_a_old']){
                     $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
                     if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                        mkdir($dir_temp);
+                        mkdir($dir_temp, 0777, true);
                     }
                     $sourcePath = DIR_UPLOAD.'/lesson/temp/'.$row['file_a'];
                     $desPatch = $dir_temp.'/'.$row['file_a'];
@@ -46,7 +46,7 @@ class Match extends Controller{
                 if($row['file_b'] != '' && $row['file_b'] != $row['file_b_old']){
                     $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
                     if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                        mkdir($dir_temp);
+                        mkdir($dir_temp, 0777, true);
                     }
                     $sourcePath = DIR_UPLOAD.'/lesson/temp/'.$row['file_b'];
                     $desPatch = $dir_temp.'/'.$row['file_b'];

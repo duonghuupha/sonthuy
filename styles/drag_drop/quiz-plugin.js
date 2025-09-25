@@ -48,11 +48,16 @@
 				});
 
 				data.targets.forEach((target, i) => {
-					container.find('.drop-area').append(
-					`
+					var content_t;
+					if(target.file.length > 0){
+						content_t = `
 						<div class="img_target"><img src="${baseUrl}/public/lesson/${target.lesson_id}/question/${target.file}" class="img_responsive" style="max-height:50px;"/></div>
 						<div class="droppable" data-accept="${target.accept}">${target.text}<div class="answer-wrap"></div></div>
-					`);
+						`;
+					}else{
+						content_t = `<div class="droppable" data-accept="${target.accept}">${target.text}<div class="answer-wrap"></div></div>`;
+					}
+					container.find('.drop-area').append(`${content_t}`);
 				});
 				if (!isMobile) {
 					// PC: dùng drag & drop như cũ
