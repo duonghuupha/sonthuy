@@ -93,8 +93,17 @@ class Model {
         return $query;
     }
 /////////////////////////////////Dang cau hoi keo tha//////////////////////////////////////////////////////////////////////////////
-    function updateobj_via_code_question_drag_drop($code, $data){
-        $query = $this->update("tbl_question_drag_drop_target", $data, "code_question = $code");
+    function addObj_drag_drop_target($data){
+        $query = $this->insert("tbl_question_drag_drop_target", $data);
+        return $query;
+    }
+
+    function addObj_drag_drop_item($data){
+        $query = $this->db->query("tbl_question_drag_drop_item", $data);
+    }
+
+    function delObj_drag_drop_target($code){
+        $query = $this->delete("tbl_question_drag_drop_target", "code_question = $code");
         return $query;
     }
 ////////////////////////////////// Dang cau hoi sap xep tu/////////////////////////////////////////////////////////////////////////

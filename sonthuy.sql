@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 21, 2025 at 08:18 PM
+-- Generation Time: Sep 25, 2025 at 12:14 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -237,7 +237,7 @@ INSERT INTO `tbl_lesson_question` (`id`, `code`, `source_edu`, `lesson_id`, `typ
 (2, 700727103, 1, 2, 1, 'Trái đất quay quanh Mặt trời đúng hay sai?', '1758387319_700727103.jpg', 1, '2025-09-20 23:55:19', 0, 0, 0),
 (3, 229145667, 1, 2, 2, 'Thủ đô của Việt Nam là?', '1758388059_229145667.jpg', 1, '2025-09-21 00:09:34', 0, 0, 0),
 (4, 325750605, 1, 2, 3, 'Em hãy lựa chọn các con vật biết bay nhé!', '1758388367_325750605.jpg', 1, '2025-09-21 00:12:47', 0, 0, 0),
-(5, 310556130, 1, 2, 4, 'Em hãy nối đáp án của cột A với đáp án của cột B', '', 1, '2025-09-21 23:39:01', 0, 0, 0),
+(5, 310556130, 1, 2, 4, 'Em hãy nối đáp án của cột A với đáp án của cột B', '', 1, '2025-09-25 16:07:53', 0, 0, 0),
 (6, 890901372, 1, 2, 5, 'Kéo thả đáp án vào đúng ô nhé', '', 1, '2025-09-21 20:22:26', 0, 0, 0),
 (7, 345711435, 1, 2, 6, 'Sắp xếp các chữ sau thành một từ có nghĩa', '', 1, '2025-09-21 20:25:46', 0, 0, 0);
 
@@ -312,7 +312,7 @@ INSERT INTO `tbl_question_drag_drop_target` (`id`, `code`, `code_question`, `tit
 -- Triggers `tbl_question_drag_drop_target`
 --
 DELIMITER $$
-CREATE TRIGGER `update_status_answer_drag_drop_after_update_drag_drop` AFTER UPDATE ON `tbl_question_drag_drop_target` FOR EACH ROW UPDATE tbl_question_drag_drop_item SET status = new.status WHERE target_id = id
+CREATE TRIGGER `update_status_answer_drag_drop_after_update_drag_drop` AFTER DELETE ON `tbl_question_drag_drop_target` FOR EACH ROW DELETE FROM tbl_question_drag_drop_item WHERE target_id = old.id
 $$
 DELIMITER ;
 
@@ -339,10 +339,26 @@ CREATE TABLE `tbl_question_match` (
 --
 
 INSERT INTO `tbl_question_match` (`id`, `code`, `code_question`, `answer_a`, `file_a`, `answer_b`, `file_b`, `status`, `id_temp`) VALUES
-(1, 1758388473, 310556130, 'Con chim', '1758471384_80419.png', 'A bird', '1758472725_89301.png', 1, 0),
-(3, 1758388488, 310556130, 'Con chó', '1758471400_34880.png', 'A dog', '1758472730_37652.png', 1, 0),
-(6, 1758388513, 310556130, 'Con mèo', '1758471408_77771.jpg', 'A cat', '1758472735_88662.jpg', 1, 0),
-(9, 1758459579, 310556130, 'Con cá', '1758471412_69682.jpg', 'A Fish', '1758472739_44540.jpg', 1, 0);
+(55, 1758791273, 310556130, 'Chim', '1758791018_3774.png', 'Bird', '1758791269_4295.png', 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_question_match_temp`
+--
+
+CREATE TABLE `tbl_question_match_temp` (
+  `id` int(11) NOT NULL,
+  `code` int(11) NOT NULL,
+  `code_question` int(11) NOT NULL,
+  `answer_a` text COLLATE utf8_unicode_ci NOT NULL,
+  `file_a` text COLLATE utf8_unicode_ci NOT NULL,
+  `answer_b` text COLLATE utf8_unicode_ci NOT NULL,
+  `file_b` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL,
+  `id_temp` int(11) NOT NULL,
+  `id_parent` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Dạng câu hỏi nối';
 
 -- --------------------------------------------------------
 
@@ -633,7 +649,7 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-21 19:01:47', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0', '666f837334f46171d4e198d9cd6e4ccdfbf8b8a6', 1, 1, '2025-07-22 19:37:03');
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-25 08:18:22', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', '771f3471054039182003412b27491e6abbdbce8c', 1, 1, '2025-07-22 19:37:03');
 
 -- --------------------------------------------------------
 
@@ -726,6 +742,12 @@ ALTER TABLE `tbl_question_drag_drop_target`
 -- Indexes for table `tbl_question_match`
 --
 ALTER TABLE `tbl_question_match`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_question_match_temp`
+--
+ALTER TABLE `tbl_question_match_temp`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -850,7 +872,7 @@ ALTER TABLE `tbl_lesson_media`
 -- AUTO_INCREMENT for table `tbl_lesson_question`
 --
 ALTER TABLE `tbl_lesson_question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_drag_drop_item`
@@ -868,7 +890,13 @@ ALTER TABLE `tbl_question_drag_drop_target`
 -- AUTO_INCREMENT for table `tbl_question_match`
 --
 ALTER TABLE `tbl_question_match`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+
+--
+-- AUTO_INCREMENT for table `tbl_question_match_temp`
+--
+ALTER TABLE `tbl_question_match_temp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_multiple_true`
