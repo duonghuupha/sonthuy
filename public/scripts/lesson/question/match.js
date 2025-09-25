@@ -11,14 +11,14 @@ function render_data_match(){
         html += `
             <tr id="row_${myData_match[i].id}">
                 <td style="width:45%;height:100px">
-                    <input type="text" class="form-control" name="answer_left_${myData_match[i].id}" id="answer_left_${myData_match[i].id}" value="" placeholder="Nội dung" 
-                    onchange="change_data_match(1, ${myData_match[i].id})" style="margin-bottom:7px;"/>
+                    <input type="text" class="form-control" name="answer_left_${myData_match[i].id}" id="answer_left_${myData_match[i].id}" 
+                    value="${myData_match[i].answer_a}" placeholder="Nội dung" onchange="change_data_match(1, ${myData_match[i].id})" style="margin-bottom:7px;"/>
 
                     <input type="file" class="file_attach" name="file_left_${myData_match[i].id}" id="file_left_${myData_match[i].id}" style="width:100%;" 
                     onchange="change_data_match(2, ${myData_match[i].id})"/>
                 </td>
                 <td style="width:45%">
-                    <input type="text" class="form-control" name="answer_right_${myData_match[i].id}" id="answer_right_${myData_match[i].id}" value="" 
+                    <input type="text" class="form-control" name="answer_right_${myData_match[i].id}" id="answer_right_${myData_match[i].id}" value="${myData_match[i].answer_b}" 
                     placeholder="Nội dung" onchange="change_data_match(3, ${myData_match[i].id})" style="margin-bottom:7px;"/>
 
                     <input type="file" class="file_attach" name="file_right_${myData_match[i].id}" id="file_right_${myData_match[i].id}" style="width:100%;" 
@@ -81,9 +81,10 @@ function change_data_match(type, idh_temp){
             }
         });
     }
-    console.log(myData_match);
+    //console.log(myData_match);
 }
 
 function remove_match_answer(idh){
-    $('#row_'+idh).remove();
+    myData_match = myData_match.filter(item => item.id != idh);
+    render_data_match();
 }

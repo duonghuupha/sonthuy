@@ -80,6 +80,8 @@
                         <input id="lesson_id" name="lesson_id" type="hidden" value="<?php echo base64_decode($_REQUEST['id']) ?>"/>
                         <input id="file_old" name="file_old" type="hidden"/>
                         <input id="data_match" name="data_match" type="hidden"/>
+                        <input id="data_drag_drop_target" name="data_drag_drop_target" type="hidden"/>
+                        <input id="data_drag_drop_answer" name="data_drag_drop_answer" type="hidden"/>
                         <div class="col-xs-4">
                             <div class="col-xs-12">
                                 <div class="form-group">

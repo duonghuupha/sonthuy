@@ -1,5 +1,5 @@
 var url, lesson_id;
-let myData_match = [], myData_drag_drop = [];
+let myData_match = [], myData_drag_drop_target = [], myData_drag_drop_answer = [];
 $(function(){
     lesson_id = getParameterByName('id'); $('#view_question').empty();
     var gwdth = $('#list_lesson_question').width(), fwdth = $('.full').width();
@@ -120,9 +120,27 @@ function save(){
                     }
                 }
             }
+        }else if($('#type_question').val() == 5){
+            if(myData_drag_drop_answer.length == 0 || myData_drag_drop_target.length == 0){
+                required_all = false;
+            }else{
+                for(i in myData_drag_drop_target){
+                    if(myData_drag_drop_target[i].title.length == 0 && myData_drag_drop_target[i].file.length == 0){
+                        required_all = false;
+                    }
+                }
+                for(i in myData_drag_drop_answer){
+                    if(myData_drag_drop_answer[i].title.length == 0 && myData_drag_drop_answer[i].file.length == 0 && myData_drag_drop_answer[i].target_id.length == 0){
+                        required_all = false;
+                    }
+                }
+            }
+        }else{
+            required_all = true;
         }
         if(required_all){
-            $('#data_match').val(JSON.stringify(myData_match));
+            $('#data_match').val(JSON.stringify(myData_match)); $('#data_drag_drop_target').val(JSON.stringify(myData_drag_drop_target));
+            $('#data_drag_drop_answer').val(JSON.stringify(myData_drag_drop_answer));
             save_form_modal('#fm', url, '#modal-lesson-question', '#list_lesson_question',  baseUrl+'/lesson_question/json?token='+localStorage.getItem('token'));
         }else{
             show_message("error", "Chưa điền đủ thông tin 1");
@@ -154,6 +172,13 @@ function set_load_form(val, idh = 0, id_edit = 0){
         }
     }else if(val == 5){ // drag and drop
         $('#form_type').load(baseUrl + '/drag_drop/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+        var data_str_target = getRemote(baseUrl + '/drag_drop/json_target?token='+localStorage.getItem('token')+'&code='+code_question);
+        var data_str_answer = getRemote(baseUrl + '/drag_drop/json_answer?token='+localStorage.getItem('token')+'&code='+code_question);
+        myData_drag_drop_target = (data_str_target.length != 0) ? JSON.parse(data_str_target) : [];
+        myData_drag_drop_answer = (data_str_answer.length != 0) ? JSON.parse(data_str_answer) : [];
+        setTimeout(() => {
+            render_drag_drop_target_edit(); render_drag_drop_answer_edit();
+        }, 50);
     }else if(val == 6){ // sort alphabet
         $('#form_type').load(baseUrl + '/sort_alphabet/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
     }
@@ -222,6 +247,80 @@ function render_data_match_edit(){
         `;
     }
     $('#table_match_tbody').html(html);
+    setTimeout(() => {
+        $('.file_attach').ace_file_input({
+            no_file:'Không có file ...',btn_choose:'Lựa chọn',
+            btn_change:'Thay đổi',droppable:false,
+            onchange:null,thumbnail:true
+        });
+    }, 50);
+}
+
+function render_drag_drop_target_edit(){
+    var html = ''; $('#drag_drop_target').empty();
+    for(i in myData_drag_drop_target){
+        count_target = parseInt(i)+1;
+        html += `
+        <fieldset style="margin-top:10px;" id="fm_target_${myData_drag_drop_target[i].id}">
+            <legend style="font-weight:normal;font-size:14px;margin-bottom:5px;">
+                Ô đích số ${count_target}
+                <a href="javascript:void(0)" onclick="remove_drag_drop_target(${myData_drag_drop_target[i].id})">
+                    <i class="ace-icon fa fa-trash"></i> 
+                </a>
+            </legend>
+            <input type="text" class="form-control" name="target_title_${myData_drag_drop_target[i].id}" id="target_title_${myData_drag_drop_target[i].id}" 
+            value="${myData_drag_drop_target[i].title}" placeholder="Nội dung" onchange="change_data_target(1, ${myData_drag_drop_target[i].id})" style="margin-bottom:7px;"/>
+
+            <input type="file" class="file_attach" name="file_target_${myData_drag_drop_target[i].id}" id="file_target_${myData_drag_drop_target[i].id}" style="width:100%;" 
+            onchange="change_data_target(2, ${myData_drag_drop_target[i].id})"/>
+        </fieldset>
+        `;
+    }
+    $('#drag_drop_target').html(html);
+    setTimeout(() => {
+        $('.file_attach').ace_file_input({
+            no_file:'Không có file ...',btn_choose:'Lựa chọn',
+            btn_change:'Thay đổi',droppable:false,
+            onchange:null,thumbnail:true
+        });
+    }, 50);
+}
+
+function render_drag_drop_answer_edit(){
+    var html = '', option = ''; $('#drag_drop_answer').empty();
+    for(i in myData_drag_drop_answer){
+        count_answer = parseInt(i)+1;
+        html += `
+        <div class="col-sm-6" id="item_${myData_drag_drop_answer[i].id}">
+            <fieldset style="margin-top:10px;">
+                <legend style="font-weight:normal;font-size:14px;margin-bottom:5px;">
+                    Đáp án số ${count_answer}
+                    <a href="javascript:void(0)" onclick="remove_drag_drop_answer(${myData_drag_drop_answer[i].id})">
+                        <i class="ace-icon fa fa-trash"></i> 
+                    </a>
+                </legend>
+                <form id="answer_${myData_drag_drop_answer[i].id}" method="post" enctype="multipart/form-data">
+                    <select class="select2" data-placeholder="Lựa chọn đích..." style="width:100%;"
+                    id="target_combo_${myData_drag_drop_answer[i].id}" name="target_combo_${myData_drag_drop_answer[i].id}" data-minimum-results-for-search="Infinity"
+                    onchange="change_data_answer(0, ${myData_drag_drop_answer[i].id})">
+                        <option value="">--Lựa chọn đich--</option>
+                        ${
+                            myData_drag_drop_target.map(o => `<option value="${o.id_temp}" ${o.id_temp == myData_drag_drop_answer[i].target_id ? 'selected' : ''}>${o.title}</option>`).join('')
+                        }
+                    </select>
+
+                    <input type="text" class="form-control" name="answer_title_${myData_drag_drop_answer[i].id}" id="answer_title_${myData_drag_drop_answer[i].id}" 
+                    value="${myData_drag_drop_answer[i].title}" placeholder="Nội dung" onchange="change_data_answer(1, ${myData_drag_drop_answer[i].id})" 
+                    style="margin-bottom:7px;margin-top:7px;"/>
+
+                    <input type="file" class="file_attach" name="file_answer_${myData_drag_drop_answer[i].id}" id="file_answer_${myData_drag_drop_answer[i].id}" style="width:100%;" 
+                    onchange="change_data_answer(2, ${myData_drag_drop_answer[i].id})"/>
+                </form>
+            </fieldset>
+        </div>
+        `;
+    }
+    $('#drag_drop_answer').html(html);
     setTimeout(() => {
         $('.file_attach').ace_file_input({
             no_file:'Không có file ...',btn_choose:'Lựa chọn',

@@ -99,7 +99,8 @@ class Model {
     }
 
     function addObj_drag_drop_item($data){
-        $query = $this->db->query("tbl_question_drag_drop_item", $data);
+        $query = $this->insert("tbl_question_drag_drop_item", $data);
+        return $query;
     }
 
     function delObj_drag_drop_target($code){
