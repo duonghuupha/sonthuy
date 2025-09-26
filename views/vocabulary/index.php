@@ -93,7 +93,7 @@
                                     <div>
                                         <select class="select2" data-placeholder="Lựa chọn loại câu hỏi..."
                                         style="width:100%" required="" id="type_question" name="type_question"
-                                        data-minimum-results-for-search="Infinity">
+                                        data-minimum-results-for-search="Infinity" onchange="set_load_form(this.value)">
                                             <option value="">Lựa chọn loại câu hỏi</option>
                                             <option value="1">Đúng / Sai</option>
                                             <option value="2">1 Đáp án đúng</option>
@@ -145,3 +145,5 @@
 
 <script src="<?php echo URL.'/public/' ?>scripts/vocabulary/cate.js"></script>
 <script src="<?php echo URL.'/public/' ?>scripts/vocabulary/index.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/vocabulary/question/match.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/vocabulary/question/drag_drop.js"></script>

@@ -36,8 +36,12 @@ function add_question(){
         show_message("error", "Vui lòng chọn danh mục từ vựng");
         return false;
     }else{
-        $('#cate_id').val(rowKey);
-        $('#modal-form').modal('show');
+        var row = $('#list_cate').jqGrid("getRowData", rowKey); 
+        $('.table-header').text("Thêm mới - Cập nhật câu hỏi cho nhóm từ vựng "+row.title);
+        $('#cate_id').val(rowKey); $('#form_type').empty();
+        var number = Math.floor(Math.random() * 999999999); $('#refreshcode').show();
+        $('#code').val(number); $('#modal-form').modal('show');
+        url = baseUrl + '/vocab/add?token='+localStorage.getItem('token');
     }
 }
 
@@ -57,3 +61,36 @@ function save(){
 
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function set_load_form(val, idh = 0, id_edit = 0){
+    var code_question = $('#code').val();
+    if(val == 1){ // true/false
+        $('#form_type').load(baseUrl + '/true_false/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+    }else if(val == 2){ // one_true
+        $('#form_type').load(baseUrl + '/one_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+    }else if(val == 3){ // multiple_true
+        $('#form_type').load(baseUrl + '/multiple_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+    }else if(val == 4){ // match
+        $('#form_type').load(baseUrl + '/match/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+        if(id_edit == 1){
+            var data_str = getRemote(baseUrl + '/match/json_edit?token='+localStorage.getItem('token')+'&code='+code_question);
+            //console.log(data_str);
+            myData_match = (data_str.length != 0) ? JSON.parse(data_str) : [];
+            setTimeout(() => {
+                render_data_match_edit();
+            }, 50);
+        }else{
+            myData_match = [];
+        }
+    }else if(val == 5){ // drag and drop
+        $('#form_type').load(baseUrl + '/drag_drop/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+        var data_str_target = getRemote(baseUrl + '/drag_drop/json_target?token='+localStorage.getItem('token')+'&code='+code_question);
+        var data_str_answer = getRemote(baseUrl + '/drag_drop/json_answer?token='+localStorage.getItem('token')+'&code='+code_question);
+        myData_drag_drop_target = (data_str_target.length != 0) ? JSON.parse(data_str_target) : [];
+        myData_drag_drop_answer = (data_str_answer.length != 0) ? JSON.parse(data_str_answer) : [];
+        setTimeout(() => {
+            render_drag_drop_target_edit(); render_drag_drop_answer_edit();
+        }, 50);
+    }else if(val == 6){ // sort alphabet
+        $('#form_type').load(baseUrl + '/sort_alphabet/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+    }
+}

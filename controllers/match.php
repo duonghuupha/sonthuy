@@ -22,7 +22,7 @@ class Match extends Controller{
         $this->view->render('match/get_json_question');
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function action_question($id, $lesson_id, $code, $data_match){
+    function action_question($id, $lesson_id, $code, $data_match, $type){
         if($id != 0){
             $this->_Data->delObj_match($code);
         }
@@ -59,12 +59,31 @@ class Match extends Controller{
     }
 
     function upload_file(){
-        $fileName = $this->_Convert->convert_file($_FILES['file']['name'], rand(1111, 9999));
-        if(move_uploaded_file($_FILES['file']['tmp_name'], DIR_UPLOAD.'/lesson/temp/'.$fileName)){
-            $jsonObj['file'] = $fileName;
-            $jsonObj['success'] = true;
-        }else{
-            $jsonObj['success'] = false;
+        $type = $_REQUEST['type'];
+        if($type == 'lesson'){ // cau hoi cho bai giang
+            $fileName = $this->_Convert->convert_file($_FILES['file']['name'], 'lesson_match_'.rand(1111, 9999));
+            if(move_uploaded_file($_FILES['file']['tmp_name'], DIR_UPLOAD.'/lesson/temp/'.$fileName)){
+                $jsonObj['file'] = $fileName;
+                $jsonObj['success'] = true;
+            }else{
+                $jsonObj['success'] = false;
+            }
+        }elseif($type == 'vocab'){ // cau hoi cho tu vung
+            $fileName = $this->_Convert->convert_file($_FILES['file']['name'], 'vocab_match_'.rand(1111, 9999));
+            if(move_uploaded_file($_FILES['file']['tmp_name'], DIR_UPLOAD.'/vocab/temp/'.$fileName)){
+                $jsonObj['file'] = $fileName;
+                $jsonObj['success'] = true;
+            }else{
+                $jsonObj['success'] = false;
+            }
+        }elseif($type == 'test'){ // cau hoi cho de thi
+            $fileName = $this->_Convert->convert_file($_FILES['file']['name'], 'test_match_'.rand(1111, 9999));
+            if(move_uploaded_file($_FILES['file']['tmp_name'], DIR_UPLOAD.'/test/temp/'.$fileName)){
+                $jsonObj['file'] = $fileName;
+                $jsonObj['success'] = true;
+            }else{
+                $jsonObj['success'] = false;
+            }
         }
         $this->view->jsonObj = json_encode($jsonObj);
         $this->view->render("match/upload_file");
