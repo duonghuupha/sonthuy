@@ -5,7 +5,7 @@ class Match_Model extends Model{
     }
 
     function get_json_question_Obj($question_id){
-        $query = $this->db->query("SELECT id, code, title, file, lesson_id FROM tbl_lesson_question WHERE id = $question_id");
+        $query = $this->db->query("SELECT id, code, title, file, lesson_id FROM tbl_question WHERE id = $question_id");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 

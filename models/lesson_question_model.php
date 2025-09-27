@@ -6,9 +6,9 @@ class Lesson_question_Model extends Model{
 
     function getFetObj($lesson_id, $offset, $rows){
         $result = array();
-        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_lesson_question WHERE lesson_id = $lesson_id");
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_question WHERE lesson_id = $lesson_id");
         $row = $query->fetchAll();
-        $query = $this->db->query("SELECT id, code, lesson_id, title, type_question, status, create_at, file FROM tbl_lesson_question
+        $query = $this->db->query("SELECT id, code, lesson_id, title, type_question, status, create_at, file FROM tbl_question
                                     WHERE lesson_id = $lesson_id ORDER BY id DESC LIMIT $offset, $rows");
         $result['records'] = $row[0]['Total'];
         $result['total'] = ceil($row[0]['Total']/$rows);
@@ -17,36 +17,36 @@ class Lesson_question_Model extends Model{
     }
 
     function dupliObj($id, $code){
-        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_lesson_question WHERE code = $code");
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_question WHERE code = $code");
         if($id > 0){
-            $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_lesson_question WHERE code = $code AND id != $id");
+            $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_question WHERE code = $code AND id != $id");
         }
         $row = $query->fetchAll();
         return $row[0]['Total'];
     }
 
     function addObj($data){
-        $query = $this->insert("tbl_lesson_question", $data);
+        $query = $this->insert("tbl_question", $data);
         return $query;
     }
 
     function updateObj($id, $data){
-        $query = $this->update("tbl_lesson_question", $data, "id = $id");
+        $query = $this->update("tbl_question", $data, "id = $id");
         return $query;
     }
 
     function delObj_via_code($code){
-        $query = $this->delete("tbl_lesson_question", "code = $code");
+        $query = $this->delete("tbl_question", "code = $code");
         return $query;
     }
 
     function delObj($id){
-        $query = $this->delete("tbl_lesson_question", "id = $id");
+        $query = $this->delete("tbl_question", "id = $id");
         return $query;
     }
 
     function get_info($id){
-        $query = $this->db->query("SELECT * FROM tbl_lesson_question WHERE id = $id");
+        $query = $this->db->query("SELECT * FROM tbl_question WHERE id = $id");
         return $query->fetchAll();
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

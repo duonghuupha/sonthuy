@@ -25,7 +25,7 @@ class Slides_Model extends Model{
     }
 
     function get_lesson_question($id){
-        $query = $this->db->query("SELECT id, code, lesson_id, type_question, title, file FROM tbl_lesson_question WHERE status = 1 AND lesson_id = $id");
+        $query = $this->db->query("SELECT id, code, lesson_id, type_question, title, file FROM tbl_question WHERE status = 1 AND lesson_id = $id");
         return $query->fetchAll();
     }
 }

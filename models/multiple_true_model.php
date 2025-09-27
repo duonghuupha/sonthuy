@@ -5,7 +5,7 @@ class Multiple_true_Model extends Model{
     }
 
     function get_json_question_Obj($question_id){
-        $query = $this->db->query("SELECT id, code, title, file, lesson_id FROM tbl_lesson_question WHERE id = $question_id");
+        $query = $this->db->query("SELECT id, code, title, file, lesson_id FROM tbl_question WHERE id = $question_id");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -15,8 +15,8 @@ class Multiple_true_Model extends Model{
     }
 
     function get_info($id){
-        $query = $this->db->query("SELECT * FROM tbl_question_multiple_true WHERE code_question = (SELECT tbl_lesson_question.code FROM tbl_lesson_question
-                                    WHERE tbl_lesson_question.id = $id)");
+        $query = $this->db->query("SELECT * FROM tbl_question_multiple_true WHERE code_question = (SELECT tbl_question.code FROM tbl_question
+                                    WHERE tbl_question.id = $id)");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 }
