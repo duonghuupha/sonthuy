@@ -1,8 +1,8 @@
-var url;
+var url; let myData_match = [], myData_drag_drop_target = [], myData_drag_drop_answer = [];
 $(function(){
     var gwdth = $('#list_vocab').width(), fwdth = $('.full').width();
     $('#list_vocab').jqGrid({
-        url: baseUrl + '/vocab/json?token='+localStorage.getItem('token'),
+        url: baseUrl + '/vocabulary/json?token='+localStorage.getItem('token'),
         datatype: "json",
         mtype: "GET",
         colModel: [
@@ -39,9 +39,9 @@ function add_question(){
         var row = $('#list_cate').jqGrid("getRowData", rowKey); 
         $('.table-header').text("Thêm mới - Cập nhật câu hỏi cho nhóm từ vựng "+row.title);
         $('#cate_id').val(rowKey); $('#form_type').empty();
-        var number = Math.floor(Math.random() * 999999999); $('#refreshcode').show();
+        var number = Math.floor(Math.random() * 99999999); $('#refreshcode').show();
         $('#code').val(number); $('#modal-form').modal('show');
-        url = baseUrl + '/vocab/add?token='+localStorage.getItem('token');
+        url = baseUrl + '/vocabulary/add?token='+localStorage.getItem('token');
     }
 }
 
@@ -58,7 +58,54 @@ function change(){
 }
 
 function save(){
-
+    var required = $('#fm input, #fm textarea, #fm select').filter('[required]:visible');
+    var allRequired = true, required_all = true;
+    required.each(function(){
+        if($(this).val() == ''){
+            allRequired = false;
+        }
+    });
+    if(allRequired){
+        console.log(myData_match);
+        if($('#type_question').val() == 4){
+            if(myData_match.length == 0){
+                required_all = false;
+            }else{
+                for(i in myData_match){
+                    if(myData_match[i].answer_a.length == 0 && myData_match[i].file_a.length == 0
+                    && myData_match[i].answer_b.length == 0 && myData_match[i].file_b.length == 0){
+                        required_all = false;
+                    }
+                }
+            }
+        }else if($('#type_question').val() == 5){
+            if(myData_drag_drop_answer.length == 0 || myData_drag_drop_target.length == 0){
+                required_all = false;
+            }else{
+                for(i in myData_drag_drop_target){
+                    if(myData_drag_drop_target[i].title.length == 0 && myData_drag_drop_target[i].file.length == 0){
+                        required_all = false;
+                    }
+                }
+                for(i in myData_drag_drop_answer){
+                    if(myData_drag_drop_answer[i].title.length == 0 && myData_drag_drop_answer[i].file.length == 0 && myData_drag_drop_answer[i].target_id.length == 0){
+                        required_all = false;
+                    }
+                }
+            }
+        }else{
+            required_all = true;
+        }
+        if(required_all){
+            $('#data_match').val(JSON.stringify(myData_match)); $('#data_drag_drop_target').val(JSON.stringify(myData_drag_drop_target));
+            $('#data_drag_drop_answer').val(JSON.stringify(myData_drag_drop_answer));
+            save_form_modal('#fm', url, '#modal-lesson-question', '#list_lesson_question',  baseUrl+'/vocabulary/json?token='+localStorage.getItem('token'));
+        }else{
+            show_message("error", "Chưa điền đủ thông tin 1");
+        }
+    }else{
+        show_message("error", "Chưa điền đủ thông tin");
+    }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function set_load_form(val, idh = 0, id_edit = 0){

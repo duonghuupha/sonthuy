@@ -153,7 +153,7 @@
 </div>
 <!-- End formm don vi tinh-->
 
-<script src="<?php echo URL.'/public/' ?>scripts/lesson/question/index.js"></script>
-<script src="<?php echo URL.'/public/' ?>scripts/lesson/question/match.js"></script>
-<script src="<?php echo URL.'/public/' ?>scripts/lesson/question/drag_drop.js"></script>
-<script src="<?php echo URL.'/public/' ?>scripts/lesson/question/one_true.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/question/index.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/question/match.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/question/drag_drop.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/question/one_true.js"></script>

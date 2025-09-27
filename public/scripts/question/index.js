@@ -4,7 +4,7 @@ $(function(){
     lesson_id = getParameterByName('id'); $('#view_question').empty();
     var gwdth = $('#list_lesson_question').width(), fwdth = $('.full').width();
     $('#list_lesson_question').jqGrid({
-        url: baseUrl + '/lesson_question/json?token='+localStorage.getItem('token')+'&id='+lesson_id,
+        url: baseUrl + '/question/json?token='+localStorage.getItem('token')+'&id='+lesson_id,
         datatype: "json",
         mtype: "GET",
         colModel: [
@@ -64,7 +64,7 @@ function add(){
     var number = Math.floor(Math.random() * 999999999); $('#refreshcode').show();
     $('#code').val(number);
     $('#modal-lesson-question').modal('show');
-    url = baseUrl + '/lesson_question/add?token='+localStorage.getItem('token');
+    url = baseUrl + '/question/add?token='+localStorage.getItem('token');
 }
 
 function update(){
@@ -78,7 +78,7 @@ function update(){
         $('#code').val(row.code); $('#title').val(row.title); $('#file_old').val(row.file);
         $('#type_question').val(row.type_question).trigger('change'); set_load_form(row.type_question, row.id, 1);
         $('#modal-lesson-question').modal('show');
-        url = baseUrl + '/lesson_question/update?token='+localStorage.getItem('token')+"&id="+row.id;
+        url = baseUrl + '/question/update?token='+localStorage.getItem('token')+"&id="+row.id;
     }
 }
 
@@ -89,14 +89,14 @@ function del(){
         return false;
     }else{
         var data_str = "token="+localStorage.getItem('token')+'&id='+rowKey;
-        del_data(data_str, "Bạn có chắc chắn muốn xóa câu hỏi này?", baseUrl + '/lesson_question/del', '#list_lesson_question', baseUrl + '/lesson_question/json?token='+localStorage.getItem('token'));
+        del_data(data_str, "Bạn có chắc chắn muốn xóa câu hỏi này?", baseUrl + '/question/del', '#list_lesson_question', baseUrl + '/question/json?token='+localStorage.getItem('token'));
         $('#view_question').empty();
     }
 }
 
 function change(status, idh){
     var data_str = "token="+localStorage.getItem('token')+'&id='+idh+'&status='+status;
-        del_data(data_str, "Bạn có chắc chắn muốn cập nhật trạng thái cho câu hỏi này?", baseUrl + '/lesson_question/change', '#list_lesson_question', baseUrl + '/lesson_question/json?token='+localStorage.getItem('token'));
+        del_data(data_str, "Bạn có chắc chắn muốn cập nhật trạng thái cho câu hỏi này?", baseUrl + '/question/change', '#list_lesson_question', baseUrl + '/question/json?token='+localStorage.getItem('token'));
 }
 
 function save(){
@@ -141,7 +141,7 @@ function save(){
         if(required_all){
             $('#data_match').val(JSON.stringify(myData_match)); $('#data_drag_drop_target').val(JSON.stringify(myData_drag_drop_target));
             $('#data_drag_drop_answer').val(JSON.stringify(myData_drag_drop_answer));
-            save_form_modal('#fm', url, '#modal-lesson-question', '#list_lesson_question',  baseUrl+'/lesson_question/json?token='+localStorage.getItem('token'));
+            save_form_modal('#fm', url, '#modal-lesson-question', '#list_lesson_question',  baseUrl+'/question/json?token='+localStorage.getItem('token'));
         }else{
             show_message("error", "Chưa điền đủ thông tin 1");
         }

@@ -35,9 +35,9 @@ class Controller {
 		}
 	}
 
-	/*public function PhadhInt(){
+	public function PhadhInt(){
         Session::init();
-        $logged = Session::get('loggedIn_Edusoft');
+        $logged = Session::get('loggedIn_Sonthuy');
         if($logged == false){
             session_start();
             session_destroy();
@@ -51,7 +51,7 @@ class Controller {
                     header ('Location: '.URL.'/index/login');
                     exit;
                 }else{
-                    if(isset($_REQUEST['url'])){
+                    /*if(isset($_REQUEST['url'])){
                         $url = $_REQUEST['url'];
                         $url = explode("/", $url);
                         if($this->_Info[0]['id'] != 1){ // nguoi dung dang nhap la admin thi khong chay
@@ -67,7 +67,8 @@ class Controller {
                         }
                     }else{
                         $url = "index";
-                    }
+                    }*/
+                    $url = 'index';
                 }
             }else{
                 session_start();
@@ -76,8 +77,9 @@ class Controller {
                 exit;
             }
         }
-    }*/
-    public function PhadhInt(){
+    }
+
+    /*public function PhadhInt(){
         Session::init();
         $logged = Session::get('loggedIn_Sonthuy');
         if($logged == false){
@@ -86,6 +88,6 @@ class Controller {
             header ('Location: '.URL.'/index/login');
             exit;
         }
-    }
+    }*/
 }
 ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 25, 2025 at 10:22 PM
+-- Generation Time: Sep 27, 2025 at 10:25 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -212,10 +212,10 @@ INSERT INTO `tbl_lesson_media` (`id`, `code`, `lesson_id`, `file`, `order_media`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_lesson_question`
+-- Table structure for table `tbl_question`
 --
 
-CREATE TABLE `tbl_lesson_question` (
+CREATE TABLE `tbl_question` (
   `id` int(11) NOT NULL,
   `code` int(11) NOT NULL,
   `source_edu` int(11) NOT NULL COMMENT '1 là câu hỏi thuộc bài học; 2 là câu hỏi từ vựng, 3 là câu hỏi bài kiểm tra',
@@ -231,23 +231,24 @@ CREATE TABLE `tbl_lesson_question` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Danh sách câu hỏi';
 
 --
--- Dumping data for table `tbl_lesson_question`
+-- Dumping data for table `tbl_question`
 --
 
-INSERT INTO `tbl_lesson_question` (`id`, `code`, `source_edu`, `lesson_id`, `type_question`, `title`, `file`, `status`, `create_at`, `cate_vocab_id`, `test_cate_id`, `level`) VALUES
+INSERT INTO `tbl_question` (`id`, `code`, `source_edu`, `lesson_id`, `type_question`, `title`, `file`, `status`, `create_at`, `cate_vocab_id`, `test_cate_id`, `level`) VALUES
 (2, 700727103, 1, 2, 1, 'Trái đất quay quanh Mặt trời đúng hay sai?', '1758387319_700727103.jpg', 1, '2025-09-20 23:55:19', 0, 0, 0),
 (3, 229145667, 1, 2, 2, 'Thủ đô của Việt Nam là?', '1758388059_229145667.jpg', 1, '2025-09-21 00:09:34', 0, 0, 0),
 (4, 325750605, 1, 2, 3, 'Em hãy lựa chọn các con vật biết bay nhé!', '1758388367_325750605.jpg', 1, '2025-09-21 00:12:47', 0, 0, 0),
 (5, 310556130, 1, 2, 4, 'Em hãy nối đáp án của cột A với đáp án của cột B', '', 1, '2025-09-25 16:07:53', 0, 0, 0),
 (6, 890901372, 1, 2, 5, 'Kéo thả đáp án vào đúng ô nhé', '', 1, '2025-09-21 20:22:26', 0, 0, 0),
 (7, 345711435, 1, 2, 6, 'Sắp xếp các chữ sau thành một từ có nghĩa', '', 1, '2025-09-21 20:25:46', 0, 0, 0),
-(19, 491149882, 1, 2, 5, 'fsdgsdfg', '', 1, '2025-09-26 00:49:56', 0, 0, 0);
+(19, 491149882, 1, 2, 5, 'fsdgsdfg', '', 1, '2025-09-26 00:49:56', 0, 0, 0),
+(20, 20471154, 2, 0, 1, 'Trái đất quay quanh mặt trời đúng hay sai?', '1759000814_20471154.jpg', 1, '2025-09-28 02:20:14', 4, 0, 0);
 
 --
--- Triggers `tbl_lesson_question`
+-- Triggers `tbl_question`
 --
 DELIMITER $$
-CREATE TRIGGER `del_detail_question_after_del_question` AFTER DELETE ON `tbl_lesson_question` FOR EACH ROW BEGIN
+CREATE TRIGGER `del_detail_question_after_del_question` AFTER DELETE ON `tbl_question` FOR EACH ROW BEGIN
 	DELETE FROM tbl_question_true_false WHERE code_question = old.code;
     DELETE FROM  tbl_question_one_true WHERE code_question = old.code;
     DELETE FROM tbl_question_multiple_true WHERE code_question = old.code;
@@ -456,7 +457,8 @@ CREATE TABLE `tbl_question_true_false` (
 --
 
 INSERT INTO `tbl_question_true_false` (`id`, `code`, `code_question`, `answer`) VALUES
-(1, 1758387319, 700727103, 1);
+(1, 1758387319, 700727103, 1),
+(2, 1759000814, 20471154, 1);
 
 -- --------------------------------------------------------
 
@@ -657,7 +659,7 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-26 02:01:58', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', 'a09c30f53ff82cb040cc3366fa9be5078a9bcf57', 1, 1, '2025-07-22 19:37:03');
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-28 02:24:09', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', 'a9700ecf6caf074b15043addaae3dc0c899673b7', 1, 1, '2025-07-22 19:37:03');
 
 -- --------------------------------------------------------
 
@@ -729,9 +731,9 @@ ALTER TABLE `tbl_lesson_media`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tbl_lesson_question`
+-- Indexes for table `tbl_question`
 --
-ALTER TABLE `tbl_lesson_question`
+ALTER TABLE `tbl_question`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -868,7 +870,7 @@ ALTER TABLE `tbl_lesson_cate`
 -- AUTO_INCREMENT for table `tbl_lesson_dc`
 --
 ALTER TABLE `tbl_lesson_dc`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_lesson_media`
@@ -877,10 +879,10 @@ ALTER TABLE `tbl_lesson_media`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `tbl_lesson_question`
+-- AUTO_INCREMENT for table `tbl_question`
 --
-ALTER TABLE `tbl_lesson_question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+ALTER TABLE `tbl_question`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_drag_drop_item`
@@ -928,7 +930,7 @@ ALTER TABLE `tbl_question_sort_alphabet`
 -- AUTO_INCREMENT for table `tbl_question_true_false`
 --
 ALTER TABLE `tbl_question_true_false`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_roles`

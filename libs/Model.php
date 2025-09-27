@@ -37,6 +37,15 @@ class Model {
     }
 /////////////////////////////////////////////////////////////////////////////////////////////////
     /**
+     * Check token
+     */
+    function check_token($token){
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_users WHERE token = '$token' AND status = 1");
+        $row = $query->fetchAll();
+        return $row[0]['Total'];
+    }
+    
+    /**
      * Menu
      */
     function get_menu($id = 0){

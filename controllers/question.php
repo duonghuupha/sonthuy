@@ -5,7 +5,7 @@ require_once('controllers/multiple_true.php');
 require_once('controllers/match.php');
 require_once('controllers/sort_alphabet.php');
 require_once('controllers/drag_drop.php');
-class Lesson_question extends Controller{
+class Question extends Controller{
     function __construct(){
         parent::__construct();
         parent::PhadhInt();
@@ -15,7 +15,7 @@ class Lesson_question extends Controller{
         require('layouts/header.php');
         $id = base64_decode($_REQUEST['id']);
         $this->view->info = $this->model->get_info_lesson($id);
-        $this->view->render('lesson_question/index');
+        $this->view->render('question/index');
         require('layouts/footer.php');
     }
 
@@ -26,7 +26,7 @@ class Lesson_question extends Controller{
         $offset = ($get_pages-1)*$rows;
         $jsonObj = $this->model->getFetObj($lesson_id, $offset, $rows);
         $this->view->jsonObj = json_encode($jsonObj);
-        $this->view->render('lesson_question/json');
+        $this->view->render('question/json');
     }
 
     function add(){
@@ -83,7 +83,7 @@ class Lesson_question extends Controller{
                 $this->view->jsonObj = json_encode($jsonObj);
             }
         }
-        $this->view->render("lesson_question/add");
+        $this->view->render("question/add");
     }
 
     function update(){
@@ -141,7 +141,7 @@ class Lesson_question extends Controller{
                 $this->view->jsonObj = json_encode($jsonObj);
             }
         }
-        $this->view->render("lesson_question/update");
+        $this->view->render("question/update");
     }
 
     function del(){
@@ -160,7 +160,7 @@ class Lesson_question extends Controller{
             $jsonObj['success'] = false;
             $this->view->jsonObj = json_encode($jsonObj);
         }
-        $this->view->render("lesson_question/del");
+        $this->view->render("question/del");
     }
 
     function change(){
@@ -176,7 +176,7 @@ class Lesson_question extends Controller{
             $jsonObj['success'] = false;
             $this->view->jsonObj = json_encode($jsonObj);
         }
-        $this->view->render("lesson_question/change");
+        $this->view->render("question/change");
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function add_update_detail_question($type, $lesson_id, $id, $code, $data_match, $data_target, $data_answer){

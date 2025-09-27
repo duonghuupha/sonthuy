@@ -145,5 +145,5 @@
 
 <script src="<?php echo URL.'/public/' ?>scripts/vocabulary/cate.js"></script>
 <script src="<?php echo URL.'/public/' ?>scripts/vocabulary/index.js"></script>
-<script src="<?php echo URL.'/public/' ?>scripts/vocabulary/question/match.js"></script>
-<script src="<?php echo URL.'/public/' ?>scripts/vocabulary/question/drag_drop.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/vocabulary/match.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/vocabulary/drag_drop.js"></script>
