@@ -50,7 +50,7 @@ function change_data_match(type, idh_temp){
         var file = $('#file_left_'+idh_temp)[0].files[0]; var formData = new FormData();
         formData.append('file', file);
         $.ajax({
-            url: baseUrl + '/match/upload_file?token='+localStorage.getItem('token')+'&type=lesson',
+            url: baseUrl + '/match/upload_file?token='+localStorage.getItem('token')+'&type=vocab',
             type: 'POST', data: formData, contentType: false, processData: false,
             success: function(data) {
                 var result = JSON.parse(data);
@@ -68,7 +68,7 @@ function change_data_match(type, idh_temp){
         var file = $('#file_right_'+idh_temp)[0].files[0]; var formData = new FormData();
         formData.append('file', file);
         $.ajax({
-            url: baseUrl + '/match/upload_file?token='+localStorage.getItem('token')+'&type=lesson',
+            url: baseUrl + '/match/upload_file?token='+localStorage.getItem('token')+'&type=vocab',
             type: 'POST', data: formData, contentType: false, processData: false,
             success: function(data) {
                 var result = JSON.parse(data);

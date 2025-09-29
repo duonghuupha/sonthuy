@@ -23,6 +23,7 @@ class Match extends Controller{
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function action_question($id, $lesson_id, $code, $data_match, $type){
+        
         if($id != 0){
             $this->_Data->delObj_match($code);
         }
@@ -33,22 +34,18 @@ class Match extends Controller{
                             "answer_b" => $row['answer_b'], "file_b" => $file_b, "status" => 1, "id_temp" => 0);
             $tmp = $this->_Data->addObj_match($data);
             if($tmp){
+                $dir_temp = $this->return_url_upload($type, $lesson_id, $code)['main'];
+                if(!file_exists($dir_temp) && !is_dir($dir_temp)){
+                    mkdir($dir_temp, 0777, true);
+                }
                 if($row['file_a'] != '' && $row['file_a'] != $row['file_a_old']){
-                    $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
-                    if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                        mkdir($dir_temp, 0777, true);
-                    }
-                    $sourcePath = DIR_UPLOAD.'/lesson/temp/'.$row['file_a'];
+                    $sourcePath = $this->return_url_upload($type, $lesson_id, $code)['temp'].'/'.$row['file_a'];
                     $desPatch = $dir_temp.'/'.$row['file_a'];
                     @rename($sourcePath, $desPatch);
                     @unlink($dir_temp.'/'.$row['file_a_old']);
                 }
                 if($row['file_b'] != '' && $row['file_b'] != $row['file_b_old']){
-                    $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
-                    if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                        mkdir($dir_temp, 0777, true);
-                    }
-                    $sourcePath = DIR_UPLOAD.'/lesson/temp/'.$row['file_b'];
+                    $sourcePath = $this->return_url_upload($type, $lesson_id, $code)['temp'].'/'.$row['file_b'];
                     $desPatch = $dir_temp.'/'.$row['file_b'];
                     @rename($sourcePath, $desPatch);
                     @unlink($dir_temp.'/'.$row['file_b_old']);
@@ -95,5 +92,18 @@ class Match extends Controller{
         $this->view->render("match/json_edit");
     }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    function return_url_upload($type, $lesson_id, $code){
+        if($type == 'lesson'){
+            $url['main'] = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
+            $url['temp'] = DIR_UPLOAD.'/lesson/temp';
+        }elseif($type == 'vocab'){
+            $url['main'] = DIR_UPLOAD.'/vocab/'.$code.'/question';
+            $url['temp'] = DIR_UPLOAD.'/vocab/temp';
+        }elseif($type == 'test'){
+            $url['main'] = DIR_UPLOAD.'/test/question';
+            $url['temp'] = DIR_UPLOAD.'/test/temp';
+        }
+        return $url;
+    }
 }
 ?>

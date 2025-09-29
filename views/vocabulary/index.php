@@ -48,9 +48,20 @@
                 <div class="col-xs-12 col-sm-8 half">
                     <h3 class="header smaller lighter blue" id="danh_sach_cau_hoi">
                         Danh sách câu hỏi
-                        <a href="javascript:void(0)" class="btn-sm" title="Thêm mới" onclick="add_question()">
-                            <i class="fa fa-plus"></i>
-                        </a>
+                        <small class="pull-right">
+                            <button type="button" class="btn btn-primary btn-xs pull-left" onclick="add_question()">
+                                <i class="fa fa-plus"></i>
+                                Thêm mới
+                            </button>
+                            <button type="button" class="btn btn-success btn-xs pull-left" onclick="update_question()">
+                                <i class="fa fa-pencil"></i>
+                                Cập nhật
+                            </button>
+                            <button type="button" class="btn btn-danger btn-xs pull-left" onclick="del_question()">
+                                <i class="fa fa-trash"></i>
+                                Xóa
+                            </button>
+                        </small>
                     </h3>
                     <div class="col-xs-12 col-sm-12">
                         <table id="list_vocab" 
@@ -141,6 +152,28 @@
                 <button class="btn btn-sm btn-primary pull-right" id="save_modal" onclick="save()" type="button">
                     <i class="ace-icon fa fa-save"></i>
                     Ghi dữ liệu
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- End formm don vi tinh-->
+
+<div id="modal-form-view-question" class="modal fade" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" style="width:60%">
+        <div class="modal-content">
+            <div class="modal-header no-padding">
+                <div class="table-header">
+                    Xem trước câu hỏi
+                </div>
+            </div>
+            <div class="modal-body" style="height:calc(100vh - 200px)" id="form_view_question">
+                
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-danger pull-right" id="close_modal" data-dismiss="modal" type="button">
+                    <i class="ace-icon fa fa-times"></i>
+                    Đóng
                 </button>
             </div>
         </div><!-- /.modal-content -->
