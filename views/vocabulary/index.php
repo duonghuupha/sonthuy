@@ -52,8 +52,13 @@
                             <i class="fa fa-plus"></i>
                         </a>
                     </h3>
-                    <table id="list_vocab"></table>
-                    <div id="vocab_pager"></div>
+                    <div class="col-xs-12 col-sm-12">
+                        <table id="list_vocab" 
+                            class="table" 
+                            role="grid"
+                            aria-describedby="dynamic-table_info"></table>
+                        <div id="vocab_pager"></div>
+                    </div>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.page-content -->

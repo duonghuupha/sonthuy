@@ -4,6 +4,18 @@ class Vocabulary_Model extends Model{
         parent::__construct();
     }
 
+    function getFetObj($q, $offset, $rows){
+        $result = array();
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_question WHERE title LIKE '%$q%' AND source_edu = 2");
+        $row = $query->fetchAll();
+        $query = $this->db->query("SELECT id, code, type_question, title, file, status, create_at, cate_vocab_id, create_at FROM tbl_question 
+                                    WHERE title LIKE '%$q%' AND source_edu = 2 ORDER BY id DESC LIMIT $offset, $rows");
+        $result['records'] = $row[0]['Total'];
+        $result['total'] = ceil($row[0]['Total']/$rows);
+        $result['rows'] = $query->fetchAll();
+        return $result;
+    }
+
     function dupliObj($id, $code){
         $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_question WHERE code = $code");
         if($id > 0){

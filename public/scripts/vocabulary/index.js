@@ -1,24 +1,21 @@
 var url; let myData_match = [], myData_drag_drop_target = [], myData_drag_drop_answer = [];
 $(function(){
-    var gwdth = $('#list_vocab').width(), fwdth = $('.full').width();
+    var gwdth = $('#list_vocab').width();
     $('#list_vocab').jqGrid({
         url: baseUrl + '/vocabulary/json?token='+localStorage.getItem('token'),
         datatype: "json",
         mtype: "GET",
         colModel: [
-            {label: 'Mã nhân sự', name: 'code', width: 120, align:"center"},
-            {label: 'Họ và tên', name: 'fullname', width: 200},
-            {label: 'Ngày sinh', name: 'birthday', width: 150, align:"center"},
-            {label: 'Điện thoại', name: 'phone', width: 150, align:"center"},
-            {label: 'Trình độ', name: 'level', width: 150, align:"center"},
-            {label: 'Email', name: 'email', width: 200,},
-            {label: 'Địa chỉ', name: 'address', width: 350,},
-            {label: '&nbsp', name: 'id', hidden: true, key: true},
-            {label: '&nbsp', name: 'gender', hidden: true},
-            {label: '&nbsp', name: 'image', hidden: true}
+            {label: 'Mã câu hỏi', name: 'code', width: 120, align:"center"},
+            {label: 'Dạng câu hỏi', name: 'fullname', width: 150},
+            {label: 'Tiêu đề câu hỏi', name: 'birthday', width: 300, align:"left"},
+            {label: 'File', name: 'phone', width: 70, align:"center"},
+            {label: 'Trạng thái', name: 'level', width: 80, align:"center"},
+            {label: 'Cập nhật lần cuối', name: 'email', width: 120},
+            {label: '&nbsp', name: 'id', hidden: true, key: true}
         ],
         viewrecords: true, height:200, width: gwdth, rowNum: 20, rownumbers: true,
-        height:($('.footer').offset().top - $('#danh_sach_cau_hoi').offset().top - 147),
+        height:($('.footer').offset().top - $('#danh_sach_cau_hoi').offset().top - 137),
         pager: "#vocab_pager", rowList:[10,20,30],
         loadComplete : function() {
             var table = this;

@@ -18,7 +18,13 @@ class Vocabulary extends Controller{
     }
     
     function json(){
-        
+        $keyword = isset($_REQUEST['q']) ? str_replace("$", " ", $_REQUEST['q']) : '';
+        $rows = isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 20;
+        $get_pages = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
+        $offset = ($get_pages-1)*$rows;
+        $jsonObj = $this->model->getFetObj($keyword, $offset, $rows);
+        $this->view->jsonObj = json_encode($jsonObj);
+        $this->view->render('vocabulary/json');
     }
     
     function add(){
