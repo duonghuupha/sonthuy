@@ -15,6 +15,11 @@
                 <h1>
                     Quản lý câu hỏi kiểm tra/thi
                     <small class="pull-right">
+                        
+                        <button class="btn btn-sm btn-info" id="add_personnel" onclick="add()">
+                            <i class="ace-icon fa fa-graduation-cap"></i>
+                            Giao bài kiểm tra / Thi
+                        </button>
                         <button class="btn btn-sm btn-primary" id="add_personnel" onclick="add()">
                             <i class="ace-icon fa fa-plus"></i>
                             Thêm mới
@@ -38,6 +43,8 @@
                         aria-describedby="dynamic-table_info"></table>
                     <div id="test_pager"></div>
                 </div><!-- /.col -->
+                <div class="col-xs-12 col-sm-6" id="view_question">
+                </div>
             </div><!-- /.row -->
         </div><!-- /.page-content -->
     </div>
@@ -74,7 +81,21 @@
                                     <label for="form-field-username">Lựa chọn danh mục <span style="color:red">(*)</span></label>
                                     <div>
                                         <select class="select2" data-placeholder="Lựa chọn danh mục..."
-                                        style="width:100%" required="" id="cate_vocab_id" name="cate_vocab_id">
+                                        style="width:100%" required="" id="test_cate_id" name="test_cate_id">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label for="form-field-username">Độ khó của câu hỏi <span style="color:red">(*)</span></label>
+                                    <div>
+                                        <select class="select2" data-placeholder="Lựa chọn loại câu hỏi..."
+                                        style="width:100%" required="" id="level" name="level"
+                                        data-minimum-results-for-search="Infinity">
+                                            <option value="1">Dễ</option>
+                                            <option value="2">Bình thường</option>
+                                            <option value="3">Khó</option>
                                         </select>
                                     </div>
                                 </div>
@@ -128,28 +149,6 @@
                 <button class="btn btn-sm btn-primary pull-right" id="save_modal" onclick="save()" type="button">
                     <i class="ace-icon fa fa-save"></i>
                     Ghi dữ liệu
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-<!-- End formm don vi tinh-->
-
-<div id="modal-form-view-question" class="modal fade" data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog" style="width:60%">
-        <div class="modal-content">
-            <div class="modal-header no-padding">
-                <div class="table-header">
-                    Xem trước câu hỏi
-                </div>
-            </div>
-            <div class="modal-body" style="height:calc(100vh - 200px)" id="form_view_question">
-                
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-sm btn-danger pull-right" id="close_modal" data-dismiss="modal" type="button">
-                    <i class="ace-icon fa fa-times"></i>
-                    Đóng
                 </button>
             </div>
         </div><!-- /.modal-content -->

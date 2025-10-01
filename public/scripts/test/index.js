@@ -28,7 +28,7 @@ $(function(){
             }, 0);
         },
         ondblClickRow: function(rowId){
-            $('#modal-form-view-question').modal('show'); var row = $('#list_test').jqGrid("getRowData", rowId);
+            var row = $('#list_test').jqGrid("getRowData", rowId);
             var html = '';
             if(row.type_question == 1){// dang cau hoi dung sai
                 html += ' <iframe src="'+baseUrl+'/true_false/index?token='+localStorage.getItem('token')+'&question_id='+rowId+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
@@ -43,7 +43,7 @@ $(function(){
             }else{
                 html += ' <iframe src="'+baseUrl+'/sort_alphabet/index?token='+localStorage.getItem('token')+'&question_id='+rowId+'" style="width:100%;height:calc(100vh - 250px);border:1px solid #ccc"></iframe>';
             }
-            $('#form_view_question').html(html);
+            $('#view_question').html(html);
         }
     });
 });
@@ -82,7 +82,7 @@ function format_trangthai(cellvalue, options, rowObject){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function add(){
     reset_form('#fm'); $('#form_type').empty();
-    combo_select_2('#test_cate_id', baseUrl + '/other/combo_test', 0, '');
+    combo_select_2('#test_cate_id', baseUrl + '/other/combo_test_cate', 0, '');
     var number = Math.floor(Math.random() * 99999999); $('#refreshcode').show();
     $('#code').val(number); $('#modal-form').modal('show');
     url = baseUrl + '/test/add?token='+localStorage.getItem('token');

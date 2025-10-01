@@ -9,7 +9,7 @@ class Test_Model extends Model{
         $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_question WHERE title LIKE '%$q%' AND source_edu = 3");
         $row = $query->fetchAll();
         $query = $this->db->query("SELECT id, code, type_question, title, file, status, create_at, test_cate_id, create_at,
-                                    (SELECT tbl_test_cate.title FROM tbl_vocab_cate WHERE tbl_test_cate.id = test_cate_id) AS test_cate_title
+                                    (SELECT tbl_test_cate.title FROM tbl_test_cate WHERE tbl_test_cate.id = test_cate_id) AS test_cate_title
                                     FROM tbl_question WHERE title LIKE '%$q%' AND source_edu = 3 ORDER BY id DESC LIMIT $offset, $rows");
         $result['records'] = $row[0]['Total'];
         $result['total'] = ceil($row[0]['Total']/$rows);
