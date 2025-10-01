@@ -8,8 +8,9 @@ class Vocabulary_Model extends Model{
         $result = array();
         $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_question WHERE title LIKE '%$q%' AND source_edu = 2");
         $row = $query->fetchAll();
-        $query = $this->db->query("SELECT id, code, type_question, title, file, status, create_at, cate_vocab_id, create_at FROM tbl_question 
-                                    WHERE title LIKE '%$q%' AND source_edu = 2 ORDER BY id DESC LIMIT $offset, $rows");
+        $query = $this->db->query("SELECT id, code, type_question, title, file, status, create_at, cate_vocab_id, create_at,
+                                    (SELECT tbl_vocab_cate.title FROM tbl_vocab_cate WHERE tbl_vocab_cate.id = cate_vocab_id) AS cate_vocab_title
+                                    FROM tbl_question WHERE title LIKE '%$q%' AND source_edu = 2 ORDER BY id DESC LIMIT $offset, $rows");
         $result['records'] = $row[0]['Total'];
         $result['total'] = ceil($row[0]['Total']/$rows);
         $result['rows'] = $query->fetchAll();

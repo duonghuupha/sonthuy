@@ -23,7 +23,6 @@ class Match extends Controller{
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function action_question($id, $lesson_id, $code, $data_match, $type){
-        
         if($id != 0){
             $this->_Data->delObj_match($code);
         }

@@ -27,7 +27,7 @@ class Drag_drop extends Controller{
         $this->view->render('drag_drop/get_json_question');
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    function action_question($id, $lesson_id, $code, $data_darg_drop_target, $data_darg_drop_answer){
+    function action_question($id, $lesson_id, $code, $data_darg_drop_target, $data_darg_drop_answer, $type){
         if($id != 0){
             $this->_Data->delObj_drag_drop_target($code);
         }
@@ -37,12 +37,12 @@ class Drag_drop extends Controller{
                             "id_temp" => $row_t['id_temp']);
             $tmp = $this->_Data->addObj_drag_drop_target($data);
             if($tmp){
+                $dir_temp = $this->return_url_upload($type, $lesson_id, $code)['main'];
+                if(!file_exists($dir_temp) && !is_dir($dir_temp)){
+                    mkdir($dir_temp, 0777, true);
+                }
                 if($row_t['file'] != '' && $row_t['file'] != $row_t['file_old']){
-                    $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
-                    if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                        mkdir($dir_temp, 0777, true);
-                    }
-                    $sourcePath = DIR_UPLOAD.'/lesson/temp/'.$row_t['file'];
+                    $sourcePath = $this->return_url_upload($type, $lesson_id, $code)['temp'].'/'.$row_t['file'];
                     $desPatch = $dir_temp.'/'.$row_t['file'];
                     @rename($sourcePath, $desPatch);
                     @unlink($dir_temp.'/'.$row_t['file_old']);
@@ -55,12 +55,12 @@ class Drag_drop extends Controller{
                             "target_id" => $row_a['target_id'], "id_temp" => 0);
             $tmp = $this->_Data->addObj_drag_drop_item($data);
             if($tmp){
+                $dir_temp = $this->return_url_upload($type, $lesson_id, $code)['main'];
+                if(!file_exists($dir_temp) && !is_dir($dir_temp)){
+                    mkdir($dir_temp, 0777, true);
+                }
                 if($row_a['file'] != '' && $row_a['file'] != $row_a['file_old']){
-                    $dir_temp = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
-                    if(!file_exists($dir_temp) && !is_dir($dir_temp)){
-                        mkdir($dir_temp, 0777, true);
-                    }
-                    $sourcePath = DIR_UPLOAD.'/lesson/temp/'.$row_a['file'];
+                    $sourcePath = $this->return_url_upload($type, $lesson_id, $code)['temp'].'/'.$row_a['file'];
                     $desPatch = $dir_temp.'/'.$row_a['file'];
                     @rename($sourcePath, $desPatch);
                     @unlink($dir_temp.'/'.$row_a['file_old']);
@@ -72,16 +72,31 @@ class Drag_drop extends Controller{
 
     function upload_file(){
         $type = $_REQUEST['type'];
-        if($type == 1){ // target
-            $fileName = $this->_Convert->convert_file($_FILES['file']['name'], 'target_'.rand(1111, 9999));
-        }else{
-            $fileName = $this->_Convert->convert_file($_FILES['file']['name'], 'answer_'.rand(1111, 9999));
-        }
-        if(move_uploaded_file($_FILES['file']['tmp_name'], DIR_UPLOAD.'/lesson/temp/'.$fileName)){
-            $jsonObj['file'] = $fileName;
-            $jsonObj['success'] = true;
-        }else{
-            $jsonObj['success'] = false;
+        if($type == "lesson"){ // cau hoi cho bai giang
+            $fileName = $this->_Convert->convert_file($_FILES['file']['name'], 'leson_drag_drop_'.rand(1111, 9999));
+            if(move_uploaded_file($_FILES['file']['tmp_name'], DIR_UPLOAD.'/lesson/temp/'.$fileName)){
+                $jsonObj['file'] = $fileName;
+                $jsonObj['success'] = true;
+            }else{
+                $jsonObj['success'] = false;
+            }
+        }elseif($type == "vocab"){ // cau hoi cho tu vung
+            $code = $_REQUEST['code'];
+            $fileName = $this->_Convert->convert_file($_FILES['file']['name'], 'vocab_drag_drop_'.rand(1111, 9999));
+            if(move_uploaded_file($_FILES['file']['tmp_name'], DIR_UPLOAD.'/vocab/temp/'.$fileName)){
+                $jsonObj['file'] = $fileName;
+                $jsonObj['success'] = true;
+            }else{
+                $jsonObj['success'] = false;
+            }
+        }elseif($type == "test"){ // cau hoi cho de thi
+            $fileName = $this->_Convert->convert_file($_FILES['file']['name'], 'test_drag_drop_'.rand(1111, 9999));
+            if(move_uploaded_file($_FILES['file']['tmp_name'], DIR_UPLOAD.'/test/temp/'.$fileName)){
+                $jsonObj['file'] = $fileName;
+                $jsonObj['success'] = true;
+            }else{
+                $jsonObj['success'] = false;        
+            }
         }
         $this->view->jsonObj = json_encode($jsonObj);
         $this->view->render("drag_drop/upload_file");
@@ -98,5 +113,20 @@ class Drag_drop extends Controller{
         $this->view->jsonObj = $this->model->get_answer_edit($code);
         $this->view->render("drag_drop/json_answer");
     }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    function return_url_upload($type, $lesson_id, $code){
+        if($type == 'lesson'){
+            $url['main'] = DIR_UPLOAD.'/lesson/'.$lesson_id.'/question';
+            $url['temp'] = DIR_UPLOAD.'/lesson/temp';
+        }elseif($type == 'vocab'){
+            $url['main'] = DIR_UPLOAD.'/vocab/'.$code.'/question';
+            $url['temp'] = DIR_UPLOAD.'/vocab/temp';
+        }elseif($type == 'test'){
+            $url['main'] = DIR_UPLOAD.'/test/question';
+            $url['temp'] = DIR_UPLOAD.'/test/temp';
+        }
+        return $url;
+    }
+
 }
 ?>

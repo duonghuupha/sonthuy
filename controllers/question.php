@@ -191,7 +191,7 @@ class Question extends Controller{
         }elseif($type == 4){ // dang cau hoi noi
             return $matchCtrl->action_question($id, $lesson_id, $code, $data_match, 'lesson');
         }elseif($type == 5){ // dang cau hoi keo tha
-            return $dragdropCtrl->action_question($id, $lesson_id, $code, $data_target, $data_answer);
+            return $dragdropCtrl->action_question($id, $lesson_id, $code, $data_target, $data_answer, 'lesson');
         }else{ // dang cau hoi sawp xep chu cai
             return $sortCtrl->action_question($id, $code);
         }

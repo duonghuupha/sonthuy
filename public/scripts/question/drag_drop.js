@@ -94,7 +94,7 @@ function change_data_target(type, idh){
         var file = $('#file_target_'+idh)[0].files[0]; var formData = new FormData();
         formData.append('file', file);
         $.ajax({
-            url: baseUrl + '/drag_drop/upload_file?token='+localStorage.getItem('token')+'&type=1',
+            url: baseUrl + '/drag_drop/upload_file?token='+localStorage.getItem('token')+'&type=lesson',
             type: 'POST', data: formData, contentType: false, processData: false,
             success: function(data) {
                 var result = JSON.parse(data);
@@ -119,7 +119,7 @@ function change_data_answer(type, idh){
         var file = $('#file_answer_'+idh)[0].files[0]; var formData = new FormData();
         formData.append('file', file);
         $.ajax({
-            url: baseUrl + '/drag_drop/upload_file?token='+localStorage.getItem('token')+'&type=2',
+            url: baseUrl + '/drag_drop/upload_file?token='+localStorage.getItem('token')+'&type=lesson',
             type: 'POST', data: formData, contentType: false, processData: false,
             success: function(data) {
                 var result = JSON.parse(data);

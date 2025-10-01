@@ -7,6 +7,7 @@ $(function(){
         mtype: "GET",
         colModel: [
             {label: 'Mã câu hỏi', name: 'code', width: 120, align:"center"},
+            {label: 'Danh mục/Nhóm từ vựng', name: 'cate_vocab_title', width: 150, align:"center"},
             {label: 'Dạng câu hỏi', name: 'type_question', width: 150, align:"center", formatter: format_type_question},
             {label: 'Tiêu đề câu hỏi', name: 'title', width: 300, align:"left"},
             {label: 'File', name: 'file', width: 70, align:"center", formatter: format_file},
