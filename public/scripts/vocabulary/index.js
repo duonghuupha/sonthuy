@@ -15,7 +15,9 @@ $(function(){
             {label: 'Cập nhật lần cuối', name: 'create_at', width: 120, align:"center"},
             {label: '&nbsp', name: 'id', hidden: true, key: true},
             {label: '&nbsp', name: 'code', hidden: true},
-            {label: '&nbsp', name: 'type_question', hidden: true}
+            {label: '&nbsp', name: 'type_question', hidden: true},
+            {label: '&nbsp', name: 'cate_vocab_id', hidden: true},
+            {label: '&nbsp', name: 'file', hidden: true}
         ],
         viewrecords: true, height:200, width: gwdth, rowNum: 20, rownumbers: true,
         height:($('.footer').offset().top - $('#danh_sach_cau_hoi').offset().top - 137),
@@ -88,23 +90,27 @@ function format_trangthai(cellvalue, options, rowObject){
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function add_question(){
-    reset_form('#fm');
-    var rowKey = $('#list_cate').jqGrid('getGridParam',"selrow");
-    if(rowKey == null){
-        show_message("error", "Vui lòng chọn danh mục từ vựng");
-        return false;
-    }else{
-        var row = $('#list_cate').jqGrid("getRowData", rowKey); 
-        $('.table-header').text("Thêm mới - Cập nhật câu hỏi cho nhóm từ vựng "+row.title);
-        $('#cate_id').val(rowKey); $('#form_type').empty();
-        var number = Math.floor(Math.random() * 99999999); $('#refreshcode').show();
-        $('#code').val(number); $('#modal-form').modal('show');
-        url = baseUrl + '/vocabulary/add?token='+localStorage.getItem('token');
-    }
+    reset_form('#fm'); $('#form_type').empty();
+    combo_select_2('#cate_vocab_id', baseUrl + '/other/combo_vocab', 0, '');
+    var number = Math.floor(Math.random() * 99999999); $('#refreshcode').show();
+    $('#code').val(number); $('#modal-form').modal('show');
+    url = baseUrl + '/vocabulary/add?token='+localStorage.getItem('token');
 }
 
-function edit(){
-
+function update_question(){
+    reset_form('#fm'); $('#form_type').empty();
+    var rowKey = $('#list_vocab').jqGrid('getGridParam',"selrow");
+    if(rowKey == null){
+        show_message("error", "Vui lòng chọn câu hỏi cần cập nhật");
+        return false;
+    }else{
+        var row = $('#list_vocab').jqGrid("getRowData", rowKey);
+        combo_select_2('#cate_vocab_id', baseUrl + '/other/combo_vocab', row.cate_vocab_id, row.cate_vocab_title);
+        $('#code').val(row.code); $('#title').val(row.title); $('#file_old').val(row.file);
+        $('#type_question').val(row.type_question).trigger('change'); set_load_form(row.type_question, row.id, 1);
+        $('#modal-form').modal('show');
+        url = baseUrl + '/vocabulary/update?token='+localStorage.getItem('token')+"&id="+row.id;
+    }
 }
 
 function del(){

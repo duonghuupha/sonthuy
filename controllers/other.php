@@ -28,5 +28,12 @@ class Other extends Controller{
         $this->view->jsonObj = $jsonObj;
         $this->view->render("other/combo_test_cate");
     }
+
+    function combo_vocab(){
+        $keyword = isset($_REQUEST['q']) ? $_REQUEST['q'] : '';
+        $jsonObj = $this->model->get_combo_vocab($keyword);
+        $this->view->jsonObj = json_encode($jsonObj);
+        $this->view->render("other/combo_vocab");
+    }
 }
 ?>

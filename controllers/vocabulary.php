@@ -28,7 +28,7 @@ class Vocabulary extends Controller{
     }
     
     function add(){
-        $code = $_REQUEST['code']; $lesson_id = 0; $type_question = $_REQUEST['type_question']; $cate_vocab_id = $_REQUEST['cate_id'];
+        $code = $_REQUEST['code']; $lesson_id = 0; $type_question = $_REQUEST['type_question']; $cate_vocab_id = $_REQUEST['cate_vocab_id'];
         $title = addslashes($_REQUEST['title']); $status = 1; $create_at = date("Y-m-d H:i:s");
         $file = (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') ? $this->_Convert->convert_file($_FILES['file']['name'], $code) : '';
         $data_match = json_decode($_REQUEST['data_match'], true); $data_target = json_decode($_REQUEST['data_drag_drop_target'], true);
@@ -85,15 +85,96 @@ class Vocabulary extends Controller{
     }
     
     function update(){
-        
+        $code = $_REQUEST['code']; $lesson_id = 0; $type_question = $_REQUEST['type_question']; $cate_vocab_id = $_REQUEST['cate_vocab_id'];
+        $title = addslashes($_REQUEST['title']); $status = 1; $create_at = date("Y-m-d H:i:s"); $id = $_REQUEST['id'];
+        $file = (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') ? $this->_Convert->convert_file($_FILES['file']['name'], $code) : $_REQUEST['file_old'];
+        $data_match = json_decode($_REQUEST['data_match'], true); $data_target = json_decode($_REQUEST['data_drag_drop_target'], true);
+        $data_answer = json_decode($_REQUEST['data_drag_drop_answer'], true);
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if($this->model->dupliObj($id, $code) > 0){
+            $jsonObj['msg'] = "Mã câu hỏi đã tồn tại";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $data = array("cate_vocab_id" => $cate_vocab_id, "type_question" => $type_question, "title" => $title, "file" => $file, "create_at" => $create_at);
+            $temp = $this->model->updateObj($id, $data);
+            if($temp){
+                if($_FILES['file']['name'] != ''){
+                    $dir_temp = DIR_UPLOAD.'/vocab/'.$code.'/question';
+                    if(!file_exists($dir_temp) && !is_dir($dir_temp)){
+                        mkdir($dir_temp, 0777, true);
+                    }
+                    if(move_uploaded_file($_FILES['file']['tmp_name'], $dir_temp.'/'.$file)){
+                        if($this->add_update_detail_question($type_question, $lesson_id, $id, $code, $data_match, $data_target, $data_answer)){
+                            if(file_exists(DIR_UPLOAD."/vocab/".$code.'/question/'.$_REQUEST['file_old'])){
+                                @unlink(DIR_UPLOAD."/vocab/".$code.'/question/'.$_REQUEST['file_old']);
+                            }
+                            $jsonObj['msg'] = "Ghi dữ liệu thành công";
+                            $jsonObj['success'] = true;
+                            $this->view->jsonObj = json_encode($jsonObj);
+                        }else{
+                            $jsonObj['msg'] = "Dữ liệu câu hỏi được lưu thành công, đáp án chưa được lưu";
+                            $jsonObj['success'] = true;
+                            $this->view->jsonObj = json_encode($jsonObj);
+                        }
+                    }else{
+                        $jsonObj['msg'] = "Ghi dữ liệu không thành công 1";
+                        $jsonObj['success'] = false;
+                        $this->view->jsonObj = json_encode($jsonObj);
+                    }
+                }else{
+                    if($this->add_update_detail_question($type_question, $lesson_id, $id, $code, $data_match, $data_target, $data_answer)){
+                        $jsonObj['msg'] = "Ghi dữ liệu thành công";
+                        $jsonObj['success'] = true;
+                        $this->view->jsonObj = json_encode($jsonObj);
+                    }else{
+                        $jsonObj['msg'] = "Dữ liệu câu hỏi được lưu thành công, đáp án chưa được lưu";
+                        $jsonObj['success'] = true;
+                        $this->view->jsonObj = json_encode($jsonObj);
+                    }
+                }
+            }else{
+                $jsonObj['msg'] = "Ghi dữ liệu không thành công 2";
+                $jsonObj['success'] = false;
+                $this->view->jsonObj = json_encode($jsonObj);
+            }
+        }
+        $this->view->render("vocabulary/update");
     }
     
     function del(){
-        
+        $id = $_REQUEST['id']; $info = $this->model->get_info($id);
+        $temp = $this->model->delObj($id);
+        if($temp){
+            // xoa file dinh kem cua cau hoi
+            if(file_exists(DIR_UPLOAD."/vocab/".$info[0]['code']."/question/".$info[0]['file'])){
+                @unlink(DIR_UPLOAD."/vocab/".$ifo[0]['code']."/question/".$info[0]['file']);
+            }
+            $jsonObj['msg'] = "Xóa dữ liệu thành công";
+            $jsonObj['success'] = true;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $jsonObj['msg'] = "Xóa dữ liệu không thành công";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }
+        $this->view->render("vocabulary/del");
     }
     
     function change(){
-        
+        $id = $_REQUEST['id']; $status = $_REQUEST['status'];
+        $data = array("status" => $status);
+        $temp = $this->model->updateObj($id, $data);
+        if($temp){
+            $jsonObj['msg'] = "Cập nhật dữ liệu thành công";
+            $jsonObj['success'] = true;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $jsonObj['msg'] = "Cập nhật dữ liệu không thành công";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }
+        $this->view->render("vocabulary/change");
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function add_update_detail_question($type, $lesson_id, $id, $code, $data_match, $data_target, $data_answer){

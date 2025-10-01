@@ -30,5 +30,20 @@ class Vocabulary_Model extends Model{
         $query = $this->insert("tbl_question", $data);
         return $query;
     }
+
+    function updateObj($id, $data){
+        $query = $this->update("tbl_question", $data, "id = $id");
+        return $query;
+    }
+
+    function delObj($id){
+        $query = $this->delete("tbl_question", "id = $id");
+        return $query;
+    }
+    
+    function get_info($id){
+        $query = $this->db->query("SELECT * FROM tbl_question WHERE id = $id");
+        return $query->fetchAll();
+    }
 }
 ?>
