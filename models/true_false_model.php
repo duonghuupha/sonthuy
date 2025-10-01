@@ -5,8 +5,8 @@ class True_false_Model extends Model{
     }
 
     function get_json_question_Obj($question_id){
-        $query = $this->db->query("SELECT id, title, file, (SELECT answer FROM tbl_question_true_false WHERE code_question = tbl_question.code) AS answer, 
-                                    lesson_id FROM tbl_question WHERE id = $question_id");
+        $query = $this->db->query("SELECT id, code, title, file, (SELECT answer FROM tbl_question_true_false WHERE code_question = tbl_question.code) AS answer, 
+                                    lesson_id, IF(source_edu = 1, 'lesson', IF(source_edu = 2, 'vocab', 'test')) AS type FROM tbl_question WHERE id = $question_id");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 

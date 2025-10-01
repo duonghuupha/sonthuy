@@ -20,22 +20,35 @@
 
 			function renderQuiz(data) {
 				shuffleArray(data.options);
-
-				container.html(`
-					<h2>${data.question}</h2>
-					<div class="drag-area"></div>
-					<div class="drop-area"></div>
-					<div class="btn-group">
-						<button class="submit-btn">Kiểm tra</button>
-						<button class="reset-btn">Làm lại</button>
-					</div>
-					<div class="result"></div>
-				`);
+				if(data.file.length > 0){
+					container.html(`
+						<h2>${data.question}</h2>
+						<div class="img_question"><img src="${data.url_file}/${data.file}" class="img_responsive" style="max-height:200px;"/></div>
+						<div class="drag-area"></div>
+						<div class="drop-area"></div>
+						<div class="btn-group">
+							<button class="submit-btn">Kiểm tra</button>
+							<button class="reset-btn">Làm lại</button>
+						</div>
+						<div class="result"></div>
+					`);
+				}else{
+					container.html(`
+						<h2>${data.question}</h2>
+						<div class="drag-area"></div>
+						<div class="drop-area"></div>
+						<div class="btn-group">
+							<button class="submit-btn">Kiểm tra</button>
+							<button class="reset-btn">Làm lại</button>
+						</div>
+						<div class="result"></div>
+					`);
+				}
 
 				data.options.forEach((item, i) => {
 					var content;
 					if(item.image.length > 0){
-						content = `<img src="${baseUrl}/public/lesson/${item.lesson_id}/question/${item.image}" alt="image" class="opt-img"/>${item.text}`;
+						content = `<img src="${item.url_file}/${item.image}" alt="image" class="opt-img"/>${item.text}`;
 					}else{
 						content = item.text;
 					}
@@ -51,7 +64,7 @@
 					var content_t;
 					if(target.file.length > 0){
 						content_t = `
-						<div class="img_target"><img src="${baseUrl}/public/lesson/${target.lesson_id}/question/${target.file}" class="img_responsive" style="max-height:50px;"/></div>
+						<div class="img_target"><img src="${target.url_file}/${target.file}" class="img_responsive" style="max-height:50px;"/></div>
 						<div class="droppable" data-accept="${target.accept}">${target.text}<div class="answer-wrap"></div></div>
 						`;
 					}else{

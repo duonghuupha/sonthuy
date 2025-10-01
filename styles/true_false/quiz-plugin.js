@@ -14,7 +14,7 @@
 						<div class="question-box" data-index="${index}">
 						<div class="question">${q.question}</div>
 						<div class="question_img">
-							<img src="${baseUrl}/public/lesson/${q.lesson_id}/question/${q.file}" class="img_responsive" style="max-height:200px"/>
+							<img src="${q.url_file}/${q.file}" class="img_responsive" style="max-height:200px"/>
 						</div>
 						<div class="button-container">
 							<label><input type="radio" name="q${index}" value="true" class="quiz-radio"> Đúng</label>

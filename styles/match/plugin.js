@@ -16,6 +16,13 @@
 			// Thêm phần nội dung câu hỏi (title)
 			if (data.questionText) {
 				$container.append('<div class="quiz-title">' + data.questionText + '</div>');
+				if(data.file_question.length > 0){
+					$container.append(`
+					<div class="question-img">
+						<img src="${data.url_file}/${data.file_question}" class="img_responsive" style="max-height:200px"/>
+					</div>	
+					`);
+				}
 			}
 			// shuffle arrays
 			let leftItems = shuffle([...data.questions]);
@@ -27,7 +34,7 @@
 			leftItems.forEach(q => {
 				let $item = $('<div class="item"></div>').attr("data-id", q.id);
 				if(q.file_a.length > 0){
-					$item.append(`<img src="${baseUrl}/public/lesson/${q.lesson_id}/question/${q.file_a}" class="img_responsive" style="max-height:50px">`);
+					$item.append(`<img src="${q.url_file}/${q.file_a}" class="img_responsive" style="max-height:50px">`);
 				}
 				$item.append(q.content);
 				//if (q.type === "image") $item.append(`<img src="${q.content}" style="max-width:100%">`);
@@ -37,7 +44,7 @@
 			rightItems.forEach(a => {
 				let $item = $('<div class="item"></div>').attr("data-id", a.id);
 				if(a.file_b.length > 0){
-					$item.append(`<img src="${baseUrl}/public/lesson/${a.lesson_id}/question/${a.file_b}" class="img_responsive" style="max-height:50px">`);
+					$item.append(`<img src="${a.url_file}/${a.file_b}" class="img_responsive" style="max-height:50px">`);
 				}
 				$item.append(a.content);
 				$right.append($item);

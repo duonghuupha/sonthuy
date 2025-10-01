@@ -25,7 +25,7 @@
 							optionsHTML += `
 								<label class="option-label">
 									<input type="checkbox" name="q${index}" value="${opt.index}" class="quiz-checkbox"/>
-									<img src="${baseUrl}/public/lesson/${q.lesson_id}/question/${opt.text.file_detail}" class="img_responsive" style="max-height:50px"/>
+									<img src="${q.url_file}/${opt.text.file_detail}" class="img_responsive" style="max-height:50px"/>
 									${opt.text.title}
 								</label>
 							`;
@@ -38,16 +38,27 @@
 							`;
 						}
 					});
-					const questionBox = $(`
-						<div class="question-box" data-index="${index}">
-						<div class="question">${q.question}</div>
-						<div class="question-img">
-							<img src="${baseUrl}/public/lesson/${q.lesson_id}/question/${q.file}" class="img_responsive" style="max-height:200px"/>
-						</div>
-						<div class="option-container">${optionsHTML}</div>
-						<div class="feedback"></div>
-						</div>
-					`);
+					let questionBox = '';
+					if(q.file.length > 0){
+						questionBox = $(`
+							<div class="question-box" data-index="${index}">
+							<div class="question">${q.question}</div>
+							<div class="question-img">
+								<img src="${q.url_file}/${q.file}" class="img_responsive" style="max-height:200px"/>
+							</div>
+							<div class="option-container">${optionsHTML}</div>
+							<div class="feedback"></div>
+							</div>
+						`);
+					}else{
+						questionBox = $(`
+							<div class="question-box" data-index="${index}">
+							<div class="question">${q.question}</div>
+							<div class="option-container">${optionsHTML}</div>
+							<div class="feedback"></div>
+							</div>
+						`);
+					}
 					container.append(questionBox);
 				});
 				container.append(`

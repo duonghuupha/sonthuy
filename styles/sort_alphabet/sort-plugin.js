@@ -22,14 +22,26 @@
 				const shuffled = [...letters];
 				shuffle(shuffled);
 
-				container.html(`
-          <h2>${data.instruction || 'Sắp xếp các chữ cái sau thành từ đúng:'}</h2>
-          <div class="letter-bank"></div>
-          <div class="answer-area"></div>
-          <button class="check-btn">Kiểm tra</button>
-          <button class="reset-btn">Làm lại</button>
-          <div class="result"></div>
-        `);
+				if(data.file.length > 0){
+					container.html(`
+						<h2>${data.instruction || 'Sắp xếp các chữ cái sau thành từ đúng:'}</h2>
+						<div class="img_question"><img src="${data.url_file}/${data.file}" class="img_responsive" style="max-height:200px;"/></div>
+						<div class="letter-bank"></div>
+						<div class="answer-area"></div>
+						<button class="check-btn">Kiểm tra</button>
+						<button class="reset-btn">Làm lại</button>
+						<div class="result"></div>
+					`);
+				}else{
+					container.html(`
+						<h2>${data.instruction || 'Sắp xếp các chữ cái sau thành từ đúng:'}</h2>
+						<div class="letter-bank"></div>
+						<div class="answer-area"></div>
+						<button class="check-btn">Kiểm tra</button>
+						<button class="reset-btn">Làm lại</button>
+						<div class="result"></div>
+					`);
+				}
 
 				const bank = container.find(".letter-bank");
 				const answer = container.find(".answer-area");

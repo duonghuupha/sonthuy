@@ -5,7 +5,8 @@ class One_true_Model extends Model{
     }
 
     function get_json_question_Obj($question_id){
-        $query = $this->db->query("SELECT id, code, title, file, lesson_id FROM tbl_question WHERE id = $question_id");
+        $query = $this->db->query("SELECT id, code, title, file, lesson_id, IF(source_edu = 1, 'lesson', IF(source_edu = 2, 'vocab', 'test')) AS type 
+                                    FROM tbl_question WHERE id = $question_id");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
