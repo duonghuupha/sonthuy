@@ -23,6 +23,10 @@
                 <h1>
                     Quản lý lớp học
                     <small class="pull-right">
+                        <button class="btn btn-sm btn-info" id="add_personnel" onclick="order_teacher()">
+                            <i class="ace-icon fa fa-briefcase"></i>
+                            Xếp lớp
+                        </button>
                         <button class="btn btn-sm btn-primary" id="add_personnel" onclick="add()">
                             <i class="ace-icon fa fa-plus"></i>
                             Thêm mới
@@ -118,5 +122,57 @@
         </div><!-- /.page-content -->
     </div>
 </div><!-- /.main-content -->
+
+<!--Form don vi tinh-->
+<div id="modal-order-teacher" class="modal fade" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header no-padding">
+                <div class="table-header">
+                    Xếp lớp cho giáo viên
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form id="fm-order" method="POST" enctype="multipart/form-data">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="form-field-username">
+                                    Lựa chọn giáo viên <span style="color:red">(*)
+                                </label>
+                                <div>
+                                    <select class="select2" data-placeholder="Lựa chọn giáo viên..."
+                                    style="width:100%" required="" id="user_id" name="user_id">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="form-field-username">Họ và tên <span style="color:red">(*)</span></label>
+                                <div>
+                                    <select class="select2" data-placeholder="Lựa chọn lớp học..."
+                                    style="width:100%" required="" id="class_id" name="class_id">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-danger pull-left" id="close_modal" data-dismiss="modal">
+                    <i class="ace-icon fa fa-times"></i>
+                    Đóng
+                </button>
+                <button class="btn btn-sm btn-primary pull-right" id="save_modal" onclick="save_order()">
+                    <i class="ace-icon fa fa-save"></i>
+                    Ghi dữ liệu
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- End formm don vi tinh-->
 
 <script src="<?php echo URL.'/public/' ?>scripts/class_room/index.js"></script>

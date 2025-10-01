@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 27, 2025 at 10:25 PM
+-- Generation Time: Oct 01, 2025 at 09:57 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -34,6 +34,7 @@ CREATE TABLE `tbl_class_room` (
   `content` text COLLATE utf8_unicode_ci NOT NULL,
   `date_start` date NOT NULL,
   `date_end` date NOT NULL,
+  `user_id` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -42,8 +43,8 @@ CREATE TABLE `tbl_class_room` (
 -- Dumping data for table `tbl_class_room`
 --
 
-INSERT INTO `tbl_class_room` (`id`, `code`, `title`, `content`, `date_start`, `date_end`, `status`, `create_at`) VALUES
-(2, 141120460, '1ADT2025', 'Lớp một năm 2025', '2025-07-25', '2026-07-09', 1, '2025-07-25 22:53:18');
+INSERT INTO `tbl_class_room` (`id`, `code`, `title`, `content`, `date_start`, `date_end`, `user_id`, `status`, `create_at`) VALUES
+(2, 141120460, '1ADT2025', 'Lớp một năm 2025', '2025-07-25', '2026-07-09', 0, 1, '2025-07-25 22:53:18');
 
 -- --------------------------------------------------------
 
@@ -242,7 +243,12 @@ INSERT INTO `tbl_question` (`id`, `code`, `source_edu`, `lesson_id`, `type_quest
 (6, 890901372, 1, 2, 5, 'Kéo thả đáp án vào đúng ô nhé', '', 1, '2025-09-21 20:22:26', 0, 0, 0),
 (7, 345711435, 1, 2, 6, 'Sắp xếp các chữ sau thành một từ có nghĩa', '', 1, '2025-09-21 20:25:46', 0, 0, 0),
 (19, 491149882, 1, 2, 5, 'fsdgsdfg', '', 1, '2025-09-26 00:49:56', 0, 0, 0),
-(20, 20471154, 2, 0, 1, 'Trái đất quay quanh mặt trời đúng hay sai?', '1759000814_20471154.jpg', 1, '2025-09-28 02:20:14', 4, 0, 0);
+(20, 20471154, 2, 0, 1, 'Trái đất quay quanh mặt trời đúng hay sai?', '1759000814_20471154.jpg', 1, '2025-09-28 02:20:14', 4, 0, 0),
+(21, 7038933, 2, 0, 2, 'Thủ đô của Việt Nam là?', '', 1, '2025-09-29 23:54:24', 4, 0, 0),
+(22, 11411332, 2, 0, 3, 'Loài vật nào bay trên trời?', '', 1, '2025-09-29 23:56:22', 4, 0, 0),
+(23, 97693426, 2, 0, 6, 'Hãy sắp xếp các chữ cái sau thành một từ có nghĩa?', '', 1, '2025-09-30 00:00:11', 4, 0, 0),
+(25, 39388934, 2, 0, 4, 'Nối đáp án ở cột A với cột B', '', 1, '2025-09-30 00:18:56', 4, 0, 0),
+(26, 31552392, 2, 0, 5, 'dafasdfasdfas', '', 1, '2025-10-01 06:59:33', 4, 0, 0);
 
 --
 -- Triggers `tbl_question`
@@ -289,7 +295,11 @@ INSERT INTO `tbl_question_drag_drop_item` (`id`, `code`, `code_question`, `targe
 (23, 1758822596, 491149882, 79147, 'a', '1758822585_answer_1115.png', 1, 0),
 (24, 1758822596, 491149882, 79147, 'b', '1758822588_answer_6735.png', 1, 0),
 (25, 1758822596, 491149882, 72439, 'c', '1758822591_answer_6115.jpg', 1, 0),
-(26, 1758822596, 491149882, 72439, 'd', '1758822593_answer_7652.jpg', 1, 0);
+(26, 1758822596, 491149882, 72439, 'd', '1758822593_answer_7652.jpg', 1, 0),
+(27, 1759276773, 31552392, 87997, '', '1759276723_vocab_drag_drop_5289.png', 1, 0),
+(28, 1759276773, 31552392, 87997, '', '1759276737_vocab_drag_drop_2681.jpg', 1, 0),
+(29, 1759276773, 31552392, 0, '', '1759276754_vocab_drag_drop_8623.png', 1, 0),
+(30, 1759276773, 31552392, 0, '', '1759276763_vocab_drag_drop_5379.jpg', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -315,7 +325,9 @@ INSERT INTO `tbl_question_drag_drop_target` (`id`, `code`, `code_question`, `tit
 (3, 1758460889, 890901372, '1', '', 1, 0),
 (4, 1758460893, 890901372, '2', '', 1, 0),
 (25, 1758822596, 491149882, '1', '1758822580_target_1614.jpg', 1, 79147),
-(26, 1758822596, 491149882, '2', '1758822583_target_9348.webp', 1, 72439);
+(26, 1758822596, 491149882, '2', '1758822583_target_9348.webp', 1, 72439),
+(27, 1759276773, 31552392, 'Animal', '', 1, 87997),
+(28, 1759276773, 31552392, 'Tool', '', 1, 22337);
 
 --
 -- Triggers `tbl_question_drag_drop_target`
@@ -348,7 +360,8 @@ CREATE TABLE `tbl_question_match` (
 --
 
 INSERT INTO `tbl_question_match` (`id`, `code`, `code_question`, `answer_a`, `file_a`, `answer_b`, `file_b`, `status`, `id_temp`) VALUES
-(55, 1758791273, 310556130, 'Chim', '1758791018_3774.png', 'Bird', '1758791269_4295.png', 1, 0);
+(55, 1758791273, 310556130, 'Chim', '1758791018_3774.png', 'Bird', '1758791269_4295.png', 1, 0),
+(57, 1759166336, 39388934, 'Chim', '1759166319_vocab_match_7246.png', 'Bird', '1759166327_vocab_match_3952.png', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -392,7 +405,11 @@ INSERT INTO `tbl_question_multiple_true` (`id`, `code`, `code_question`, `answer
 (1, 1758388253, 325750605, 1, 'Chim', '1758388253_25754.png'),
 (2, 1758388253, 325750605, 1, 'Cnn bướm', '1758388253_48265.jpg'),
 (3, 1758388253, 325750605, 0, 'Con chó', '1758388253_88226.png'),
-(4, 1758388253, 325750605, 0, 'Con cá', '1758388253_20657.jpg');
+(4, 1758388253, 325750605, 0, 'Con cá', '1758388253_20657.jpg'),
+(5, 1759164982, 11411332, 1, 'Chim', ''),
+(6, 1759164982, 11411332, 1, 'Bướm', ''),
+(7, 1759164982, 11411332, 0, 'Chó', ''),
+(8, 1759164982, 11411332, 0, 'Cá', '');
 
 -- --------------------------------------------------------
 
@@ -417,7 +434,11 @@ INSERT INTO `tbl_question_one_true` (`id`, `code`, `code_question`, `answer`, `t
 (1, 1758388059, 229145667, 1, 'Hà Nội', '1758388059_87551.jpg'),
 (2, 1758388059, 229145667, 0, 'Thành phố Hồ Chí Minh', '1758388059_52974.jpg'),
 (3, 1758388059, 229145667, 0, 'Đà Nẵng', '1758388059_50515.webp'),
-(4, 1758388059, 229145667, 0, 'Huế', '1758388059_33005.jpg');
+(4, 1758388059, 229145667, 0, 'Huế', '1758388059_33005.jpg'),
+(5, 1759164864, 7038933, 1, 'Hà Nội', ''),
+(6, 1759164864, 7038933, 0, 'Thành phố Hồ Chí Minh', ''),
+(7, 1759164864, 7038933, 0, 'Huế', ''),
+(8, 1759164864, 7038933, 0, 'Đà Nẵng', '');
 
 -- --------------------------------------------------------
 
@@ -437,7 +458,8 @@ CREATE TABLE `tbl_question_sort_alphabet` (
 --
 
 INSERT INTO `tbl_question_sort_alphabet` (`id`, `code`, `code_question`, `answer`) VALUES
-(1, 1758461147, 345711435, 'HELLO');
+(1, 1758461147, 345711435, 'HELLO'),
+(2, 1759165212, 97693426, 'ELEPHANT');
 
 -- --------------------------------------------------------
 
@@ -492,14 +514,14 @@ INSERT INTO `tbl_roles` (`id`, `parent_id`, `title`, `link`, `functions`, `order
 (7, 0, 'Bài giảng', '#', '', 4, 'folder-open-o', 0, 1),
 (8, 7, 'Danh mục', 'lesson_cate', '1,2,3', 1, 'a', 0, 1),
 (9, 7, 'Quản lý bài giảng', 'lesson', '1,2,3', 2, 'a', 0, 1),
-(10, 7, 'Từ vựng', 'vocabulary', '', 3, 'a', 0, 1),
+(10, 7, 'Từ vựng', 'vocabulary', '1,2,3', 3, 'a', 0, 1),
 (11, 0, 'Kiểm tra/Thi', '#', '', 5, 'pencil-square-o', 0, 1),
-(12, 11, 'Danh mục', 'test_cate', '', 1, 'a', 0, 1),
-(13, 11, 'Quản lý thi/kiểm tra', '#', '', 2, 'a', 0, 1),
+(12, 11, 'Danh mục', 'test_cate', '1,2,3', 1, 'a', 0, 1),
+(13, 11, 'Quản lý thi/kiểm tra', 'test', '1,2,3', 2, 'a', 0, 1),
 (14, 0, 'Quản lý người dùng', '#', '', 6, 'user', 0, 1),
-(15, 14, 'Tài khoản học sinh', '#', '', 1, 'a', 0, 1),
+(15, 14, 'Tài khoản học sinh', '#', '1,2,3', 1, 'a', 0, 1),
 (16, 14, 'Người dùng', 'users', '', 2, 'a', 0, 1),
-(17, 14, 'Phân quyền', '#', '', 3, 'a', 0, 1),
+(17, 14, 'Phân quyền', 'group_role', '', 3, 'a', 0, 1),
 (18, 0, 'Báo cáo', '#', '', 7, 'bar-chart', 0, 1);
 
 -- --------------------------------------------------------
@@ -659,7 +681,8 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-09-28 02:24:09', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', 'a9700ecf6caf074b15043addaae3dc0c899673b7', 1, 1, '2025-07-22 19:37:03');
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-10-02 01:37:47', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', '4954448c691da66fd12b2c7f84877faaab879a46', 1, 1, '2025-07-22 19:37:03'),
+(2, 1759338857, 'nguyenvana', '7ce0359f12857f2a90c7de465f40a95f01cb5da9', 3, 0, '', '', '', 1, 0, '2025-10-02 00:14:17');
 
 -- --------------------------------------------------------
 
@@ -882,25 +905,25 @@ ALTER TABLE `tbl_lesson_media`
 -- AUTO_INCREMENT for table `tbl_question`
 --
 ALTER TABLE `tbl_question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_drag_drop_item`
 --
 ALTER TABLE `tbl_question_drag_drop_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_drag_drop_target`
 --
 ALTER TABLE `tbl_question_drag_drop_target`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_match`
 --
 ALTER TABLE `tbl_question_match`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_match_temp`
@@ -912,19 +935,19 @@ ALTER TABLE `tbl_question_match_temp`
 -- AUTO_INCREMENT for table `tbl_question_multiple_true`
 --
 ALTER TABLE `tbl_question_multiple_true`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_one_true`
 --
 ALTER TABLE `tbl_question_one_true`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_sort_alphabet`
 --
 ALTER TABLE `tbl_question_sort_alphabet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_true_false`
@@ -972,7 +995,7 @@ ALTER TABLE `tbl_test_cate`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_vocab_cate`

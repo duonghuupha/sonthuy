@@ -139,3 +139,9 @@ function weeksBetween(date1, date2) {
     // Trả về số tuần (có thể là số lẻ)
     return diffInMs / msPerWeek;
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function order_teacher(){
+    $('#modal-order-teacher').modal('show');
+    combo_select_2('#user_id', baseUrl + '/users/combo_user', 0, '');
+    combo_select_2('#class_id', baseUrl + '/users/combo_class', 0, '');
+}

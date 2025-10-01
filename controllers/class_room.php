@@ -30,7 +30,7 @@ class Class_room extends Controller{
             $this->view->jsonObj = json_encode($jsonObj);
         }else{
             $data = array("code" => $code, "title" => $title, "date_start" => $date_start, "date_end" => $date_end, "content" => $content, "status" => 1,
-                        "create_at" => date("Y-m-d H:i:s"));
+                        "create_at" => date("Y-m-d H:i:s"), "user_id" => 0);
             $temp = $this->model->addObj($data);
             if($temp){
                 $jsonObj['msg'] = "Thêm lớp học thành công";
