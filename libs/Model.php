@@ -44,6 +44,22 @@ class Model {
         $row = $query->fetchAll();
         return $row[0]['Total'];
     }
+
+    /**
+     * return role parent
+     */
+    function get_data_role_parent(){
+        $query = $this->db->query("SELECT id, title, link, functions FROM tbl_roles WHERE parent_id = 0 AND status = 1 ORDER BY order_position ASC");
+        return $query->fetchAll();
+    }
+
+    /**
+     * return role sub
+     */
+    function get_data_role_sub($id){
+        $query = $this->db->query("SELECT id, title, link, functions FROM tbl_roles WHERE parent_id = $id AND status = 1 ORDER BY order_position ASC");
+        return $query->fetchAll();
+    }
     
     /**
      * Menu

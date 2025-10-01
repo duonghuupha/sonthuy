@@ -1,48 +1,43 @@
 <?php
-class User_Model extends Model{
+class Users_Model extends Model{
     function __construct(){
         parent::__construct();
     }
 
     function getFetObj($q, $offset, $rows){
         $result = array();
-        $query = $this->db->query("SELECT * FROM tbl_teacher WHERE fullname LIKE '%$q%'");
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_users WHERE username LIKE '%$q%' AND username != 'admin'");
         $row = $query->fetchAll();
-        $query = $this->db->query("SELECT id, code, fullname, email, phone, level, gender, DATE_FORMAT(birthday, '%d-%m-%Y') AS birthday, 
-                                    address, email, status, image FROM tbl_teacher WHERE fullname LIKE '%$q%' LIMIT $offset, $rows");
+        $query = $this->db->query("SELECT id, code, username, group_role_id, personnel_id, status, (SELECT fullname FROM tbl_teacher WHERE tbl_teacher.id = personnel_id)
+                                    AS teacher_title FROM tbl_users WHERE username LIKE '%$q%' AND username != 'admin' LIMIT $offset, $rows");
         $result['records'] = $row[0]['Total'];
         $result['total'] = ceil($row[0]['Total']/$rows);
-        $result['rows'] = $query->fetchAll();
+        $result['rows'] = $query->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }
 
-    function dupliObj($id, $code){
-        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_teacher WHERE code = $code");
+    function dupliObj($id, $username){
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_users WHERE username = '$username'");
         if($id > 0){
-            $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_teacher WHERE code = $code AND id != $id");
+            $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_users WHERE username = '$username' AND id != $id");
         }
         $row = $query->fetchAll();
         return $row[0]['Total'];
     }
 
     function addObj($data){
-        $query = $this->insert("tbl_teacher", $data);
+        $query = $this->insert("tbl_users", $data);
         return $query;
     }
 
     function updateObj($id, $data){
-        $query = $this->update("tbl_teacher", $data, "id = $id");
+        $query = $this->update("tbl_users", $data, "id = $id");
         return $query;
     }
 
     function delObj($id){
-        $query = $this->delete("tbl_teacher", "id = $id");
+        $query = $this->delete("tbl_users", "id = $id");
         return $query;
-    }
-
-    function get_info($id){
-        $query = $this->db->query("SELECT * FROM tbl_teacher WHERE id = $id");
-        return $query->fetchAll();
     }
 }
 ?>
