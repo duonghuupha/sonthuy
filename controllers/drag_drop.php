@@ -122,7 +122,7 @@ class Drag_drop extends Controller{
             $url['main'] = DIR_UPLOAD.'/vocab/'.$code.'/question';
             $url['temp'] = DIR_UPLOAD.'/vocab/temp';
         }elseif($type == 'test'){
-            $url['main'] = DIR_UPLOAD.'/test/question';
+            $url['main'] = DIR_UPLOAD.'/test/'.$code.'/question';
             $url['temp'] = DIR_UPLOAD.'/test/temp';
         }
         return $url;

@@ -6,70 +6,37 @@
                     <i class="ace-icon fa fa-home home-icon"></i>
                     <a href="#">Trang chủ</a>
                 </li>
-                <li class="">Bài giảng</li>
-                <li class="active">Từ vựng</li>
+                <li class="">Kiểm tra/Thi</li>
+                <li class="active">Quản lý câu hỏi kiểm tra/thi</li>
             </ul><!-- /.breadcrumb -->
         </div>
         <div class="page-content">
-            <div class="row">
-                <div class="col-xs-12 col-sm-4 half">
-                    <h3 class="header smaller lighter blue">
-                        Danh mục / nhóm từ vựng
-                    </h3>
-                    <div class="col-xs-12 col-sm-12" id="btn_cate">
-                        <button type="button" class="btn btn-primary btn-sm pull-left" onclick="add_cate()" id="add_row">
-                            <i class="fa fa-plus"></i>
+            <div class="page-header">
+                <h1>
+                    Quản lý câu hỏi kiểm tra/thi
+                    <small class="pull-right">
+                        <button class="btn btn-sm btn-primary" id="add_personnel" onclick="add()">
+                            <i class="ace-icon fa fa-plus"></i>
                             Thêm mới
                         </button>
-                        <button type="button" class="btn btn-success btn-sm pull-left" onclick="save_cate(0, 0)" id="save_row">
-                            <i class="fa fa-save"></i>
-                            Ghi dữ liệu
+                        <button class="btn btn-sm btn-success" id="update_personnel" onclick="update()">
+                            <i class="ace-icon fa fa-edit"></i>
+                            Cập nhật
                         </button>
-                        <button type="button" class="btn btn-danger btn-sm pull-left" onclick="del_cate()" id="del_row">
-                            <i class="fa fa-trash"></i>
+                        <button class="btn btn-sm btn-danger" id="del_personnel" onclick="del()">
+                            <i class="ace-icon fa fa-trash"></i>
                             Xóa
                         </button>
-                        <button type="button" class="btn btn-info btn-sm pull-left" onclick="cancel_cate(0)" id="cancel_row">
-                            <i class="fa fa-times"></i>
-                            Hủy bỏ
-                        </button>
-                    </div>
-                    <div class="col-xs-12 col-sm-12">
-                        <div class="space-4"></div>
-                    </div>
-                    <div class="col-xs-12 col-sm-12">
-                        <table id="list_cate" 
-                            class="table" 
-                            role="grid"
-                            aria-describedby="dynamic-table_info"></table>
-                        <div id="cate_pager"></div>
-                    </div>
-                </div><!-- /.col -->
-                <div class="col-xs-12 col-sm-8 half">
-                    <h3 class="header smaller lighter blue" id="danh_sach_cau_hoi">
-                        Danh sách câu hỏi
-                        <small class="pull-right">
-                            <button type="button" class="btn btn-primary btn-xs pull-left" onclick="add_question()">
-                                <i class="fa fa-plus"></i>
-                                Thêm mới
-                            </button>
-                            <button type="button" class="btn btn-success btn-xs pull-left" onclick="update_question()">
-                                <i class="fa fa-pencil"></i>
-                                Cập nhật
-                            </button>
-                            <button type="button" class="btn btn-danger btn-xs pull-left" onclick="del_question()">
-                                <i class="fa fa-trash"></i>
-                                Xóa
-                            </button>
-                        </small>
-                    </h3>
-                    <div class="col-xs-12 col-sm-12">
-                        <table id="list_vocab" 
-                            class="table" 
-                            role="grid"
-                            aria-describedby="dynamic-table_info"></table>
-                        <div id="vocab_pager"></div>
-                    </div>
+                    </small>
+                </h1>
+            </div><!-- /.page-header -->
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <table id="list_test" 
+                        class="table" 
+                        role="grid"
+                        aria-describedby="dynamic-table_info"></table>
+                    <div id="test_pager"></div>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.page-content -->
@@ -190,7 +157,6 @@
 </div>
 <!-- End formm don vi tinh-->
 
-<script src="<?php echo URL.'/public/' ?>scripts/vocabulary/cate.js"></script>
-<script src="<?php echo URL.'/public/' ?>scripts/vocabulary/index.js"></script>
-<script src="<?php echo URL.'/public/' ?>scripts/vocabulary/match.js"></script>
-<script src="<?php echo URL.'/public/' ?>scripts/vocabulary/drag_drop.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/test/index.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/test/match.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/test/drag_drop.js"></script>
