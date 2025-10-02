@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 01, 2025 at 09:57 PM
+-- Generation Time: Oct 02, 2025 at 10:32 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -44,7 +44,8 @@ CREATE TABLE `tbl_class_room` (
 --
 
 INSERT INTO `tbl_class_room` (`id`, `code`, `title`, `content`, `date_start`, `date_end`, `user_id`, `status`, `create_at`) VALUES
-(2, 141120460, '1ADT2025', 'Lớp một năm 2025', '2025-07-25', '2026-07-09', 0, 1, '2025-07-25 22:53:18');
+(2, 141120460, '1ADT2025', 'Lớp một năm 2025', '2025-07-25', '2026-07-09', 2, 1, '2025-07-25 22:53:18'),
+(3, 980932955, '2ADT2025', 'Lớp học năm học 2025', '2025-01-01', '2025-12-16', 0, 1, '2025-10-03 01:48:21');
 
 -- --------------------------------------------------------
 
@@ -60,6 +61,13 @@ CREATE TABLE `tbl_group_role` (
   `status` int(11) NOT NULL,
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_group_role`
+--
+
+INSERT INTO `tbl_group_role` (`id`, `code`, `title`, `roles`, `status`, `create_at`) VALUES
+(1, 1759428844, 'Giáo viên', '3,4,5,6,7,8,8_1,8_2,8_3,9,9_1,9_2,9_3,10,10_1,10_2,10_3,11,12,12_1,12_2,12_3,13,13_1,13_2,13_3,13_6', 1, '2025-10-03 01:14:04');
 
 -- --------------------------------------------------------
 
@@ -505,7 +513,7 @@ CREATE TABLE `tbl_roles` (
 --
 
 INSERT INTO `tbl_roles` (`id`, `parent_id`, `title`, `link`, `functions`, `order_position`, `icon`, `is_submenu`, `status`) VALUES
-(1, 0, 'Lớp học', 'class_room', '1,2,3', 1, 'life-bouy', 0, 1),
+(1, 0, 'Lớp học', 'class_room', '1,2,3,5', 1, 'life-bouy', 0, 1),
 (2, 0, 'Nhân sự', 'teacher', '1,2,3', 2, 'users', 0, 1),
 (3, 0, 'Học sinh', '#', '', 3, 'graduation-cap', 0, 1),
 (4, 3, 'Thông tin học sinh', 'students', '1,2,3', 1, 'a', 0, 1),
@@ -517,7 +525,7 @@ INSERT INTO `tbl_roles` (`id`, `parent_id`, `title`, `link`, `functions`, `order
 (10, 7, 'Từ vựng', 'vocabulary', '1,2,3', 3, 'a', 0, 1),
 (11, 0, 'Kiểm tra/Thi', '#', '', 5, 'pencil-square-o', 0, 1),
 (12, 11, 'Danh mục', 'test_cate', '1,2,3', 1, 'a', 0, 1),
-(13, 11, 'Quản lý thi/kiểm tra', 'test', '1,2,3', 2, 'a', 0, 1),
+(13, 11, 'Quản lý thi/kiểm tra', 'test', '1,2,3,6', 2, 'a', 0, 1),
 (14, 0, 'Quản lý người dùng', '#', '', 6, 'user', 0, 1),
 (15, 14, 'Tài khoản học sinh', '#', '1,2,3', 1, 'a', 0, 1),
 (16, 14, 'Người dùng', 'users', '', 2, 'a', 0, 1),
@@ -681,8 +689,8 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-10-02 01:37:47', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', '4954448c691da66fd12b2c7f84877faaab879a46', 1, 1, '2025-07-22 19:37:03'),
-(2, 1759338857, 'nguyenvana', '7ce0359f12857f2a90c7de465f40a95f01cb5da9', 3, 0, '', '', '', 1, 0, '2025-10-02 00:14:17');
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-10-03 01:52:34', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', '87b1a3065d00c42fe90a2817c8aa32903f3652eb', 1, 1, '2025-07-22 19:37:03'),
+(2, 1759338857, 'nguyenvana', '7ce0359f12857f2a90c7de465f40a95f01cb5da9', 3, 1, '2025-10-03 01:49:08', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', '1f873d66aa7e25e2bc5bd3c1a225e210da9b36a0', 1, 0, '2025-10-02 00:14:17');
 
 -- --------------------------------------------------------
 
@@ -863,13 +871,13 @@ ALTER TABLE `tbl_vocab_cate`
 -- AUTO_INCREMENT for table `tbl_class_room`
 --
 ALTER TABLE `tbl_class_room`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_group_role`
 --
 ALTER TABLE `tbl_group_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_lesson`
