@@ -60,6 +60,51 @@ class Model {
         $query = $this->db->query("SELECT id, title, link, functions FROM tbl_roles WHERE parent_id = $id AND status = 1 ORDER BY order_position ASC");
         return $query->fetchAll();
     }
+
+    /**
+     * Check role of group
+     */
+    function checked_role($id, $role){
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_group_role WHERE id = $id
+                                    AND FIND_IN_SET('$role', roles)");
+        $row = $query->fetchAll();
+        return $row[0]['Total'];
+    }
+
+    /**
+     * kiem tra quyen nguoi dung
+     */
+    function check_role_controller($grouproleid, $link){
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_group_role WHERE id = $grouproleid 
+                                    AND FIND_IN_SET((SELECT tbl_roles.id FROM tbl_roles 
+                                    WHERE tbl_roles.link = '$link'), roles) AND status = 1");
+        $row = $query->fetchAll();
+        return $row[0]['Total'];
+    }
+
+    /**
+     * return check_role_function
+     */
+    function check_functions_role($userid, $functions, $controller){
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_group_role WHERE id = (SELECT group_role_id FROM tbl_users WHERE tbl_users.id= $userid)
+                                    AND FIND_IN_SET(CONCAT((SELECT tbl_roles.id FROM tbl_roles WHERE tbl_roles.link = '$controller'), '_', $functions), roles)");
+        $row = $query->fetchAll();
+        return $row[0]['Total'];
+    }
+
+    /**
+     * return sidebar roles
+     */
+    function return_sidebar($userid, $id){
+        if($userid == 1){
+            $query = $this->db->query("SELECT id, title, icon, link, parent_id FROM tbl_roles WHERE parent_id = $id AND status = 1 ORDER BY order_position ASC");
+        }else{
+            $query = $this->db->query("SELECT id, title, icon, link, parent_id FROM tbl_roles WHERE parent_id = $id AND FIND_IN_SET(id,
+                                        (SELECT roles FROM tbl_group_role WHERE tbl_group_role.id = (SELECT group_role_id FROM tbl_users WHERE tbl_users.id = $userid)))
+                                        AND status = 1 ORDER BY order_position ASC");
+        }
+        return $query->fetchAll();
+    }
     
     /**
      * Menu

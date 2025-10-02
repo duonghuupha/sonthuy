@@ -12,7 +12,7 @@ $(function(){
             {label: 'Số người dùng được phân quyền', name: 'total_user', width: 150, align: 'center'},
             {label: 'Trạng thái', name: 'status', width: 100, align: "center", formatter: format_trangthai},
             {label: 'Cập nhật lần cuối', name: 'create_at', width: 150, align: 'center'},
-            {label: '&nbsp', name: 'id', width: 70, align: "center", formatter: format_button_group_role}
+            {label: '&nbsp', name: 'id', hidden: true, key: true}
         ],
         viewrecords: false, height:200, width: gwdth, rowNum: 10, rownumbers: true,
         height:($('.footer').offset().top - $('.page-header').offset().top - 147),
@@ -25,20 +25,6 @@ $(function(){
         }
     });
 });
-
-function format_button_group_role(cellvalue, options, rowObject){
-    //console.log(rowObject.code);
-    var html = '';
-    html += '<div class="hidden-sm hidden-xs action-buttons">';
-        html += '<a class="green" href="javascript:void(0)" onclick="edit('+cellvalue+')">';
-            html += '<i class="ace-icon fa fa-pencil bigger-130"></i>';
-        html += '</a>';
-        html += '<a class="red" href="javascript:void(0)" onclick="del('+cellvalue+')">';
-            html += '<i class="ace-icon fa fa-trash-o bigger-130"></i>';
-        html += '</a>';
-    html += '</div>';
-    return html;
-}
 
 function format_trangthai(cellvalue, options, rowObject){
     var html = '';
@@ -63,23 +49,24 @@ function format_button_role(cellvalue, options, rowObject){
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function add(){
+    reset_form('#fm'); data = [];
     $('#title').val(null); $('#save_form').show(); $('#title').attr("readonly", false);
     $('#roles').load(baseUrl + '/group_role/data_role?token='+localStorage.getItem('token'));
     $('#modal-role').modal('show');
     url= baseUrl + '/group_role/add?token='+localStorage.getItem('token');
 }
 
-function edit(idh){
-    var grid = $('#list_role');
-    jQuery('#list_role').jqGrid("setSelection", idh);
-    var row = grid.jqGrid("getRowData", idh);
-    if(row){
-        $('#title').val(row.title); $('#title').attr("readonly", false); data = [];
-        $('#roles').load(baseUrl + '/group_role/data_role?id='+idh+'&token='+localStorage.getItem('token'));
-        $('#modal-role').modal('show'); $('#save_form').show();
-        url= baseUrl + '/group_role/update?id='+idh+'&token='+localStorage.getItem('token');
+function edit(){
+    var rowKey = $('#list_role').jqGrid('getGridParam',"selrow");
+    if(rowKey == null){
+        show_message("error", "Vui lòng chọn bản ghi cần cập nhật");
+        return false;
     }else{
-        show_message("error", "Không có bản ghi nào được chọn");
+        var row = $('#list_role').jqGrid("getRowData", rowKey);
+        $('#title').val(row.title); $('#title').attr("readonly", false); data = [];
+        $('#roles').load(baseUrl + '/group_role/data_role?id='+row.id+'&token='+localStorage.getItem('token'));
+        $('#modal-role').modal('show'); $('#save_form').show();
+        url= baseUrl + '/group_role/update?id='+row.id+'&token='+localStorage.getItem('token');
     }
 }
 

@@ -66,9 +66,8 @@
                                             <option value="2">Cập nhật</option>
                                             <option value="3">Xóa</option>
                                             <option value="4">Nhập từ file</option>
-                                            <option value="5">Xuất dữ liệu</option>
-                                            <option value="6">Đặt trước</option>
-                                            <option value="7">Duyệt yêu cầu</option>
+                                            <option value="5">Xếp lớp</option>
+                                            <option value="6">Giao bài</option>
                                         </select>
                                     </div>
                                 </div>

@@ -9,39 +9,50 @@
         </li>
     <!------------------------------------Danh muc----------------------------------------->
         <?php
-        $level_1 = $this->_Data->get_menu();
-        foreach($level_1 as $item){
-            $url_level_1 = ($item['link'] == '#') ? 'javascript:void(0)' : URL.'/'.$item['link'].'?token='.$_SESSION['data'][0]['token'];
-            $level_2 = $this->_Data->get_menu($item['id']);
-            $class_level = (!empty($level_2)) ? 'dropdown-toggle' : ''; $tag_level = (!empty($level_2)) ? 'fa fa-angle-down' : '';
-        ?>
-        <li class="hover" class="<?php echo $class_level ?>">
-            <a href="javacsript:void(0)" onclick="window.location.href='<?php echo $url_level_1 ?>'">
-                <i class="menu-icon fa fa-<?php echo $item['icon'] ?>"></i>
-                <span class="menu-text"> <?php echo $item['title'] ?></span>
-                <b class="arrow <?php echo $tag_level ?>"></b>
-            </a>
-            <b class="arrow"></b>
-            <?php
-            if(!empty($level_2)){
+        $json = $this->_Data->return_sidebar($this->_Info[0]['id'], 0);
+        foreach($json as $row){
+            $json_con = $this->_Data->return_sidebar($this->_Info[0]['id'], $row['id']);
+            $link = ($row['link'] == '#') ? 'javascript:void(0)' : URL.'/'.$row['link'].'?token='.$_SESSION['data'][0]['token'];
+            if(count($json_con) > 0){
+                $class = 'class="dropdown-toggle"';
+                $tag_html = '<b class="arrow fa fa-angle-down"></b>';
+            }else{
+                $class = ''; $tag_html = '';
+            }
+            if($row['link'] == '#'){
+                $active = ($parnet_id == $row['id']) ? 'active' : '';
+            }else{
+                $active = ($url[0] == $row['link']) ? 'active' : '';
+            }
+            echo '
+            <li class="hover '.$active.'">
+                <a href="'.$link.'" '.$class.'>
+                    <i class="menu-icon fa fa-'.$row['icon'].'"></i>
+                    <span class="menu-text">
+                        '.$row['title'].'
+                    </span>
+                    '.$tag_html.'
+                </a>
+                <b class="arrow"></b>
+            ';
+            if(count($json_con) > 0){
                 echo '<ul class="submenu">';
-                foreach($level_2 as $item_2){
-                    $url_level_2 = ($item_2['link'] == '#') ? 'javascript:void(0)' : URL.'/'.$item_2['link'].'?token='.$_SESSION['data'][0]['token'];
-                ?>
-                <li class="hover">
-                    <a href="javascript:void(0)" onclick="window.location.href='<?php echo $url_level_2 ?>'">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        <?php echo $item_2['title'] ?>
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-                <?php
+                foreach($json_con as $item){
+                    $link_con = ($item['link'] == '#') ? 'javascript:void(0)' : URL.'/'.$item['link'].'?token='.$_SESSION['data'][0]['token'];
+                    $active = ($url[0] == $item['link']) ? 'active' : '';
+                    echo '
+                    <li class="hover '.$active.'">
+                        <a href="'.$link_con.'">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            '.$item['title'].'
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    ';
                 }
                 echo '</ul>';
             }
-            ?>
-        </li>
-        <?php
+            echo '</li>';
         }
         ?>
     </ul>

@@ -1,6 +1,6 @@
 <?php
 $id = isset($_REQUEST['id']) ? $_REQUEST['id'] : 0;
-$i = 0; $array_action = ['Thêm mới', 'Cập nhật', 'Xóa', 'Nhập từ file', 'Xuất dữ liệu', 'Đặt trước', 'Duyệt yêu cầu'];
+$i = 0; $array_action = ['Thêm mới', 'Cập nhật', 'Xóa', 'Nhập từ file', 'Xếp lớp', 'Giao bài'];
 foreach($this->_Data->get_data_role_parent() as $row){
     $role_sub = $this->_Data->get_data_role_sub($row['id']);
     $i++;
@@ -38,7 +38,7 @@ foreach($this->_Data->get_data_role_parent() as $row){
                         <li class="tree-item" role="treeitem"> 
                             <span class="tree-item-name"> 
                                 <input id="function_<?php echo $item['id'].'_'.$row_fun_sub ?>" name="function_<?php echo $item['id'].'_'.$row_fun_sub ?>" type="checkbox"
-                                value="<?php echo $item['id'].'_'.$row_fun_sub ?>" onclick="set_checked_function(<?php echo $item['id'].', '.$row_fun_sub ?>)"
+                                value="<?php echo $item['id'].'_'.$row_fun_sub ?>"
                                 <?php echo ($id != 0 && $this->_Data->checked_role($id, $item['id'].'_'.$row_fun_sub) != 0) ? 'checked=""' : '' ?>/>
                                 <span class="tree-label">
                                     <?php echo $array_action[$row_fun_sub - 1] ?>

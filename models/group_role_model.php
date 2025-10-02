@@ -38,4 +38,4 @@ class Group_role_model extends Model{
         return $row[0]['Total'];
     }
 }
-?>s
+?>

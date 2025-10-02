@@ -24,35 +24,14 @@
                             <?php
                             if($_SESSION['data'][0]['username'] == 'admin'){
                                 echo "Administrator";
+                            }else{
+                                echo $_SESSION['data'][0]['fullname'];
                             }
                             ?>
                         </span>
                         <i class="ace-icon fa fa-caret-down"></i>
                     </a>
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                        <?php
-                        if($_SESSION['data'][0]['id'] != 1){
-                        ?>
-                        <li>
-                            <a href="<?php echo URL.'/profile?token='.$this->_Info[0]['token'] ?>">
-                                <i class="ace-icon fa fa-user"></i>
-                                Tài khoản
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <?php
-                        }else{
-                        ?>
-                        <li>
-                            <a href="<?php echo URL.'/setting?token='.$this->_Info[0]['token'] ?>">
-                                <i class="ace-icon fa fa-gears"></i>
-                                Cài đặt
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <?php
-                        }
-                        ?>
                         <li>
                             <a href="<?php echo URL.'/slides?token='.$this->_Info[0]['token'].'&id=0' ?>">
                                 <i class="ace-icon fa fa-refresh"></i>

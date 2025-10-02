@@ -267,6 +267,58 @@ class Convert{
         return $string;
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+    function return_role_functions_static($userid, $roles, $event){
+        $sql = new Model();
+        $url = $_REQUEST['url']; $url = explode("/", $url);
+        $check_role = $sql->check_functions_role($userid, $roles, $url[0]);
+        if($check_role != 0 || $userid == 1){
+            if($roles == 1){ // them moi
+                $html = '
+                <button type="button" class="btn btn-primary btn-sm" onclick="'.$event.'">
+                    <i class="fa fa-plus"></i>
+                    Thêm mới
+                </button>
+                ';
+            }elseif($roles == 2){ // cap nhat
+                $html = '
+                <button type="button" class="btn btn-success btn-sm" onclick="'.$event.'">
+                    <i class="fa fa-pencil"></i>
+                    Cập nhật
+                </button>
+                ';
+            }elseif($roles == 3){ // xóa
+                $html = '
+                <button type="button" class="btn btn-danger btn-sm" onclick="'.$event.'">
+                    <i class="ace-icon fa fa-trash"></i>
+                    Xóa
+                </button>
+                ';
+            }elseif($roles == 4){ // nhập file excel
+                $html = '
+                <button type="button" class="btn btn-info btn-sm" onclick="'.$event.'">
+                    <i class="fa fa-file-excel-o"></i>
+                    Nhập dữ liệu
+                </button>
+                ';
+            }elseif($roles == 5){ // Xếp lớp
+                $html = '
+                <button type="button" class="btn btn-info btn-sm" onclick="'.$event.'">
+                    <i class="fa fa-briefcase"></i>
+                    Xếp lớp
+                </button>
+                ';
+            }elseif($roles == 6){ // Giao bài
+                $html = '
+                <button type="button" class="btn btn-info btn-sm" onclick="'.$event.'">
+                    <i class="fa fa-graduation-cap"></i>
+                    Giao bài
+                </button>
+                ';
+            }
+        }else{
+            $html = '';
+        }
+        return $html;
+    }
 }
 ?>

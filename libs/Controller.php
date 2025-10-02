@@ -18,11 +18,8 @@ class Controller {
         $this->_Setting = $_SESSION['setting'];
         //$this->_Log = new Log();
         $this->_Url = isset($_REQUEST['url']) ? explode("/", $_REQUEST['url']) : ['index'];
-        $this->_Arr_Role = array('other', 'task_result', 'task_result_file', 'index', 'errors', 'task_group', 'task_file', 'validate_proof_dt',
-                                'work_pro_dt', 'dashboard', 'profile', 'notify', 'department', 'years', 'job', 'level', 'regency', 'relationship',
-                                'system', 'physical', 'province', 'district', 'commune', 'document_cate_out', 'document_cate_in', 'document_type',
-                                'food', 'unit', 'device_cate', 'student_relation', 'student_add', 'dc_cate_2024', 'village', 'nation', 'validate_standard',
-                                'validate_criteria');
+        $this->_Arr_Role = array('other', 'true_false', 'one_true', 'multiple_true', "match", "drag_drop", "sort_alphabet", "lesson_dc",
+                                "lesson_card", "lesson_media", "question");
         //$this->_Sendmail = new Mail();
 	}
 
@@ -51,7 +48,7 @@ class Controller {
                     header ('Location: '.URL.'/index/login');
                     exit;
                 }else{
-                    /*if(isset($_REQUEST['url'])){
+                    if(isset($_REQUEST['url'])){
                         $url = $_REQUEST['url'];
                         $url = explode("/", $url);
                         if($this->_Info[0]['id'] != 1){ // nguoi dung dang nhap la admin thi khong chay
@@ -67,8 +64,7 @@ class Controller {
                         }
                     }else{
                         $url = "index";
-                    }*/
-                    $url = 'index';
+                    }
                 }
             }else{
                 session_start();

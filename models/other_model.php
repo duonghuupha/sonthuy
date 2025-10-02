@@ -28,5 +28,10 @@ class Other_Model extends Model{
         $query = $this->db->query("SELECT fullname AS title, id FROM tbl_teacher WHERE fullname LIKE '%$q%'");
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    function get_combo_group_role($q){
+        $query = $this->db->query("SELECT title, id FROM tbl_group_role WHERE title LIKE '%$q%'");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

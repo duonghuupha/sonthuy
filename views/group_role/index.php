@@ -18,6 +18,14 @@
                             <i class="fa fa-plus"></i>
                             Thêm mới
                         </button>
+                        <button type="button" class="btn btn-success btn-sm" onclick="edit()">
+                            <i class="fa fa-pencil"></i>
+                            Cập nhật
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="del()">
+                            <i class="fa fa-trash"></i>
+                            Xóa
+                        </button>
                     </small>
                 </h1>
             </div><!-- /.page-header -->

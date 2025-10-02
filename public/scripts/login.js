@@ -14,13 +14,8 @@ function login(){
             success: function(data){
                 var result = JSON.parse(data);
                 if(result.success == true){
-                    if(result.change_pass == 1 || user == 'admin'){
-                        window.location.href = baseUrl + '/index?token='+result.token;
-                        localStorage.setItem('token',result.token);
-                    }else{
-                        window.location.href = baseUrl + '/profile/change_pass?token='+result.token;
-                        localStorage.setItem('token',result.token);
-                    }
+                    window.location.href = baseUrl + '/index?token='+result.token;
+                    localStorage.setItem('token',result.token);
                 }else{
                     show_message('error', result.msg);
                     return false;

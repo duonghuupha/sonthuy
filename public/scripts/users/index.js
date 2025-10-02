@@ -42,8 +42,9 @@ function format_trangthai(cellvalue, options, rowObject){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function add(){
     $('#personnel_id, #username, #pass, #repass, #group_role_id, #btncancel, #btnsave').removeAttr('disabled');
-    $('#personnel_id, #username, #pass, #repass').attr('required', 'required');
+    $('#personnel_id, #username, #pass, #repass, #group_role_id').attr('required', 'required');
     combo_select_2('#personnel_id', baseUrl+'/other/combo_personnel', 0, '');
+    combo_select_2('#group_role_id', baseUrl+'/other/combo_group_role', 0, '');
     url = baseUrl + '/users/add?token='+localStorage.getItem('token');
 }
 
@@ -56,7 +57,8 @@ function update(){
         var row = $('#list_users').jqGrid("getRowData", rowKey); id_edit = row.id;
         $('#group_role_id, #btncancel, #btnsave').removeAttr('disabled');
         $('#personnel_id, #username, #pass, #repass').removeAttr('required');
-        //$('#group_role_id').attr('required', 'required');
+        $('#group_role_id').attr('required', 'required');
+        combo_select_2('#group_role_id', baseUrl+'/other/combo_group_role', 0, '');
         url = baseUrl + '/users/update?token=' + localStorage.getItem('token') + '&id=' + row.id;
     }
 }
