@@ -28,7 +28,7 @@ class Users extends Controller{
             $jsonObj['success'] = false;
             $this->view->jsonObj = json_encode($jsonObj);
         }else{
-            $data = array('code' => $code, 'personnel_id' => $personnel_id, 'username' => $username, 'password' => sha1($pass), 'group_role_id' => 0, 
+            $data = array('code' => $code, 'personnel_id' => $personnel_id, 'username' => $username, 'password' => sha1($pass), 'group_role_id' => $group_role_id, 
                         'create_at'=>date('Y-m-d H:i:s'), "status" => 1, "last_login" => "", "info_login" => "", "token" => "", "change_pass" => 0);
             $temp = $this->model->addObj($data);
             if($temp){
@@ -51,7 +51,7 @@ class Users extends Controller{
             $jsonObj['success'] = false;
             $this->view->jsonObj = json_encode($jsonObj);
         }else{
-            $data = array('group_role_id' => 0);
+            $data = array('group_role_id' => $group_role_id);
             $temp = $this->model->updateObj($id, $data);
             if($temp){
                 $jsonObj['msg'] = "Cập nhật dữ liệu thành công!";

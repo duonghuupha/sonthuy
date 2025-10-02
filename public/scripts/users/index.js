@@ -11,7 +11,9 @@ $(function(){
             {label: 'Tên đăng nhập', name: 'username', width: 200, align:"center"},
             {label: 'Nhóm người dùng', name: 'group_title', width: 150, align:"center"},
             {label: 'Trạng thái', name: 'status', width: 100, align: "center", formatter: format_trangthai},
-            {label: '&nbsp', name: 'id', hidden: true, key: true}
+            {label: '&nbsp', name: 'id', hidden: true, key: true},
+            {label: '&nbsp', name: 'personnel_id', hidden: true},
+            {label: '&nbsp', name: 'group_role_id', hidden: true}
         ],
         viewrecords: true, height:200, width: gwdth, rowNum: 20, rownumbers: true,
         height:($('.footer').offset().top - $('.page-header').offset().top - 147),
@@ -57,8 +59,9 @@ function update(){
         var row = $('#list_users').jqGrid("getRowData", rowKey); id_edit = row.id;
         $('#group_role_id, #btncancel, #btnsave').removeAttr('disabled');
         $('#personnel_id, #username, #pass, #repass').removeAttr('required');
-        $('#group_role_id').attr('required', 'required');
-        combo_select_2('#group_role_id', baseUrl+'/other/combo_group_role', 0, '');
+        $('#group_role_id').attr('required', 'required'); $('#username').val(row.username);
+        combo_select_2('#group_role_id', baseUrl+'/other/combo_group_role', row.group_role_id, row.group_title);
+        combo_select_2('#personnel_id', baseUrl+'/other/combo_personnel', row.personnel_id, row.teacher_title);
         url = baseUrl + '/users/update?token=' + localStorage.getItem('token') + '&id=' + row.id;
     }
 }

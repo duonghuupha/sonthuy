@@ -9,7 +9,8 @@ class Users_Model extends Model{
         $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_users WHERE username LIKE '%$q%' AND username != 'admin'");
         $row = $query->fetchAll();
         $query = $this->db->query("SELECT id, code, username, group_role_id, personnel_id, status, (SELECT fullname FROM tbl_teacher WHERE tbl_teacher.id = personnel_id)
-                                    AS teacher_title FROM tbl_users WHERE username LIKE '%$q%' AND username != 'admin' LIMIT $offset, $rows");
+                                    AS teacher_title, (SELECT title FROM tbl_group_role WHERE tbl_group_role.id = group_role_id) AS group_title 
+                                    FROM tbl_users WHERE username LIKE '%$q%' AND username != 'admin' LIMIT $offset, $rows");
         $result['records'] = $row[0]['Total'];
         $result['total'] = ceil($row[0]['Total']/$rows);
         $result['rows'] = $query->fetchAll(PDO::FETCH_ASSOC);

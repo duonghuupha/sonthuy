@@ -49,18 +49,11 @@
                     <h3 class="header smaller lighter blue" id="danh_sach_cau_hoi">
                         Danh sách câu hỏi
                         <small class="pull-right">
-                            <button type="button" class="btn btn-primary btn-xs pull-left" onclick="add_question()">
-                                <i class="fa fa-plus"></i>
-                                Thêm mới
-                            </button>
-                            <button type="button" class="btn btn-success btn-xs pull-left" onclick="update_question()">
-                                <i class="fa fa-pencil"></i>
-                                Cập nhật
-                            </button>
-                            <button type="button" class="btn btn-danger btn-xs pull-left" onclick="del_question()">
-                                <i class="fa fa-trash"></i>
-                                Xóa
-                            </button>
+                            <?php
+                            echo $this->_Convert->return_role_functions_static($this->_Info[0]['id'], 1, 'add()'); // them moi
+                            echo $this->_Convert->return_role_functions_static($this->_Info[0]['id'], 2, 'update()'); // cap nhat
+                            echo $this->_Convert->return_role_functions_static($this->_Info[0]['id'], 3, 'del()'); // xoa
+                            ?>
                         </small>
                     </h3>
                     <div class="col-xs-12 col-sm-12">

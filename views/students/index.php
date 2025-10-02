@@ -15,18 +15,11 @@
                 <h1>
                     Quản lý thông tin học sinh
                     <small class="pull-right">
-                        <button class="btn btn-sm btn-primary" id="add_personnel" onclick="add()">
-                            <i class="ace-icon fa fa-plus"></i>
-                            Thêm mới
-                        </button>
-                        <button class="btn btn-sm btn-success" id="update_personnel" onclick="update()">
-                            <i class="ace-icon fa fa-edit"></i>
-                            Cập nhật
-                        </button>
-                        <button class="btn btn-sm btn-danger" id="del_personnel" onclick="del()">
-                            <i class="ace-icon fa fa-trash"></i>
-                            Xóa
-                        </button>
+                        <?php 
+                            echo $this->_Convert->return_role_functions_static($this->_Info[0]['id'], 1, 'add()'); // them moi
+                            echo $this->_Convert->return_role_functions_static($this->_Info[0]['id'], 2, 'update()'); // cap nhat
+                            echo $this->_Convert->return_role_functions_static($this->_Info[0]['id'], 3, 'del()'); // xoa
+                        ?>
                     </small>
                 </h1>
             </div><!-- /.page-header -->

@@ -19,7 +19,7 @@ class Controller {
         //$this->_Log = new Log();
         $this->_Url = isset($_REQUEST['url']) ? explode("/", $_REQUEST['url']) : ['index'];
         $this->_Arr_Role = array('other', 'true_false', 'one_true', 'multiple_true', "match", "drag_drop", "sort_alphabet", "lesson_dc",
-                                "lesson_card", "lesson_media", "question");
+                                "lesson_card", "lesson_media", "question", "vocab_cate");
         //$this->_Sendmail = new Mail();
 	}
 
