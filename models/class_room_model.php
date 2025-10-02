@@ -8,8 +8,9 @@ class Class_room_Model extends Model{
         $result = array();
         $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_class_room WHERE title LIKE '%$q%'");
         $row = $query->fetchAll();
-        $query = $this->db->query("SELECT id, code, title, date_start, date_end, content, status, DATE_FORMAT(date_start, '%d-%m-%Y') AS bat_dau,
-                                    DATE_FORMAT(date_end, '%d-%m-%Y') AS ket_thuc FROM tbl_class_room WHERE title LIKE '%$q%' ORDER BY id DESC LIMIT $offset, $rows");
+        $query = $this->db->query("SELECT id, code, title, date_start, date_end, content, status, DATE_FORMAT(date_start, '%d-%m-%Y') AS bat_dau, user_id,
+                                    DATE_FORMAT(date_end, '%d-%m-%Y') AS ket_thuc, (SELECT fullname FROM tbl_teacher WHERE tbl_teacher.id = (SELECT personnel_id
+                                    FROM tbl_users WHERE tbl_users.id = user_id)) AS fullname FROM tbl_class_room WHERE title LIKE '%$q%' ORDER BY id DESC LIMIT $offset, $rows");
         $result['records'] = $row[0]['Total'];
         $result['total'] = ceil($row[0]['Total']/$rows);
         $result['rows'] = $query->fetchAll();

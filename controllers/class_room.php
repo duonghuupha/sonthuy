@@ -100,5 +100,22 @@ class Class_room extends Controller{
         }
         $this->view->render('class_room/change');
     }
+
+    function order_teacher(){
+        $class_id = $_REQUEST['class_id'];
+        $user_id = $_REQUEST['user_id'];
+        $data = array("user_id" => $user_id);
+        $temp = $this->model->updateObj($class_id, $data);
+        if($temp){
+            $jsonObj['msg'] = "Cập nhật giáo viên thành công";
+            $jsonObj['success'] = true;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $jsonObj['msg'] = "Cập nhật giáo viên thất bại";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }
+        $this->view->render('class_room/order_teacher');
+    }
 }
 ?>

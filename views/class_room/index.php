@@ -139,7 +139,7 @@
                         </div>
                         <div class="col-xs-6">
                             <div class="form-group">
-                                <label for="form-field-username">Họ và tên <span style="color:red">(*)</span></label>
+                                <label for="form-field-username">Lựa chọn lớp học <span style="color:red">(*)</span></label>
                                 <div>
                                     <select class="select2" data-placeholder="Lựa chọn lớp học..."
                                     style="width:100%" required="" id="class_id" name="class_id">

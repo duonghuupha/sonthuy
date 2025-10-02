@@ -1,6 +1,6 @@
 var url = '';
 $(function(){
-    var gwdth = $('#list_teacher').width(), fwdth = $('.haft').width();
+    var gwdth = $('#list_class').width(), fwdth = $('.haft').width();
     $('#list_class').jqGrid({
         url: baseUrl + '/class_room/json?token='+localStorage.getItem('token'),
         datatype: "json",
@@ -9,13 +9,14 @@ $(function(){
             {label: 'Mã lớp học', name: 'code', width: 120, align:"center"},
             {label: 'Tên lớp học', name: 'title', width: 200, align: "center"},
             {label: 'Ngày bắt đầu', name: 'bat_dau', width: 150, align:"center"},
-            {label: 'Thời gian dự kiến', name: 'phone', width: 150, align:"center", formatter: format_time_out},
             {label: 'Ngày kết thúc', name: 'ket_thuc', width: 150, align:"center"},
-            {label: 'Mô tả lớp học', name: 'content', width: 350},
+            {label: 'GV phụ trách', name: 'fullname', width: 150, align:"center"},
             {label: 'Trạng thái', name: 'status', width: 100, align: "center", formatter: format_trangthai},
             {label: '&nbsp', name: 'id', hidden: true, key: true},
             {label: '&nbsp', name: 'date_start', hidden: true},
-            {label: '&nbsp', name: 'date_end', hidden: true}
+            {label: '&nbsp', name: 'date_end', hidden: true},
+            {label: '&nbsp', name: 'content', hidden: true},
+            {label: '&nbsp', name: 'user_id', hidden: true}
         ],
         viewrecords: true, height:200, width: fwdth, rowNum: 20, rownumbers: true,
         height:($('.footer').offset().top - $('.page-header').offset().top - 147),
@@ -142,6 +143,22 @@ function weeksBetween(date1, date2) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function order_teacher(){
     $('#modal-order-teacher').modal('show');
-    combo_select_2('#user_id', baseUrl + '/users/combo_user', 0, '');
-    combo_select_2('#class_id', baseUrl + '/users/combo_class', 0, '');
+    combo_select_2('#user_id', baseUrl + '/other/combo_user', 0, '');
+    combo_select_2('#class_id', baseUrl + '/other/combo_class', 0, '');
+    url = baseUrl + '/class_room/order_teacher?token='+localStorage.getItem('token');
+}
+
+function save_order(){
+    var required = $('#fm-order input, #fm-order textarea, #fm-order select').filter('[required]:visible');
+    var allRequired = true;
+    required.each(function(){
+        if($(this).val() == ''){
+            allRequired = false;
+        }
+    });
+    if(allRequired){
+        save_form_modal('#fm-order', url, '#modal-order-teacher', '#list_class', baseUrl+'/class_room/json?token='+localStorage.getItem('token'));
+    }else{
+        show_message("error", "Chưa điền đủ thông tin");
+    }
 }

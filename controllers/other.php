@@ -6,7 +6,7 @@ class Other extends Controller{
 
     function combo_class(){
         $keyword = isset($_REQUEST['q']) ? $_REQUEST['q'] : '';
-        $jsonObj = $this->model->get_combo_class($keyword);
+        $jsonObj = $this->model->get_combo_class($keyword, $this->_Info[0]['id']);
         $this->view->jsonObj = json_encode($jsonObj);
         $this->view->render("other/combo_class");
     }
@@ -48,6 +48,13 @@ class Other extends Controller{
         $jsonObj = $this->model->get_combo_group_role($keyword);
         $this->view->jsonObj = json_encode($jsonObj);
         $this->view->render("other/combo_group_role");
+    }
+
+    function combo_user(){
+        $keyword = isset($_REQUEST['q']) ? $_REQUEST['q'] : '';
+        $jsonObj = $this->model->get_combo_user($keyword);
+        $this->view->jsonObj = json_encode($jsonObj);
+        $this->view->render("other/combo_user");
     }
 }
 ?>
