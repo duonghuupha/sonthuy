@@ -11,6 +11,6 @@ echo '{
     "instruction": "'.$item[0]['title'].'",
     "word": "'.$item[0]['answer'].'",
     "file": "'.$item[0]['file'].'",
-    "url_flie": "'.$url.'"
+    "url_file": "'.$url.'"
 }'
 ?>

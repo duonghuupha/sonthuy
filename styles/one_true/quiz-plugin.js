@@ -33,12 +33,40 @@
 					});
 					let questionBox = '';
 					if(q.file.length > 0) {
+						if(q.file.length != 0){
+							var ext_file = q.file.split(".").pop();
+							if(ext_file == 'mp4' || ext_file == 'webm' || ext_file == 'ogg'){
+								var content_file = `
+									<div class="question_img">
+										<video controls class="img_responsive" style="max-height:200px">
+											<source src="${q.url_file}/${q.file}" type="video/${ext_file}">
+											Trình duyệt của bạn không hỗ trợ thẻ video.
+										</video>
+									</div>
+								`;
+							}else if(ext_file == 'mp3' || ext_file == 'wav' || ext_file == 'ogg'){
+								var content_file = `
+									<div class="question_img">
+										<audio controls class="img_responsive" style="max-height:200px">
+											<source src="${q.url_file}/${q.file}" type="audio/${ext_file}">
+											Trình duyệt của bạn không hỗ trợ thẻ audio.
+										</audio>
+									</div>
+								`;
+							}else if(ext_file == 'png' || ext_file == 'jpg' || ext_file == 'jpeg' || ext_file == 'gif' || ext_file == 'bmp' || ext_file == 'svg'){
+								var content_file = `
+									<div class="question_img">
+										<img src="${q.url_file}/${q.file}" class="img_responsive" style="max-height:200px"/>
+									</div>
+								`;
+							}
+						}else{
+							var content_file = '';
+						}
 						questionBox = $(`
 							<div class="question-box" data-index="${index}">
 							<div class="question">${q.question}</div>
-							<div class="question-img">
-								<img src="${q.url_file}/${q.file}" class="img_responsive" style="max-height:200px"/>
-							</div>
+							${content_file}
 							<div class="option-container">${optionsHTML}</div>
 							<div class="feedback"></div>
 							</div>

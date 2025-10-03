@@ -96,7 +96,7 @@ function del(){
 
 function change(status, idh){
     var data_str = "token="+localStorage.getItem('token')+'&id='+idh+'&status='+status;
-        del_data(data_str, "Bạn có chắc chắn muốn cập nhật trạng thái cho câu hỏi này?", baseUrl + '/question/change', '#list_lesson_question', baseUrl + '/question/json?token='+localStorage.getItem('token'));
+    del_data(data_str, "Bạn có chắc chắn muốn cập nhật trạng thái cho câu hỏi này?", baseUrl + '/question/change', '#list_lesson_question', baseUrl + '/question/json?token='+localStorage.getItem('token'));
 }
 
 function save(){

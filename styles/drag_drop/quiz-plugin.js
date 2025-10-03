@@ -21,9 +21,35 @@
 			function renderQuiz(data) {
 				shuffleArray(data.options);
 				if(data.file.length > 0){
+					var ext_file = data.file.split(".").pop();
+					if(ext_file == 'mp4' || ext_file == 'webm' || ext_file == 'ogg'){
+						var content_file = `
+							<div class="img_question" style="text-align:center">
+								<video controls class="img_responsive" style="max-height:200px">
+									<source src="${data.url_file}/${data.file}" type="video/${ext_file}">
+									Trình duyệt của bạn không hỗ trợ thẻ video.
+								</video>
+							</div>
+						`;
+					}else if(ext_file == 'mp3' || ext_file == 'wav' || ext_file == 'ogg'){
+						var content_file = `
+							<div class="img_question" style="text-align:center">
+								<audio controls class="img_responsive" style="max-height:200px">
+									<source src="${data.url_file}/${data.file}" type="audio/${ext_file}">
+									Trình duyệt của bạn không hỗ trợ thẻ audio.
+								</audio>
+							</div>
+						`;
+					}else if(ext_file == 'png' || ext_file == 'jpg' || ext_file == 'jpeg' || ext_file == 'gif' || ext_file == 'bmp' || ext_file == 'svg'){
+						var content_file = `
+							<div class="img_question" style="text-align:center">
+								<img src="${data.url_file}/${data.file}" class="img_responsive" style="max-height:200px"/>
+							</div>
+						`;
+					}
 					container.html(`
 						<h2>${data.question}</h2>
-						<div class="img_question"><img src="${data.url_file}/${data.file}" class="img_responsive" style="max-height:200px;"/></div>
+						${content_file}
 						<div class="drag-area"></div>
 						<div class="drop-area"></div>
 						<div class="btn-group">

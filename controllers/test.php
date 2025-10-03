@@ -87,9 +87,9 @@ class Test extends Controller{
     function update(){
         $code = $_REQUEST['code']; $lesson_id = 0; $type_question = $_REQUEST['type_question']; $test_cate_id = $_REQUEST['test_cate_id'];
         $title = addslashes($_REQUEST['title']); $status = 1; $create_at = date("Y-m-d H:i:s"); $level = $_REQUEST['level'];
-        $file = (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') ? $this->_Convert->convert_file($_FILES['file']['name'], $code) : '';
+        $file = (isset($_FILES['file']['name']) && $_FILES['file']['name'] != '') ? $this->_Convert->convert_file($_FILES['file']['name'], $code) : $_REQUEST['file_old'];
         $data_match = json_decode($_REQUEST['data_match'], true); $data_target = json_decode($_REQUEST['data_drag_drop_target'], true);
-        $data_answer = json_decode($_REQUEST['data_drag_drop_answer'], true);
+        $data_answer = json_decode($_REQUEST['data_drag_drop_answer'], true); $id = $_REQUEST['id'];
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         if($this->model->dupliObj($id, $code) > 0){
             $jsonObj['msg'] = "Mã câu hỏi đã tồn tại";

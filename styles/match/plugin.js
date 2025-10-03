@@ -17,11 +17,33 @@
 			if (data.questionText) {
 				$container.append('<div class="quiz-title">' + data.questionText + '</div>');
 				if(data.file_question.length > 0){
-					$container.append(`
-					<div class="question-img">
-						<img src="${data.url_file}/${data.file_question}" class="img_responsive" style="max-height:200px"/>
-					</div>	
-					`);
+					var ext_file = data.file_question.split(".").pop();
+					if(ext_file == 'mp4' || ext_file == 'webm' || ext_file == 'ogg'){
+						var content_file = `
+							<div class="question_img" style="text-align:center">
+								<video controls class="img_responsive" style="max-height:200px">
+									<source src="${data.url_file}/${data.file_question}" type="video/${ext_file}">
+									Trình duyệt của bạn không hỗ trợ thẻ video.
+								</video>
+							</div>
+						`;
+					}else if(ext_file == 'mp3' || ext_file == 'wav' || ext_file == 'ogg'){
+						var content_file = `
+							<div class="question_img" style="text-align:center">
+								<audio controls class="img_responsive" style="max-height:200px">
+									<source src="${data.url_file}/${data.file_question}" type="audio/${ext_file}">
+									Trình duyệt của bạn không hỗ trợ thẻ audio.
+								</audio>
+							</div>
+						`;
+					}else if(ext_file == 'png' || ext_file == 'jpg' || ext_file == 'jpeg' || ext_file == 'gif' || ext_file == 'bmp' || ext_file == 'svg'){
+						var content_file = `
+							<div class="question_img" style="text-align:center">
+								<img src="${data.url_file}/${data.file_question}" class="img_responsive" style="max-height:200px"/>
+							</div>
+						`;
+					}
+					$container.append(`${content_file}`);
 				}
 			}
 			// shuffle arrays
