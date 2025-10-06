@@ -50,6 +50,13 @@ class Other extends Controller{
         $this->view->render("other/combo_group_role");
     }
 
+    function combo_lesson_cate(){
+        $keyword = isset($_REQUEST['q']) ? $_REQUEST['q'] : '';
+        $jsonObj = $this->model->get_combo_lesson_cate($keyword);
+        $this->view->jsonObj = json_encode($jsonObj);
+        $this->view->render("other/combo_lesson_cate");
+    }
+
     function combo_user(){
         $keyword = isset($_REQUEST['q']) ? $_REQUEST['q'] : '';
         $jsonObj = $this->model->get_combo_user($keyword);

@@ -38,6 +38,11 @@ class Other_Model extends Model{
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    function get_combo_lesson_cate($q){
+        $query = $this->db->query("SELECT title, id FROM tbl_lesson_cate WHERE title LIKE '%$q%'");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     function get_combo_user($q){
         $query = $this->db->query("SELECT id, (SELECT fullname FROM tbl_teacher WHERE tbl_teacher.id = personnel_id) AS title 
                                     FROM tbl_users WHERE personnel_id IN (SELECT tbl_teacher.id FROM tbl_teacher WHERE fullname LIKE '%$q%') 

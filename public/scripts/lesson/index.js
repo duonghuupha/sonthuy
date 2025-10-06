@@ -1,4 +1,4 @@
-var url;
+var url, status_edit = 0;
 $(function(){
     var gwdth = $('#list_lesson').width(), fwdth = $('.full').width();
     $('#list_lesson').jqGrid({
@@ -28,6 +28,7 @@ $(function(){
             window.location.href = baseUrl + '/lesson/detail?token='+localStorage.getItem('token')+'&id='+btoa(rowId);
         }
     });
+    combo_select_2('#cate_id_search', baseUrl + '/other/combo_lesson_cate', 0, '');
 });
 
 function format_trangthai(cellvalue, options, rowObject){
@@ -50,19 +51,15 @@ function refresh_code(){
 }
 
 function add(){
-    reset_form('#fm');
+    reset_form('#fm'); status_edit = 0;
     var number = Math.floor(Math.random() * 999999999); $('#refreshcode').show();
-    $('#code').val(number); render_tree_lesson_cate();
+    $('#code').val(number); combo_select_2('#cate_id', baseUrl + '/other/combo_lesson_cate', 0, ''); 
     $('#modal-lesson').modal('show');
     url = baseUrl + '/lesson/add?token='+localStorage.getItem('token');
-    /****************************************************************************** */
-    $('#lesson_cate_tree').on('changed.jstree', function (e, data) {
-        $('#cate_id').val(data.node.id);
-    });
 }
 
 function update(){
-    reset_form('#fm');
+    reset_form('#fm'); status_edit = 1;
     var rowKey = $('#list_lesson').jqGrid('getGridParam',"selrow");
     if(rowKey == null){
         show_message("error", "Vui lòng chọn lớp học cần cập nhật");
@@ -70,15 +67,9 @@ function update(){
     }else{
         var row = $('#list_lesson').jqGrid("getRowData", rowKey);
         $('#code').val(row.code); $('#title').val(row.title); $('#content').val(row.content)
-        $('#modal-lesson').modal('show'); render_tree_lesson_cate(); $('#cate_id').val(row.cate_id);
+        combo_select_2('#cate_id', baseUrl + '/other/combo_lesson_cate', row.cate_id, row.cate_title); 
+        $('#modal-lesson').modal('show');
         url = baseUrl + '/lesson/update?token='+localStorage.getItem('token')+"&id="+row.id;
-        /****************************************************************************** */
-        $('#lesson_cate_tree').on('ready.jstree', function(){
-            $('#lesson_cate_tree').jstree('select_node', row.cate_id);
-        });
-        $('#lesson_cate_tree').on('changed.jstree', function (e, data) {
-            $('#cate_id').val(data.node.id);
-        });
     }
 }
 
@@ -108,7 +99,6 @@ function save(){
         }
     });
     if(allRequired){
-        //save_form_modal('#fm', url, '#modal-lesson', '#list_lesson',  baseUrl+'/lesson/json?token='+localStorage.getItem('token')); 
         var xhr = new XMLHttpRequest();
         var formData = new FormData($('#fm')[0]);
         $('.overlay').show();
@@ -122,7 +112,14 @@ function save(){
             success: function(data){
                 var result = JSON.parse(data);
                 if(result.success == true){
-                    window.location.href = baseUrl + '/lesson/detail?token='+localStorage.getItem('token')+'&id='+btoa(result.id);
+                    if(status_edit == 0){
+                        window.location.href = baseUrl + '/lesson/detail?token='+localStorage.getItem('token')+'&id='+btoa(result.id);
+                    }else{
+                        $('.overlay').hide();
+                        $('#modal-lesson').modal('hide');
+                        show_message('success', result.msg);
+                        $('#list_lesson').trigger('reloadGrid');
+                    }
                 }else{
                     $('.overlay').hide();
                     show_message('error', result.msg);

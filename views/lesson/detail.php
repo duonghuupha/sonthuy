@@ -1,20 +1,5 @@
 <?php  
 $item = $this->jsonObj;
-function getAllParents($childId){
-    $sql = new Model();
-    $parents = [];
-    while ($childId !== null){
-        $query = $sql->db->query("SELECT id, title, parent_id FROM tbl_lesson_cate WHERE id = $childId");
-        $menu = $query->fetch(PDO::FETCH_ASSOC);
-        if($menu){
-            $parents[] = $menu;
-            $childId = $menu['parent_id'];
-        }else{
-            break;
-        }
-    }
-    return $parents;
-}
 ?>
 <div class="main-content">
     <div class="main-content-inner">
@@ -30,7 +15,15 @@ function getAllParents($childId){
         </div>
         <div class="page-content">
             <div class="page-header">
-                <h1>Chi tiết bài giảng</h1>
+                <h1>
+                    Chi tiết bài giảng
+                    <small class="pull-right">
+                        <button class="btn btn-sm btn-primary" type="button" onclick="window.location.href='<?php echo URL.'/lesson?token='.$_SESSION['data'][0]['token'] ?>'">
+                            <i class="ace-icon fa fa-reply icon-only"></i>
+                            Quay lại
+                        </button>
+                    </small>
+                </h1>
             </div><!-- /.page-header -->
             <div class="row">
                 <div class="col-xs-12 col-sm-4">
@@ -58,13 +51,7 @@ function getAllParents($childId){
                                         <div class="form-group">
                                             <label for="form-field-username">Danh mục</label>
                                             <div>
-                                                <?php
-                                                $parents = getAllParents($item[0]['cate_id']); $parents = array_reverse($parents);
-                                                foreach($parents as $row){
-                                                    $array_title[] = $row['title'];
-                                                }
-                                                echo '<b>'.implode("&#8614;", $array_title).'</b>';
-                                                ?>
+                                                <b><?php echo $item[0]['cate_title'] ?></b>
                                             </div>
                                         </div>
                                     </div>
@@ -117,28 +104,11 @@ function getAllParents($childId){
                                         </form>
                                     </div>
                                     <div class="col-xs-12">
-                                        <table class="table_modal">
-                                            <colgroup style="width:150px;"></colgroup>
-                                            <colgroup style="width:50px;"></colgroup>
-                                            <colgroup style="width:20px;"></colgroup>
-                                            <thead>
-                                                <tr>
-                                                    <th>Tên file</th>
-                                                    <th style="text-align:center">Thứ tự hiển thị</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tbody_lesson_dc">
-                                                <tr>
-                                                    <td>asdfafasfasd</td>
-                                                    <td>
-                                                        <input type="text" id="order_dc" name="order_dc" class="form-controll" style="width:100%"
-                                                        onkeypress="validate(event)"/>
-                                                    </td>
-                                                    <td></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <table id="list_lesson_dc" 
+                                            class="table" 
+                                            role="grid"
+                                            aria-describedby="dynamic-table_info"></table>
+                                        <div id="lesson_dc_pager"></div>
                                     </div>
                                 </div>
                             </div>
@@ -267,24 +237,11 @@ function getAllParents($childId){
 
 <!--Form don vi tinh-->
 <div id="modal-lesson" class="modal fade" data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header no-padding">
-                <div class="table-header">
-                    Chi tiết tư liệu
-                </div>
-            </div>
-            <div class="modal-body" id="document_lesson"></div>
-            <div class="modal-footer">
-                <button class="btn btn-sm btn-danger pull-right" data-dismiss="modal">
-                    <i class="ace-icon fa fa-times"></i>
-                    Đóng
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
+    <div class="modal-dialog" id="document_lesson">
     </div><!-- /.modal-dialog -->
 </div>
 <!-- End formm don vi tinh-->
 
 <script src="<?php echo URL.'/public/' ?>scripts/lesson/detail.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/lesson/dc.js"></script>
 <script src="<?php echo URL.'/public/' ?>scripts/lesson/view_lesson.js"></script>

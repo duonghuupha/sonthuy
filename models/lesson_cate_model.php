@@ -4,9 +4,16 @@ class Lesson_cate_Model extends Model{
         parent::__construct();
     }
 
-    function getFetObj(){
-        $query = $this->db->query("SELECT id, code, title, content, parent_id, status, create_at FROM tbl_lesson_cate");
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+    function getFetObj($offset, $rows){
+        $result = array();
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_lesson_cate");
+        $row = $query->fetchAll();
+        $query = $this->db->query("SELECT id, code, title, image, content, status, create_at, (SELECT COUNT(*) FROM tbl_lesson 
+                                    WHERE cate_id = tbl_lesson_cate.id) AS total_lesson FROM tbl_lesson_cate ORDER BY id DESC LIMIT $offset, $rows");
+        $result['records'] = $row[0]['Total'];
+        $result['total'] = ceil($row[0]['Total']/$rows);
+        $result['rows'] = $query->fetchAll();
+        return $result;
     }
 
     function dupliObj($id, $code){

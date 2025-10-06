@@ -266,6 +266,28 @@ class Convert{
         }
         return $string;
     }
+
+    function deleteFolder($folderPath) {
+        // Kiểm tra xem thư mục có tồn tại không
+        if (!file_exists($folderPath)) {
+            return false;
+        }
+        // Nếu là file thì xóa luôn
+        if (is_file($folderPath) || is_link($folderPath)) {
+            return unlink($folderPath);
+        }
+        // Nếu là thư mục thì duyệt qua các phần tử trong thư mục
+        $items = scandir($folderPath);
+        foreach ($items as $item) {
+            if ($item == '.' || $item == '..') {
+                continue;
+            }
+            // Đệ quy xóa các file và thư mục con
+            deleteFolder($folderPath . DIRECTORY_SEPARATOR . $item);
+        }
+        // Sau khi xóa hết bên trong, xóa thư mục chính
+        return rmdir($folderPath);
+    }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     function return_role_functions_static($userid, $roles, $event){
         $sql = new Model();

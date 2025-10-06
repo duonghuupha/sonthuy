@@ -29,17 +29,16 @@
                         <div class="form-group">
                             <label for="form-field-username">Tên bài giảng</label>
                             <div>
-                                <input type="text" id="code_search" name="code_search" style="width:100%"placeholder="Mã học sinh"
-                                onkeypress="validate(event)"/>
+                                <input type="text" id="title_search" name="title_search" style="width:100%" placeholder="Tên bài giảng"/>
                             </div>
                         </div>
                     </div>
                     <div class="col-xs-12">
                         <div class="form-group">
-                            <label for="form-field-username">Danh   mục</label>
+                            <label for="form-field-username">Danh mục</label>
                             <div>
-                                <select class="select2" data-placeholder="Lựa chọn lớp học..." style="width:100%"
-                                required="" id="class_id_search" name="class_id_search"></select>
+                                <select class="select2" data-placeholder="Lựa chọn danh mục..." style="width:100%"
+                                required="" id="cate_id_search" name="cate_id_search"></select>
                             </div>
                         </div>
                     </div>
@@ -74,47 +73,42 @@
             <div class="modal-body">
                 <div class="row">
                     <form id="fm" method="POST" enctype="multipart/form-data">
-                        <input id="cate_id" name="cate_id" type="hidden"/>
                         <div class="col-xs-6">
-                            <div class="widget-box widget-color-blue2">
-                                <div class="widget-header">
-                                    <h4 class="widget-title lighter smaller">Danh mục bài giảng</h4>
-                                </div>
-                                <div class="widget-body" style="overflow: auto;height: 283px;">
-                                    <div class="widget-main padding-8">
-                                        <div id="lesson_cate_tree"></div>
-                                    </div>
+                            <div class="form-group">
+                                <label for="form-field-username">
+                                    Mã bài giảng <span style="color:red">(*)</span> &nbsp;
+                                    <a href="javascript:void(0)" onclick="refresh_code()" title="Tạo mã code" id="refreshcode">
+                                        <i class="fa fa-refresh"></i>
+                                    </a>
+                                </label>
+                                <div>
+                                    <input type="text" id="code" name="code" style="width:100%" required="" readonly=""/>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xs-6">
-                            <div class="col-xs-12">
-                                <div class="form-group">
-                                    <label for="form-field-username">
-                                        Mã bài giảng <span style="color:red">(*)</span> &nbsp;
-                                        <a href="javascript:void(0)" onclick="refresh_code()" title="Tạo mã code" id="refreshcode">
-                                            <i class="fa fa-refresh"></i>
-                                        </a>
-                                    </label>
-                                    <div>
-                                        <input type="text" id="code" name="code" style="width:100%" required="" readonly=""/>
-                                    </div>
+                            <div class="form-group">
+                                <label for="form-field-username">Danh mục bài giảng <span style="color:red">(*)</span></label>
+                                <div>
+                                    <select class="select2" data-placeholder="Lựa chọn danh mục..."
+                                    style="width:100%" required="" id="cate_id" name="cate_id">
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-xs-12">
-                                <div class="form-group">
-                                    <label for="form-field-username">Tên bài giảng <span style="color:red">(*)</span></label>
-                                    <div>
-                                        <input type="text" id="title" name="title" required="" placeholder="Tên bài giảng" style="width:100%" />
-                                    </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="form-field-username">Tên bài giảng <span style="color:red">(*)</span></label>
+                                <div>
+                                    <input type="text" id="title" name="title" required="" placeholder="Tên bài giảng" style="width:100%" />
                                 </div>
                             </div>
-                            <div class="col-xs-12">
-                                <div class="form-group">
-                                    <label for="form-field-username">Mô tả bài giảng</label>
-                                    <div>
-                                        <textarea  id="content" name="content" placeholder="Mô tả bài giảng" style="width:100%;height:150px;resize:none"></textarea>
-                                    </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="form-field-username">Mô tả bài giảng</label>
+                                <div>
+                                    <textarea  id="content" name="content" placeholder="Mô tả bài giảng" style="width:100%;height:150px;resize:none"></textarea>
                                 </div>
                             </div>
                         </div>

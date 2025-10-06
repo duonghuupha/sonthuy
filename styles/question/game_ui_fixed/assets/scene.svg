@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600">
-  <rect width="1200" height="600" fill="#87CEEB"/>
-  <rect x="60" y="300" width="1080" height="240" fill="#f9f5e6" rx="20"/>
-  <circle cx="180" cy="260" r="50" fill="#ffd166"/>
-  <rect x="300" y="250" width="140" height="120" rx="12" fill="#ffd1dc"/>
-  <text x="600" y="80" font-size="48" text-anchor="middle" fill="#fff">Scene Placeholder</text>
-</svg>

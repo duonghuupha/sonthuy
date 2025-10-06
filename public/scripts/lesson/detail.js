@@ -3,9 +3,11 @@ $(function(){
     var id_glgobal = getParameterByName('id'); render_view_lesson(atob(id_glgobal));
     $('#accordion').on('show.bs.collapse', function(e){
         var id_lesson = e.target.dataset.value;
+        setTimeout(() => {
+            render_list_lesson_dc(id_lesson);
+        }, 50);
         /*****************lesson dc****************************************************************************************** */
-        var str_lesson_dc = getRemote(baseUrl + '/lesson_dc/json?token='+localStorage.getItem('token')+'&id='+id_lesson);
-        myData_lesson_dc = JSON.parse(str_lesson_dc); render_list_lesson_dc();
+        
         /*****************lesson media****************************************************************************************** */
         var str_lesson_media = getRemote(baseUrl + '/lesson_media/json?token='+localStorage.getItem('token')+'&id='+id_lesson);
         myData_lesson_media = JSON.parse(str_lesson_media); render_list_lesson_media();
@@ -15,116 +17,44 @@ $(function(){
     });
 });
 //////////////////////////////////////////////////Lesson document///////////////////////////////////////////////////////////////////////////////////////////////////////
-function upload_dc(idh){
-    var xhr = new XMLHttpRequest();
-    var formData = new FormData($('#fm-dc')[0]);
-    $('.overlay').show();
-    $.ajax({
-        url: baseUrl + '/lesson_dc/add?token='+localStorage.getItem('token')+'&id='+idh,  //server script to process data
-        type: 'POST',
-        xhr: function() {
-            return xhr;
-        },
-        data: formData,
-        success: function(data){
-            var result = JSON.parse(data);
-            if(result.success == true){
-                $('.overlay').hide();
-                show_message('success', result.msg); $('.file_attach').ace_file_input('reset_input');
-                var str_lesson_dc = getRemote(baseUrl + '/lesson_dc/json?token='+localStorage.getItem('token')+'&id='+result.lesson_id);
-                myData_lesson_dc = JSON.parse(str_lesson_dc); render_list_lesson_dc(); render_view_lesson(result.lesson_id);
-            }else{
-                $('.overlay').hide();
-                show_message('error', result.msg);
-                return false;
-            }
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-    });
-}
-
-function render_list_lesson_dc(){
-    var html = ''; $('#tbody_lesson_dc').empty();
-    for(var i = 0; i < myData_lesson_dc.length; i++){
-        html += '<tr>';
-            html += '<td><a href="#" onclick="view_image('+myData_lesson_dc[i].id+')">'+myData_lesson_dc[i].image+'</a></td>';
-            html += '<td>';
-                html += '<input type="text" id="order_dc_'+myData_lesson_dc[i].id+'" name="order_dc_'+myData_lesson_dc[i].id+'" class="form-controll" style="width:100%;text-align:center"';
-                html += 'onchange="change_lesson_dc('+myData_lesson_dc[i].id+', '+myData_lesson_dc[i].lesson_id+')" onkeypress="validate(event)" value="'+myData_lesson_dc[i].order_dc+'"/>';
-            html += '</td>';
-            html += '<td style="text-align:center">';
-                html += '<a href="javascript:void(0)" onclick="del_lesson_dc('+myData_lesson_dc[i].id+', '+myData_lesson_dc[i].lesson_id+')">';
-                    html += '<i class="fa fa-trash" style="color:red"></i>';
-                html += '</a>';
-            html += '</td>';
-        html += '</tr>';
-    }
-    $('#tbody_lesson_dc').html(html);
-}
-
-function del_lesson_dc(idh, lesson_id){
-    bootbox.confirm({
-        message: "Bạn có chắc chắn muốn xóa file của bài giảng này?",
-        buttons:{
-            confirm: {
-                label: "Đồng ý",
-                className: "btn-danger btn-sm"
-            },
-            cancel: {
-                label: "Không đồng ý",
-                className: "btn-primary btn-sm"
-            }
-        },
-        callback: function(result){
-            if(result){
-                $('.overlay').show();
-                $.ajax({
-                    type: "POST",
-                    url: baseUrl + '/lesson_dc/del?token='+localStorage.getItem('token'),
-                    data: "id="+idh+'&lesson_id='+lesson_id, // serializes the form's elements.
-                    success: function(data){
-                        var result = JSON.parse(data);
-                        if(result.success == true){
-                            $('.overlay').hide();
-                            show_message('success', result.msg);
-                            var str_lesson_dc = getRemote(baseUrl + '/lesson_dc/json?token='+localStorage.getItem('token')+'&id='+result.lesson_id);
-                            myData_lesson_dc = JSON.parse(str_lesson_dc); render_list_lesson_dc(); render_view_lesson(result.lesson_id);
-                        }else{
-                            $('.overlay').hide();
-                            show_message('error', result.msg);
-                            return false;
-                        }
-                    }
-                });
-            }
+function render_list_lesson_dc(idh){
+    var gwdth = $('#list_lesson_dc').width(), fwdth = $('.full').width();
+    $('#list_lesson_dc').jqGrid({
+        url: baseUrl + '/lesson_dc/json?token='+localStorage.getItem('token')+'&id='+idh,
+        datatype: "json",
+        mtype: "GET",
+        colModel: [
+            {label: 'Tên file', name: 'image', width: 220, align:"left", formatter: format_link_dc},
+            {label: 'Thứ tự', name: 'order_dc', width: 50, align:"center"},
+            {label: '#', name: 'action', width: 50, align:"center", formatter: format_button_dc},
+            {label: '&nbsp', name: 'id', hidden: true, key: true},
+            {label: '&nbsp', name: 'lesson_id', hidden: true}
+        ],
+        viewrecords: false, height:150, width: gwdth, rowNum: 20, rownumbers: true,
+        pager: "#lesson_dc_pager", rowList:[10,20,30],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
         }
     });
 }
 
-function change_lesson_dc(idh, lesson_id){
-    $('.overlay').show();
-    $.ajax({
-        type: "POST",
-        url: baseUrl + '/lesson_dc/update?token='+localStorage.getItem('token')+'&id='+idh,
-        data: "lesson_id="+lesson_id+"&order_dc="+$('#order_dc_'+idh).val(), // serializes the form's elements.
-        success: function(data){
-            var result = JSON.parse(data);
-            if(result.success == true){
-                $('.overlay').hide();
-                show_message('success', result.msg);
-                var str_lesson_dc = getRemote(baseUrl + '/lesson_dc/json?token='+localStorage.getItem('token')+'&id='+result.lesson_id);
-                myData_lesson_dc = JSON.parse(str_lesson_dc); render_list_lesson_dc();
-                render_view_lesson(result.lesson_id);
-            }else{
-                $('.overlay').hide();
-                show_message('error', result.msg);
-                return false;
-            }
-        }
-    });
+function format_button_dc(cellvalue, options, rowObject){
+    var html = '';
+    html += '<a href="javascript:void(0)" onclick="del_lesson_dc('+rowObject.id+', '+rowObject.lesson_id+')">'; 
+        html += '<i class="ace-icon fa fa-trash" style="color:red"></i>';
+    html += '</a>';
+    return html;
 }
+
+function format_link_dc(cellvalue, options, rowObject){
+    var html = '';
+    html += '<a href="javascript:void(0)" onclick="view_image_dc('+rowObject.id+', '+rowObject.lesson_id+', \''+cellvalue+'\', '+rowObject.order_dc+')">'+cellvalue+'</a>';
+    return html;
+}
+
 //////////////////////////////////////////////////////////////////Lesson Media////////////////////////////////////////////////////////////////////////////////////////////////////
 function upload_media(idh){
     var xhr = new XMLHttpRequest();
