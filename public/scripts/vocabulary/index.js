@@ -20,7 +20,7 @@ $(function(){
             {label: '&nbsp', name: 'file', hidden: true}
         ],
         viewrecords: true, height:200, width: gwdth, rowNum: 20, rownumbers: true,
-        height:($('.footer').offset().top - $('#danh_sach_cau_hoi').offset().top - 137),
+        height:($('.footer').offset().top - $('.page-header').offset().top - 147),
         pager: "#vocab_pager", rowList:[10,20,30],
         loadComplete : function() {
             var table = this;
