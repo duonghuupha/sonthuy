@@ -88,7 +88,7 @@ class Lesson extends Controller{
         $id = $_REQUEST['id'];
         $temp = $this->model->delObj($id);
         if($temp){
-            $this->_Convert->deleteFolder(DIR_UPLOAD.'/lesson/'.$id);
+            @$this->_Convert->deleteFolder(DIR_UPLOAD.'/lesson/'.$id);
             $jsonObj['msg'] = "Xóa dữ liệu thành công";
             $jsonObj['success'] = true;
             $this->view->jsonObj = json_encode($jsonObj);

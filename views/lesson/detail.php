@@ -166,28 +166,11 @@ $item = $this->jsonObj;
                                         </form>
                                     </div>
                                     <div class="col-xs-12">
-                                        <table class="table_modal">
-                                            <colgroup style="width:150px;"></colgroup>
-                                            <colgroup style="width:50px;"></colgroup>
-                                            <colgroup style="width:20px;"></colgroup>
-                                            <thead>
-                                                <tr>
-                                                    <th>Tên file</th>
-                                                    <th style="text-align:center">Thứ tự hiển thị</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tbody_lesson_card">
-                                                <tr>
-                                                    <td>asdfafasfasd</td>
-                                                    <td>
-                                                        <input type="text" id="order_media" name="order_media" class="form-controll" style="width:100%"
-                                                        onkeypress="validate(event)"/>
-                                                    </td>
-                                                    <td></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <table id="list_lesson_card" 
+                                            class="table" 
+                                            role="grid"
+                                            aria-describedby="dynamic-table_info"></table>
+                                        <div id="lesson_card_pager"></div>
                                     </div>
                                 </div>
                             </div>
@@ -228,4 +211,5 @@ $item = $this->jsonObj;
 <script src="<?php echo URL.'/public/' ?>scripts/lesson/detail.js"></script>
 <script src="<?php echo URL.'/public/' ?>scripts/lesson/dc.js"></script>
 <script src="<?php echo URL.'/public/' ?>scripts/lesson/media.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/lesson/card.js"></script>
 <script src="<?php echo URL.'/public/' ?>scripts/lesson/view_lesson.js"></script>

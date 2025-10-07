@@ -89,17 +89,20 @@ function update(){
 }
 
 function del(){
-    if(id_selected == 0){
-        show_message("error", "Chưa chọn danh mục cần xóa");    
+    var rowKey = $('#list_lesson_cate').jqGrid('getGridParam',"selrow");
+    if(rowKey == null){
+        show_message("error", "Vui lòng chọn danh mục cần xóa");
+        return false;
     }else{
-        var data_str = "token="+localStorage.getItem('token')+"&id="+id_selected;
-        del_refresh_content(data_str, "Bạn có chắc muốn xóa danh mục này không?", baseUrl + '/lesson_cate/del', '#list_lesson_cate', baseUrl + '/lesson_cate/json?token='+localStorage.getItem('token'));
+        var row = $('#list_lesson_cate').jqGrid("getRowData", rowKey);
+        var data_str = "token="+localStorage.getItem('token')+"&id="+row.id;
+        del_data(data_str, "Bạn có chắc muốn xóa danh mục này không?", baseUrl + '/lesson_cate/del', '#list_lesson_cate', baseUrl + '/lesson_cate/json?token='+localStorage.getItem('token'));
     }
 }
 
 function change(status, idh){
     var data_str = "token="+localStorage.getItem('token')+"&id="+idh+"&status="+status;
-    del_refresh_content(data_str, "Bạn có chắc muốn thay đổi trạng thái của danh mục này không?", baseUrl + '/lesson_cate/change', '#list_lesson_cate', baseUrl + '/lesson_cate/json?token='+localStorage.getItem('token'));
+    del_data(data_str, "Bạn có chắc muốn thay đổi trạng thái của danh mục này không?", baseUrl + '/lesson_cate/change', '#list_lesson_cate', baseUrl + '/lesson_cate/json?token='+localStorage.getItem('token'));
 }
 
 function save(){
@@ -119,17 +122,4 @@ function save(){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function canel_form(){
     reset_form('#fm');
-}
-
-function set_active_lesson_cate(idh){
-    $('li[id^="tree_view_"]').removeClass('active');
-    $('#tree_view_'+idh).addClass('active'); id_selected = idh;
-}
-
-function getRemote(remote_url){
-    return $.ajax({
-        type: 'GET',
-        url: remote_url,
-        async: false
-    }).responseText;
 }

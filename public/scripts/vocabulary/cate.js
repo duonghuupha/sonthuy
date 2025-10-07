@@ -1,20 +1,24 @@
-var url_cate; var lastSelection; let id_edit = 0;
+var url, id_selected = 0;
 $(function(){
-    $('#save_row').hide(); $('#del_row').show(); $('#cancel_row').hide(); $('#add_row').show();
-    var gwdth_cate = $('#list_cate').width();
-    $('#list_cate').jqGrid({
+    var gwdth = $('#list_vocab_cate').width(), fwdth = $('.full').width();
+    $('#list_vocab_cate').jqGrid({
         url: baseUrl + '/vocab_cate/json?token='+localStorage.getItem('token'),
         datatype: "json",
-        editurl: 'vocab_cate',
         mtype: "GET",
         colModel: [
-            {label: 'Tiêu đề', name: 'title', width: 200, editable: true, edittype: 'text'},
-            {label: 'Trạng thái', name: 'status', width: 70, align: 'center', formatter: format_trangthai},
-            {label: '&nbsp', name: 'id', hidden: true}
+            {label: 'Mã danh mục', name: 'code', width: 120, align:"center"},
+            {label: 'Hình ảnh', name: 'image', width: 120, align:"center", formatter: format_image},
+            {label: 'Tên danh mục', name: 'title', width: 200, formatter: format_title},
+            {label: 'Trạng thái', name: 'status', width: 100, align: "center", formatter: format_trangthai},
+            {label: 'Cập nhật lần cuối', name: 'create_at', width: 150, align:"center"},
+            {label: '&nbsp', name: 'id', hidden: true, key: true},
+            {label: '&nbsp', name: 'image', hidden: true},
+            {label: '&nbsp', name: 'title', hidden: true},
+            {label: '&nbsp', name: 'total_question', hidden: true}
         ],
-        viewrecords: false, height:300, width: gwdth_cate, rowNum: 10, rownumbers: true,
-        height:($('.footer').offset().top - $('#btn_cate').offset().top - 127),
-        pager: "#cate_pager", rowList:[10,20,30], ondblClickRow: editRow,
+        viewrecords: true, height:200, width: gwdth, rowNum: 20, rownumbers: true,
+        height:($('.footer').offset().top - $('.page-header').offset().top - 147),
+        pager: "#vocab_cate_pager", rowList:[10,20,30],
         loadComplete : function() {
             var table = this;
             setTimeout(function(){
@@ -22,98 +26,99 @@ $(function(){
             }, 0);
         }
     });
+    $('#image, #title').attr('disabled', true);
 });
 
 function format_trangthai(cellvalue, options, rowObject){
     var html = '';
     if(cellvalue == 1){
-        html += '<a href="javascript:void(0)" onclick="change_cate(0, '+rowObject.id+')">';
+        html += '<a href="javascript:void(0)" onclick="change(0, '+rowObject.id+')">';
             html += '<img src="'+baseUrl+'/styles/assets/images/publish.png"/>';
         html += '</a>';
     }else{
-        html += '<a href="javascript:void(0)" onclick="change_cate(1, '+rowObject.id+')">';
+        html += '<a href="javascript:void(0)" onclick="change(1, '+rowObject.id+')">';
             html += '<img src="'+baseUrl+'/styles/assets/images/unpublish.png"/>';
         html += '</a>';
     }
     return html;
 }
+
+function format_image(cellvalue, options, rowObject){
+    var html = '';
+    if(cellvalue != ''){
+        html += '<img src="'+baseUrl+'/public/vocab/cate/'+cellvalue+'" style="height: 50px;"/>';
+    }else{
+        html += '<img src="'+baseUrl+'/styles/assets/images/no-image.jpeg" style="height: 50px;"/>';
+    }
+    return html;
+}
+
+function format_title(cellvalue, options, rowObject){
+    return cellvalue + ' <b>('+rowObject.total_question+' câu hỏi)</b>';
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function add_cate(){
-    var parameters = {rowID: "new_row"};
-    $('#save_row').show(); $('#del_row').hide(); $('#cancel_row').show(); $('#add_row').hide();
-    $('#list_cate').jqGrid('addRow', parameters); $('#save_row').attr('onclick', 'save_cate(0, 0)');
-    $('#cancel_row').attr('onclick', 'cancel_cate(0)');
-}
-
-function cancel_cate(type){
-    if(type == 0){
-        var rowId = $('#list_cate').jqGrid('getGridParam', 'selrow');
-        $('#list_cate').jqGrid('delRowData', rowId);
-        $('#save_row').hide(); $('#del_row').show(); $('#cancel_row').hide(); $('#add_row').show();
-        lastSelection = null;
+function refresh_code(){
+    if($('#code').val().length == 0){
+        show_message("error", "Mã lớp học chưa được tạo, hoặc đã trùng trong hệ thống");
     }else{
-        $('#save_row').hide(); $('#del_row').show(); $('#cancel_row').hide(); $('#add_row').show();
-        $('#list_cate').trigger('reloadGrid'); lastSelection = null;
+        var number = Math.floor(Math.random() * 999999999);
+        $('#code').val(number);
     }
 }
 
-function del_cate(){
-    var rowId = $('#list_cate').jqGrid('getGridParam', 'selrow');
-    if(rowId){
-        data_str = "id="+rowId+"&token="+localStorage.getItem('token');
-        del_data(data_str, "Bạn có chắc chắn muốn xóa bản ghi này?", baseUrl + '/vocab_cate/del', '#list_cate', baseUrl + '/vocab_cate/json?token='+localStorage.getItem('token'));
+function add(){
+    reset_form('#fm'); $('#image, #title').attr('disabled', false);
+    var number = Math.floor(Math.random() * 999999999);
+    $('#code').val(number);
+    url = baseUrl + '/vocab_cate/add?token='+localStorage.getItem('token');
+}
+
+function update(){
+    var rowKey = $('#list_vocab_cate').jqGrid('getGridParam',"selrow");
+    if(rowKey == null){
+        show_message("error", "Vui lòng chọn danh mục cần cập nhật");
+        return false;
     }else{
-        show_message("error", "Không có bản ghi nào được chọn");
+        reset_form('#fm'); $('#image, #title').attr('disabled', false);
+        var row = $('#list_vocab_cate').jqGrid("getRowData", rowKey);
+        $('#code').val(row.code); $('#title').val(row.title);
+        $('#image_old').val(row.image);
+        url = baseUrl + '/vocab_cate/update?id='+row.id+'&token='+localStorage.getItem('token');
     }
 }
 
-
-function save_cate(type, idh){
-    if(type == 0 && idh == 0){
-        var title = $('#new_row_title').val();
-        post_url = baseUrl + '/vocab_cate/add?token='+localStorage.getItem('token')
+function del(){
+    var rowKey = $('#list_vocab_cate').jqGrid('getGridParam',"selrow");
+    if(rowKey == null){
+        show_message("error", "Vui lòng chọn danh mục cần xóa");
+        return false;
     }else{
-        var title = $('#'+idh+'_title').val();
-        post_url = baseUrl + '/vocab_cate/update?token='+localStorage.getItem('token')+'&id='+idh;
-    }
-    if(title.length > 0){
-        $('.overlay').show();
-        $.ajax({
-            type: "POST",
-            url: post_url,
-            data: "title="+title, // serializes the form's elements.
-            success: function(data){
-                var result = JSON.parse(data);
-                if(result.success == true){
-                    $('.overlay').hide();
-                    show_message('success', result.msg); lastSelection = null;
-                    $('#save_row').hide(); $('#del_row').show(); $('#cancel_row').hide(); $('#add_row').show();
-                    $('#list_cate').trigger('reloadGrid');
-                }else{
-                    $('.overlay').hide();
-                    show_message('error', result.msg);
-                    return false;
-                }
-            }
-        });
-    }else{
-        show_message("error", "Chưa nhập đủ thông tin");
+        var row = $('#list_vocab_cate').jqGrid("getRowData", rowKey);
+        var data_str = "token="+localStorage.getItem('token')+"&id="+row.id;
+        del_data(data_str, "Bạn có chắc muốn xóa danh mục này không?", baseUrl + '/vocab_cate/del', '#list_vocab_cate', baseUrl + '/vocab_cate/json?token='+localStorage.getItem('token'));
     }
 }
 
-function change_cate(status, idh){
-    data_str = "id="+idh+"&status="+status+"&token="+localStorage.getItem('token');
-    del_data(data_str, "Bạn có chắc chắn muốn cập nhật trạng thái cho bản ghi này?", baseUrl + '/vocab_cate/change', '#list_cate', baseUrl + '/vocab_cate/json?token='+localStorage.getItem('token'));
+function change(status, idh){
+    var data_str = "token="+localStorage.getItem('token')+"&id="+idh+"&status="+status;
+    del_data(data_str, "Bạn có chắc muốn thay đổi trạng thái của danh mục này không?", baseUrl + '/vocab_cate/change', '#list_vocab_cate', baseUrl + '/vocab_cate/json?token='+localStorage.getItem('token'));
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function editRow(id) {
-    id_edit = id;
-    if (id && id !== lastSelection) {
-        var grid = $("#list_cate");
-        grid.jqGrid('restoreRow',lastSelection);
-        grid.jqGrid('editRow',id, {keys:true});
-        lastSelection = id;
-        $('#save_row').show(); $('#del_row').hide(); $('#cancel_row').show(); $('#add_row').hide();
-        $('#save_row').attr('onclick', 'save_cate(1, '+id+')'); $('#cancel_row').attr('onclick', 'cancel_cate(1)');
+
+function save(){
+    var required = $('#fm input, #fm textarea, #fm select').filter('[required]:visible');
+    var allRequired = true;
+    required.each(function(){
+        if($(this).val() == ''){
+            allRequired = false;
+        }
+    });
+    if(allRequired){
+        save_reject('#fm', url, baseUrl+'/vocab_cate?token='+localStorage.getItem('token')); 
+    }else{
+        show_message("error", "Chưa điền đủ thông tin");
     }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function canel_form(){
+    reset_form('#fm');
 }

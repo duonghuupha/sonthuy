@@ -52,7 +52,7 @@ class Lesson_card extends Controller{
 
     function del(){
         $id = $_REQUEST['id']; $lesson_id = $_REQUEST['lesson_id'];
-        $info = $this->model->get_info($id); $file_old = $info[0]['file'];
+        $info = $this->model->get_info($id); $file_old = $info[0]['image'];
         $temp = $this->model->delObj($id);
         if($temp){
             if(file_exists(DIR_UPLOAD."/lesson/".$lesson_id."/card/".$file_old)){

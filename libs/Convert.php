@@ -283,7 +283,7 @@ class Convert{
                 continue;
             }
             // Đệ quy xóa các file và thư mục con
-            deleteFolder($folderPath . DIRECTORY_SEPARATOR . $item);
+            $this->deleteFolder($folderPath . DIRECTORY_SEPARATOR . $item);
         }
         // Sau khi xóa hết bên trong, xóa thư mục chính
         return rmdir($folderPath);
