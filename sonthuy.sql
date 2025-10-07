@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 02, 2025 at 10:32 PM
+-- Generation Time: Oct 07, 2025 at 10:08 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -86,14 +86,6 @@ CREATE TABLE `tbl_lesson` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Dumping data for table `tbl_lesson`
---
-
-INSERT INTO `tbl_lesson` (`id`, `code`, `cate_id`, `title`, `content`, `status`, `create_at`) VALUES
-(2, 12069348, 3, 'Unit 1: Hello', 'Unit 1 - Hello: Làm quen với tiếng anh', 1, '2025-08-01 00:59:12'),
-(7, 713188288, 3, 'asdf', 'asdf', 1, '2025-09-26 01:59:35');
-
---
 -- Triggers `tbl_lesson`
 --
 DELIMITER $$
@@ -121,20 +113,6 @@ CREATE TABLE `tbl_lesson_card` (
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `tbl_lesson_card`
---
-
-INSERT INTO `tbl_lesson_card` (`id`, `code`, `lesson_id`, `image`, `order_card`, `status`, `create_at`) VALUES
-(1, 1475848237, 2, '1754204406_1475848237.jpg', 1, 1, '2025-08-03 14:00:06'),
-(2, 578861597, 2, '1754204406_578861597.jpg', 2, 1, '2025-08-03 14:00:06'),
-(3, 874408756, 2, '1754204406_874408756.jpg', 3, 1, '2025-08-03 14:00:06'),
-(4, 141914085, 2, '1754204406_141914085.jpg', 4, 1, '2025-08-03 14:00:06'),
-(5, 171844482, 2, '1754204406_171844482.jpg', 5, 1, '2025-08-03 14:00:06'),
-(6, 1029923362, 2, '1754204406_1029923362.jpg', 6, 1, '2025-08-03 14:00:06'),
-(7, 403327067, 2, '1754204406_403327067.jpg', 7, 1, '2025-08-03 14:00:06'),
-(8, 1195292699, 2, '1754204406_1195292699.jpg', 8, 1, '2025-08-03 14:00:06');
-
 -- --------------------------------------------------------
 
 --
@@ -147,6 +125,7 @@ CREATE TABLE `tbl_lesson_cate` (
   `parent_id` int(11) NOT NULL,
   `title` text COLLATE utf8_unicode_ci NOT NULL,
   `content` text COLLATE utf8_unicode_ci NOT NULL,
+  `image` text COLLATE utf8_unicode_ci NOT NULL,
   `status` int(11) NOT NULL,
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -155,16 +134,9 @@ CREATE TABLE `tbl_lesson_cate` (
 -- Dumping data for table `tbl_lesson_cate`
 --
 
-INSERT INTO `tbl_lesson_cate` (`id`, `code`, `parent_id`, `title`, `content`, `status`, `create_at`) VALUES
-(2, 468929080, 0, 'Sách lớp 1', 'Bài học dành cho lớp 1', 1, '2025-07-28 23:43:43'),
-(3, 121386087, 2, 'Tuần 1', 'Bài học của tuần 1', 1, '2025-07-28 23:44:09'),
-(4, 983603568, 2, 'Tuần 2', 'Bài học tuần 2', 1, '2025-07-28 23:44:28'),
-(5, 741147367, 2, 'Tuần 3', 'Bài học tuần 3', 1, '2025-07-28 23:44:56'),
-(6, 748955283, 2, 'Tuần 4', 'Bài học tuần 4', 1, '2025-07-28 23:45:19'),
-(7, 473266396, 0, 'Sách lớp 2', 'Bài học dành cho lớp 2', 1, '2025-07-28 23:46:07'),
-(8, 517997481, 7, 'Tuần 1', 'Bài học tuần 1', 1, '2025-07-28 23:46:37'),
-(9, 207109423, 7, 'Tuần 2', 'Bài học tuần 2', 1, '2025-07-29 01:47:03'),
-(10, 359016084, 7, 'Tuần 3', 'Bài học tuần 3', 1, '2025-07-30 00:16:50');
+INSERT INTO `tbl_lesson_cate` (`id`, `code`, `parent_id`, `title`, `content`, `image`, `status`, `create_at`) VALUES
+(2, 468929080, 0, 'Sách lớp 1', 'Bài học dành cho lớp 1', '1759772533_lesson_cate.jpg', 1, '2025-10-07 00:42:13'),
+(7, 473266396, 0, 'Sách lớp 2', 'Bài học dành cho lớp 2', '1759772569_lesson_cate.jpg', 1, '2025-10-07 00:42:49');
 
 -- --------------------------------------------------------
 
@@ -182,16 +154,6 @@ CREATE TABLE `tbl_lesson_dc` (
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `tbl_lesson_dc`
---
-
-INSERT INTO `tbl_lesson_dc` (`id`, `code`, `lesson_id`, `image`, `order_dc`, `status`, `create_at`) VALUES
-(2, 1691560040, 2, '1754063946_1691560040.jpg', 2, 1, '2025-08-01 22:59:06'),
-(3, 2118601411, 2, '1754063946_2118601411.jpg', 3, 1, '2025-08-01 22:59:06'),
-(5, 1815825365, 2, '1754068880_1815825365.jpg', 4, 1, '2025-08-02 00:21:20'),
-(6, 503649019, 2, '1754092832_503649019.jpg', 1, 1, '2025-08-02 07:00:32');
-
 -- --------------------------------------------------------
 
 --
@@ -207,16 +169,6 @@ CREATE TABLE `tbl_lesson_media` (
   `status` int(11) NOT NULL,
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `tbl_lesson_media`
---
-
-INSERT INTO `tbl_lesson_media` (`id`, `code`, `lesson_id`, `file`, `order_media`, `status`, `create_at`) VALUES
-(2, 1124666599, 2, '1754093166_1124666599.mp4', 2, 1, '2025-08-02 07:06:06'),
-(3, 1096038744, 2, '1754093166_1096038744.mp4', 3, 1, '2025-08-02 07:06:06'),
-(4, 170194033, 2, '1754093166_170194033.mp4', 4, 1, '2025-08-02 07:06:06'),
-(5, 1879220943, 2, '1754150170_1879220943.mp4', 1, 1, '2025-08-02 22:56:10');
 
 -- --------------------------------------------------------
 
@@ -256,7 +208,11 @@ INSERT INTO `tbl_question` (`id`, `code`, `source_edu`, `lesson_id`, `type_quest
 (22, 11411332, 2, 0, 3, 'Loài vật nào bay trên trời?', '', 1, '2025-09-29 23:56:22', 4, 0, 0),
 (23, 97693426, 2, 0, 6, 'Hãy sắp xếp các chữ cái sau thành một từ có nghĩa?', '', 1, '2025-09-30 00:00:11', 4, 0, 0),
 (25, 39388934, 2, 0, 4, 'Nối đáp án ở cột A với cột B', '', 1, '2025-09-30 00:18:56', 4, 0, 0),
-(26, 31552392, 2, 0, 5, 'dafasdfasdfas', '', 1, '2025-10-01 06:59:33', 4, 0, 0);
+(26, 31552392, 2, 0, 5, 'dafasdfasdfas', '', 1, '2025-10-01 06:59:33', 4, 0, 0),
+(27, 84010105, 3, 0, 1, 'ấdfasfsda', '1759514056_84010105.mp4', 1, '2025-10-04 00:54:16', 0, 3, 1),
+(28, 64728835, 3, 0, 2, 'dsafasdfsadf', '1759514581_64728835.mp4', 1, '2025-10-04 01:03:01', 0, 3, 1),
+(29, 25984026, 3, 0, 4, 'gkjgfhfgjdj', '1759514864_25984026.mp4', 1, '2025-10-04 01:07:44', 0, 1, 1),
+(30, 50718841, 3, 0, 5, 'ADasdaSD', '1759517134_50718841.mp3', 1, '2025-10-04 01:45:34', 0, 1, 1);
 
 --
 -- Triggers `tbl_question`
@@ -307,7 +263,9 @@ INSERT INTO `tbl_question_drag_drop_item` (`id`, `code`, `code_question`, `targe
 (27, 1759276773, 31552392, 87997, '', '1759276723_vocab_drag_drop_5289.png', 1, 0),
 (28, 1759276773, 31552392, 87997, '', '1759276737_vocab_drag_drop_2681.jpg', 1, 0),
 (29, 1759276773, 31552392, 0, '', '1759276754_vocab_drag_drop_8623.png', 1, 0),
-(30, 1759276773, 31552392, 0, '', '1759276763_vocab_drag_drop_5379.jpg', 1, 0);
+(30, 1759276773, 31552392, 0, '', '1759276763_vocab_drag_drop_5379.jpg', 1, 0),
+(33, 1759517134, 50718841, 95000, '1', '', 1, 0),
+(34, 1759517134, 50718841, 95000, '2', '', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -335,7 +293,9 @@ INSERT INTO `tbl_question_drag_drop_target` (`id`, `code`, `code_question`, `tit
 (25, 1758822596, 491149882, '1', '1758822580_target_1614.jpg', 1, 79147),
 (26, 1758822596, 491149882, '2', '1758822583_target_9348.webp', 1, 72439),
 (27, 1759276773, 31552392, 'Animal', '', 1, 87997),
-(28, 1759276773, 31552392, 'Tool', '', 1, 22337);
+(28, 1759276773, 31552392, 'Tool', '', 1, 22337),
+(31, 1759517134, 50718841, 'A', '', 1, 95000),
+(32, 1759517134, 50718841, 'B', '', 1, 63962);
 
 --
 -- Triggers `tbl_question_drag_drop_target`
@@ -369,7 +329,8 @@ CREATE TABLE `tbl_question_match` (
 
 INSERT INTO `tbl_question_match` (`id`, `code`, `code_question`, `answer_a`, `file_a`, `answer_b`, `file_b`, `status`, `id_temp`) VALUES
 (55, 1758791273, 310556130, 'Chim', '1758791018_3774.png', 'Bird', '1758791269_4295.png', 1, 0),
-(57, 1759166336, 39388934, 'Chim', '1759166319_vocab_match_7246.png', 'Bird', '1759166327_vocab_match_3952.png', 1, 0);
+(57, 1759166336, 39388934, 'Chim', '1759166319_vocab_match_7246.png', 'Bird', '1759166327_vocab_match_3952.png', 1, 0),
+(58, 1759514864, 25984026, 'a', '', 'b', '', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -446,7 +407,11 @@ INSERT INTO `tbl_question_one_true` (`id`, `code`, `code_question`, `answer`, `t
 (5, 1759164864, 7038933, 1, 'Hà Nội', ''),
 (6, 1759164864, 7038933, 0, 'Thành phố Hồ Chí Minh', ''),
 (7, 1759164864, 7038933, 0, 'Huế', ''),
-(8, 1759164864, 7038933, 0, 'Đà Nẵng', '');
+(8, 1759164864, 7038933, 0, 'Đà Nẵng', ''),
+(9, 1759514581, 64728835, 1, 'a', ''),
+(10, 1759514581, 64728835, 0, 'd', ''),
+(11, 1759514581, 64728835, 0, 'f', ''),
+(12, 1759514581, 64728835, 0, 'af', '');
 
 -- --------------------------------------------------------
 
@@ -488,7 +453,8 @@ CREATE TABLE `tbl_question_true_false` (
 
 INSERT INTO `tbl_question_true_false` (`id`, `code`, `code_question`, `answer`) VALUES
 (1, 1758387319, 700727103, 1),
-(2, 1759000814, 20471154, 1);
+(2, 1759000814, 20471154, 1),
+(3, 1759514056, 84010105, 1);
 
 -- --------------------------------------------------------
 
@@ -522,15 +488,17 @@ INSERT INTO `tbl_roles` (`id`, `parent_id`, `title`, `link`, `functions`, `order
 (7, 0, 'Bài giảng', '#', '', 4, 'folder-open-o', 0, 1),
 (8, 7, 'Danh mục', 'lesson_cate', '1,2,3', 1, 'a', 0, 1),
 (9, 7, 'Quản lý bài giảng', 'lesson', '1,2,3', 2, 'a', 0, 1),
-(10, 7, 'Từ vựng', 'vocabulary', '1,2,3', 3, 'a', 0, 1),
-(11, 0, 'Kiểm tra/Thi', '#', '', 5, 'pencil-square-o', 0, 1),
+(11, 0, 'Kiểm tra/Thi', '#', '', 6, 'pencil-square-o', 0, 1),
 (12, 11, 'Danh mục', 'test_cate', '1,2,3', 1, 'a', 0, 1),
 (13, 11, 'Quản lý thi/kiểm tra', 'test', '1,2,3,6', 2, 'a', 0, 1),
-(14, 0, 'Quản lý người dùng', '#', '', 6, 'user', 0, 1),
+(14, 0, 'Quản lý người dùng', '#', '', 7, 'user', 0, 1),
 (15, 14, 'Tài khoản học sinh', '#', '1,2,3', 1, 'a', 0, 1),
 (16, 14, 'Người dùng', 'users', '', 2, 'a', 0, 1),
 (17, 14, 'Phân quyền', 'group_role', '', 3, 'a', 0, 1),
-(18, 0, 'Báo cáo', '#', '', 7, 'bar-chart', 0, 1);
+(18, 0, 'Báo cáo', '#', '', 8, 'bar-chart', 0, 1),
+(19, 0, 'Từ vựng', '#', '', 5, 'cubes', 0, 1),
+(20, 19, 'Danh mục', 'vocab_cate', '1,2,3', 1, 'a', 0, 1),
+(21, 19, 'Quản lý câu hỏi', 'vocabulary', '1,2,3', 2, 'a', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -689,7 +657,7 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-10-03 01:52:34', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', '87b1a3065d00c42fe90a2817c8aa32903f3652eb', 1, 1, '2025-07-22 19:37:03'),
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-10-08 02:07:33', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', '22c2a412685221143b1fe1d74a09b18f2ad97be8', 1, 1, '2025-07-22 19:37:03'),
 (2, 1759338857, 'nguyenvana', '7ce0359f12857f2a90c7de465f40a95f01cb5da9', 3, 1, '2025-10-03 01:49:08', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', '1f873d66aa7e25e2bc5bd3c1a225e210da9b36a0', 1, 0, '2025-10-02 00:14:17');
 
 -- --------------------------------------------------------
@@ -702,6 +670,7 @@ CREATE TABLE `tbl_vocab_cate` (
   `id` int(11) NOT NULL,
   `code` int(11) NOT NULL,
   `title` text COLLATE utf8_unicode_ci NOT NULL,
+  `image` text COLLATE utf8_unicode_ci NOT NULL,
   `status` int(11) NOT NULL,
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bảng lưu thông tin danh mục từ vựng';
@@ -710,10 +679,10 @@ CREATE TABLE `tbl_vocab_cate` (
 -- Dumping data for table `tbl_vocab_cate`
 --
 
-INSERT INTO `tbl_vocab_cate` (`id`, `code`, `title`, `status`, `create_at`) VALUES
-(2, 1757008283, 'Trái cây', 1, '2025-09-05 00:51:23'),
-(3, 1757008292, 'Động vật', 1, '2025-09-05 00:51:32'),
-(4, 1757008300, 'Gia đình', 1, '2025-09-05 00:51:40');
+INSERT INTO `tbl_vocab_cate` (`id`, `code`, `title`, `image`, `status`, `create_at`) VALUES
+(3, 1757008292, 'Động vật', '', 1, '2025-09-05 00:51:32'),
+(4, 1757008300, 'Gia đình', '', 1, '2025-09-05 00:51:40'),
+(5, 1759863506, 'Đồ dùng học tập', '1759863506_vocab_cate.jpg', 1, '2025-10-08 01:59:06');
 
 --
 -- Indexes for dumped tables
@@ -883,7 +852,7 @@ ALTER TABLE `tbl_group_role`
 -- AUTO_INCREMENT for table `tbl_lesson`
 --
 ALTER TABLE `tbl_lesson`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_lesson_card`
@@ -895,43 +864,43 @@ ALTER TABLE `tbl_lesson_card`
 -- AUTO_INCREMENT for table `tbl_lesson_cate`
 --
 ALTER TABLE `tbl_lesson_cate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_lesson_dc`
 --
 ALTER TABLE `tbl_lesson_dc`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_lesson_media`
 --
 ALTER TABLE `tbl_lesson_media`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_question`
 --
 ALTER TABLE `tbl_question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_drag_drop_item`
 --
 ALTER TABLE `tbl_question_drag_drop_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_drag_drop_target`
 --
 ALTER TABLE `tbl_question_drag_drop_target`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_match`
 --
 ALTER TABLE `tbl_question_match`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_match_temp`
@@ -949,7 +918,7 @@ ALTER TABLE `tbl_question_multiple_true`
 -- AUTO_INCREMENT for table `tbl_question_one_true`
 --
 ALTER TABLE `tbl_question_one_true`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_question_sort_alphabet`
@@ -961,13 +930,13 @@ ALTER TABLE `tbl_question_sort_alphabet`
 -- AUTO_INCREMENT for table `tbl_question_true_false`
 --
 ALTER TABLE `tbl_question_true_false`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_roles`
 --
 ALTER TABLE `tbl_roles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `tbl_student`
@@ -1009,7 +978,7 @@ ALTER TABLE `tbl_users`
 -- AUTO_INCREMENT for table `tbl_vocab_cate`
 --
 ALTER TABLE `tbl_vocab_cate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
