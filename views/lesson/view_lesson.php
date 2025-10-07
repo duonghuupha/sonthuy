@@ -72,7 +72,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-sm btn-danger pull-right" id="close_modal" data-dismiss="modal">
+                <button class="btn btn-sm btn-danger pull-right" id="close_modal" onclick="close_modal_media_view_lesson()">
                     <i class="ace-icon fa fa-times"></i>
                     Đóng
                 </button>

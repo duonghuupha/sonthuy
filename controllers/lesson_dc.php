@@ -7,7 +7,10 @@ class Lesson_dc extends Controller{
 
     function json(){
         $id = $_REQUEST['id'];
-        $jsonObj = $this->model->getFetObj($id);
+        $rows = isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 20;
+        $get_pages = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
+        $offset = ($get_pages-1)*$rows;
+        $jsonObj = $this->model->getFetObj($id, $offset, $rows);
         $this->view->jsonObj = json_encode($jsonObj);
         $this->view->render('lesson_dc/json');
     }

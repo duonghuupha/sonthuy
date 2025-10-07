@@ -2,18 +2,16 @@ var myData_lesson_dc = [], myData_lesson_media = [], myData_lesson_card = [];
 $(function(){
     var id_glgobal = getParameterByName('id'); render_view_lesson(atob(id_glgobal));
     $('#accordion').on('show.bs.collapse', function(e){
-        var id_lesson = e.target.dataset.value;
-        setTimeout(() => {
-            render_list_lesson_dc(id_lesson);
-        }, 50);
-        /*****************lesson dc****************************************************************************************** */
-        
-        /*****************lesson media****************************************************************************************** */
-        var str_lesson_media = getRemote(baseUrl + '/lesson_media/json?token='+localStorage.getItem('token')+'&id='+id_lesson);
-        myData_lesson_media = JSON.parse(str_lesson_media); render_list_lesson_media();
-        /*****************lesson card****************************************************************************************** */
-        var str_lesson_card = getRemote(baseUrl + '/lesson_card/json?token='+localStorage.getItem('token')+'&id='+id_lesson);
-        myData_lesson_card = JSON.parse(str_lesson_card); render_list_lesson_card();
+        var str_value = e.target.id;
+        if(str_value == 'collapseTwo'){
+            setTimeout(() => {
+                render_list_lesson_dc(atob(id_glgobal));
+            }, 50);
+        }else if(str_value == 'collapseThree'){
+            setTimeout(() => {
+                render_list_lesson_media(atob(id_glgobal));
+            }, 50);
+        }
     });
 });
 //////////////////////////////////////////////////Lesson document///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,116 +54,45 @@ function format_link_dc(cellvalue, options, rowObject){
 }
 
 //////////////////////////////////////////////////////////////////Lesson Media////////////////////////////////////////////////////////////////////////////////////////////////////
-function upload_media(idh){
-    var xhr = new XMLHttpRequest();
-    var formData = new FormData($('#fm-media')[0]);
-    $('.overlay').show();
-    $.ajax({
-        url: baseUrl + '/lesson_media/add?token='+localStorage.getItem('token')+'&id='+idh,  //server script to process data
-        type: 'POST',
-        xhr: function() {
-            return xhr;
-        },
-        data: formData,
-        success: function(data){
-            var result = JSON.parse(data);
-            if(result.success == true){
-                $('.overlay').hide();
-                show_message('success', result.msg); $('.file_attach').ace_file_input('reset_input');
-                var str_lesson_media = getRemote(baseUrl + '/lesson_media/json?token='+localStorage.getItem('token')+'&id='+result.lesson_id);
-                myData_lesson_media = JSON.parse(str_lesson_media); render_list_lesson_media(); render_view_lesson(result.lesson_id);
-            }else{
-                $('.overlay').hide();
-                show_message('error', result.msg);
-                return false;
-            }
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-    });
-}
-
-function render_list_lesson_media(){
-    var html = ''; $('#tbody_lesson_media').empty();
-    for(var i = 0; i < myData_lesson_media.length; i++){
-        html += '<tr>';
-            html += '<td><a href="#" onclick="view_image('+myData_lesson_media[i].id+')">'+myData_lesson_media[i].file+'</a></td>';
-            html += '<td>';
-                html += '<input type="text" id="order_media_'+myData_lesson_media[i].id+'" name="order_media_'+myData_lesson_media[i].id+'" class="form-controll" style="width:100%;text-align:center"';
-                html += 'onchange="change_lesson_media('+myData_lesson_media[i].id+', '+myData_lesson_media[i].lesson_id+')" onkeypress="validate(event)" value="'+myData_lesson_media[i].order_media+'"/>';
-            html += '</td>';
-            html += '<td style="text-align:center">';
-                html += '<a href="javascript:void(0)" onclick="del_lesson_media('+myData_lesson_media[i].id+', '+myData_lesson_media[i].lesson_id+')">';
-                    html += '<i class="fa fa-trash" style="color:red"></i>';
-                html += '</a>';
-            html += '</td>';
-        html += '</tr>';
-    }
-    $('#tbody_lesson_media').html(html);
-}
-
-function del_lesson_media(idh, lesson_id){
-    bootbox.confirm({
-        message: "Bạn có chắc chắn muốn xóa file media của bài giảng này?",
-        buttons:{
-            confirm: {
-                label: "Đồng ý",
-                className: "btn-danger btn-sm"
-            },
-            cancel: {
-                label: "Không đồng ý",
-                className: "btn-primary btn-sm"
-            }
-        },
-        callback: function(result){
-            if(result){
-                $('.overlay').show();
-                $.ajax({
-                    type: "POST",
-                    url: baseUrl + '/lesson_media/del?token='+localStorage.getItem('token'),
-                    data: "id="+idh+'&lesson_id='+lesson_id, // serializes the form's elements.
-                    success: function(data){
-                        var result = JSON.parse(data);
-                        if(result.success == true){
-                            $('.overlay').hide();
-                            show_message('success', result.msg);
-                            var str_lesson_media = getRemote(baseUrl + '/lesson_media/json?token='+localStorage.getItem('token')+'&id='+result.lesson_id);
-                            myData_lesson_media = JSON.parse(str_lesson_media); render_list_lesson_media(); render_view_lesson(result.lesson_id);
-                        }else{
-                            $('.overlay').hide();
-                            show_message('error', result.msg);
-                            return false;
-                        }
-                    }
-                });
-            }
+function render_list_lesson_media(idh){
+    var gwdth_media = $('#list_lesson_media').width(), fwdth = $('.full').width();
+    $('#list_lesson_media').jqGrid({
+        url: baseUrl + '/lesson_media/json?token='+localStorage.getItem('token')+'&id='+idh,
+        datatype: "json",
+        mtype: "GET",
+        colModel: [
+            {label: 'Tên file', name: 'file', width: 220, align:"left", formatter: format_link_media},
+            {label: 'Thứ tự', name: 'order_media', width: 50, align:"center"},
+            {label: '#', name: 'action', width: 50, align:"center", formatter: format_button_media},
+            {label: '&nbsp', name: 'id', hidden: true, key: true},
+            {label: '&nbsp', name: 'lesson_id', hidden: true}
+        ],
+        viewrecords: false, height:150, width: gwdth_media, rowNum: 20, rownumbers: true,
+        pager: "#lesson_media_pager", rowList:[10,20,30],
+        loadComplete : function() {
+            var table = this;
+            setTimeout(function(){
+                updatePagerIcons(table);
+            }, 0);
         }
     });
 }
 
-function change_lesson_media(idh, lesson_id){
-    $('.overlay').show();
-    $.ajax({
-        type: "POST",
-        url: baseUrl + '/lesson_media/update?token='+localStorage.getItem('token')+'&id='+idh,
-        data: "lesson_id="+lesson_id+"&order_media="+$('#order_media_'+idh).val(), // serializes the form's elements.
-        success: function(data){
-            var result = JSON.parse(data);
-            if(result.success == true){
-                $('.overlay').hide();
-                show_message('success', result.msg);
-                var str_lesson_media = getRemote(baseUrl + '/lesson_media/json?token='+localStorage.getItem('token')+'&id='+result.lesson_id);
-                myData_lesson_media = JSON.parse(str_lesson_media); render_list_lesson_media();
-                render_view_lesson(result.lesson_id);
-            }else{
-                $('.overlay').hide();
-                show_message('error', result.msg);
-                return false;
-            }
-        }
-    });
+function format_button_media(cellvalue, options, rowObject){
+    var html = '';
+    html += '<a href="javascript:void(0)" onclick="del_lesson_media('+rowObject.id+', '+rowObject.lesson_id+')">'; 
+        html += '<i class="ace-icon fa fa-trash" style="color:red"></i>';
+    html += '</a>';
+    return html;
 }
+
+function format_link_media(cellvalue, options, rowObject){
+    var html = '';
+    html += '<a href="javascript:void(0)" onclick="view_lesson_media('+rowObject.id+', '+rowObject.lesson_id+', \''+cellvalue+'\', '+rowObject.order_media+')">'+cellvalue+'</a>';
+    return html;
+}
+
+
 ////////////////////////////////////////////////////////Lesson flash card//////////////////////////////////////////////////////////////////////////////////////////////
 function upload_card(idh){
     var xhr = new XMLHttpRequest();
