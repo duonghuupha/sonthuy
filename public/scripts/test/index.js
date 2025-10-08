@@ -111,7 +111,7 @@ function update(){
         return false;
     }else{
         var row = $('#list_test').jqGrid("getRowData", rowKey);
-        combo_select_2('#test_cate_id', baseUrl + '/other/combo_test', row.test_cate_id, row.test_cate_title);
+        combo_select_2('#test_cate_id', baseUrl + '/other/combo_test_cate', row.test_cate_id, row.test_cate_title);
         $('#code').val(row.code); $('#title').val(row.title); $('#file_old').val(row.file);
         $('#type_question').val(row.type_question).trigger('change'); $('#level').val(row.level).trigger('change');
         set_load_form(row.type_question, row.id, 1); $('#modal-form').modal('show');

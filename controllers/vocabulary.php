@@ -147,9 +147,7 @@ class Vocabulary extends Controller{
         $temp = $this->model->delObj($id);
         if($temp){
             // xoa file dinh kem cua cau hoi
-            if(file_exists(DIR_UPLOAD."/vocab/".$info[0]['code']."/question/".$info[0]['file'])){
-                @unlink(DIR_UPLOAD."/vocab/".$ifo[0]['code']."/question/".$info[0]['file']);
-            }
+             @$this->_Convert->deleteFolder(DIR_UPLOAD.'/vocab/'.$info[0]['code']);
             $jsonObj['msg'] = "Xóa dữ liệu thành công";
             $jsonObj['success'] = true;
             $this->view->jsonObj = json_encode($jsonObj);
