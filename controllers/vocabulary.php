@@ -40,7 +40,8 @@ class Vocabulary extends Controller{
             $this->view->jsonObj = json_encode($jsonObj);
         }else{
             $data = array("code" => $code, "lesson_id" => $lesson_id, "type_question" => $type_question, "title" => $title, "file" => $file,
-                            "status" => $status, "create_at" => $create_at, "source_edu" => 2, "cate_vocab_id" => $cate_vocab_id, "test_cate_id" => 0, "level" => 0);
+                            "status" => $status, "create_at" => $create_at, "source_edu" => 2, "cate_vocab_id" => $cate_vocab_id, "test_cate_id" => 0, "level" => 0,
+                            "user_id" => $this->_Info[0]['id']);
             $temp = $this->model->addObj($data);
             if($temp){
                 if($file != ''){ // tai file dinh kem cua cau hoi

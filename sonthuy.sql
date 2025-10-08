@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 08, 2025 at 12:03 PM
+-- Generation Time: Oct 08, 2025 at 09:08 PM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.30
 
@@ -84,6 +84,13 @@ CREATE TABLE `tbl_lesson` (
   `status` int(11) NOT NULL,
   `create_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `tbl_lesson`
+--
+
+INSERT INTO `tbl_lesson` (`id`, `code`, `cate_id`, `title`, `content`, `status`, `create_at`) VALUES
+(13, 845239507, 2, 'Unit 1: Welcome', 'Làm quen với các nhân vật trong bài học', 1, '2025-10-08 19:31:39');
 
 --
 -- Triggers `tbl_lesson`
@@ -189,24 +196,25 @@ CREATE TABLE `tbl_question` (
   `create_at` datetime NOT NULL,
   `cate_vocab_id` int(11) NOT NULL COMMENT 'chỉ điền giá trị khi câu hỏi thuộc  dạng câu hỏi của từ vựng',
   `test_cate_id` int(11) NOT NULL COMMENT 'chỉ điền khi câu hỏi thuộc câu hỏi của bài kiểm tra, bài test',
-  `level` int(11) NOT NULL COMMENT 'chỉ điền khi câu hỏi thuộc bài kiểm tra, bài test'
+  `level` int(11) NOT NULL COMMENT 'chỉ điền khi câu hỏi thuộc bài kiểm tra, bài test',
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Danh sách câu hỏi';
 
 --
 -- Dumping data for table `tbl_question`
 --
 
-INSERT INTO `tbl_question` (`id`, `code`, `source_edu`, `lesson_id`, `type_question`, `title`, `file`, `status`, `create_at`, `cate_vocab_id`, `test_cate_id`, `level`) VALUES
-(20, 20471154, 2, 0, 1, 'Trái đất quay quanh mặt trời đúng hay sai?', '1759000814_20471154.jpg', 1, '2025-09-28 02:20:14', 4, 0, 0),
-(21, 7038933, 2, 0, 2, 'Thủ đô của Việt Nam là?', '', 1, '2025-09-29 23:54:24', 4, 0, 0),
-(22, 11411332, 2, 0, 3, 'Loài vật nào bay trên trời?', '', 1, '2025-09-29 23:56:22', 4, 0, 0),
-(23, 97693426, 2, 0, 6, 'Hãy sắp xếp các chữ cái sau thành một từ có nghĩa?', '', 1, '2025-09-30 00:00:11', 4, 0, 0),
-(25, 39388934, 2, 0, 4, 'Nối đáp án ở cột A với cột B', '', 1, '2025-09-30 00:18:56', 4, 0, 0),
-(26, 31552392, 2, 0, 5, 'dafasdfasdfas', '', 1, '2025-10-01 06:59:33', 4, 0, 0),
-(27, 84010105, 3, 0, 1, 'ấdfasfsda', '1759514056_84010105.mp4', 1, '2025-10-04 00:54:16', 0, 3, 1),
-(28, 64728835, 3, 0, 2, 'dsafasdfsadf', '1759514581_64728835.mp4', 1, '2025-10-04 01:03:01', 0, 3, 1),
-(29, 25984026, 3, 0, 4, 'gkjgfhfgjdj', '1759514864_25984026.mp4', 1, '2025-10-04 01:07:44', 0, 1, 1),
-(30, 50718841, 3, 0, 5, 'ADasdaSD', '1759517134_50718841.mp3', 1, '2025-10-04 01:45:34', 0, 1, 1);
+INSERT INTO `tbl_question` (`id`, `code`, `source_edu`, `lesson_id`, `type_question`, `title`, `file`, `status`, `create_at`, `cate_vocab_id`, `test_cate_id`, `level`, `user_id`) VALUES
+(20, 20471154, 2, 0, 1, 'Trái đất quay quanh mặt trời đúng hay sai?', '1759000814_20471154.jpg', 1, '2025-09-28 02:20:14', 4, 0, 0, 0),
+(21, 7038933, 2, 0, 2, 'Thủ đô của Việt Nam là?', '', 1, '2025-09-29 23:54:24', 4, 0, 0, 0),
+(22, 11411332, 2, 0, 3, 'Loài vật nào bay trên trời?', '', 1, '2025-09-29 23:56:22', 4, 0, 0, 0),
+(23, 97693426, 2, 0, 6, 'Hãy sắp xếp các chữ cái sau thành một từ có nghĩa?', '', 1, '2025-09-30 00:00:11', 4, 0, 0, 0),
+(25, 39388934, 2, 0, 4, 'Nối đáp án ở cột A với cột B', '', 1, '2025-09-30 00:18:56', 4, 0, 0, 0),
+(26, 31552392, 2, 0, 5, 'dafasdfasdfas', '', 1, '2025-10-01 06:59:33', 4, 0, 0, 0),
+(27, 84010105, 3, 0, 1, 'ấdfasfsda', '1759514056_84010105.mp4', 1, '2025-10-04 00:54:16', 0, 3, 1, 0),
+(28, 64728835, 3, 0, 2, 'dsafasdfsadf', '1759514581_64728835.mp4', 1, '2025-10-04 01:03:01', 0, 3, 1, 0),
+(29, 25984026, 3, 0, 4, 'gkjgfhfgjdj', '1759514864_25984026.mp4', 1, '2025-10-04 01:07:44', 0, 1, 1, 0),
+(30, 50718841, 3, 0, 5, 'ADasdaSD', '1759517134_50718841.mp3', 1, '2025-10-04 01:45:34', 0, 1, 1, 0);
 
 --
 -- Triggers `tbl_question`
@@ -628,7 +636,7 @@ CREATE TABLE `tbl_users` (
 --
 
 INSERT INTO `tbl_users` (`id`, `code`, `username`, `password`, `personnel_id`, `group_role_id`, `last_login`, `info_login`, `token`, `status`, `change_pass`, `create_at`) VALUES
-(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-10-08 15:58:10', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', '4a2cb3478e5fd6eea8fd78dfd41565797e56ec07', 1, 1, '2025-07-22 19:37:03'),
+(1, 123456789, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 0, 0, '2025-10-08 19:37:53', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', 'e316714b56251ca29a35eb268fc5bf4d742e0ef4', 1, 1, '2025-07-22 19:37:03'),
 (2, 1759338857, 'nguyenvana', '7ce0359f12857f2a90c7de465f40a95f01cb5da9', 3, 1, '2025-10-03 01:49:08', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:143.0) Gecko/20100101 Firefox/143.0', '1f873d66aa7e25e2bc5bd3c1a225e210da9b36a0', 1, 0, '2025-10-02 00:14:17');
 
 -- --------------------------------------------------------
@@ -823,7 +831,7 @@ ALTER TABLE `tbl_group_role`
 -- AUTO_INCREMENT for table `tbl_lesson`
 --
 ALTER TABLE `tbl_lesson`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tbl_lesson_card`

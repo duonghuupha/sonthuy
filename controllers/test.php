@@ -40,7 +40,8 @@ class Test extends Controller{
             $this->view->jsonObj = json_encode($jsonObj);
         }else{
             $data = array("code" => $code, "lesson_id" => $lesson_id, "type_question" => $type_question, "title" => $title, "file" => $file,
-                            "status" => $status, "create_at" => $create_at, "source_edu" => 3, "cate_vocab_id" => 0, "test_cate_id" => $test_cate_id, "level" => $level);
+                            "status" => $status, "create_at" => $create_at, "source_edu" => 3, "cate_vocab_id" => 0, "test_cate_id" => $test_cate_id, "level" => $level,
+                            "user_id" => $this->_Info[0]['id']);
             $temp = $this->model->addObj($data);
             if($temp){
                 if($file != ''){ // tai file dinh kem cua cau hoi
