@@ -26,8 +26,9 @@
             </div><!-- /.page-header -->
             <div class="row">
                 <div class="col-xs-12 col-sm-12">
-                    <div class="col-xs-12 col-sm-5">
-                        <form id="fm" method="post">
+                    <div class="col-xs-12 col-sm-4">
+                        <form id="fm" method="post" enctype="multipart/form-data">
+                            <input type="hidden" id="image_old" name="image_old" />
                             <div class="row">
                                 <div class="col-xs-6">
                                     <div class="form-group">
@@ -46,11 +47,9 @@
                                 </div>
                                 <div class="col-xs-6">
                                     <div class="form-group">
-                                        <label for="form-field-username">Lựa chọn danh mục cha</label>
+                                        <label for="form-field-username">Hình ảnh dại diện</label>
                                         <div>
-                                            <select class="select2" data-placeholder="Lựa chọn danh mục..." style="width:100%" id="parent_id" name="parent_id">
-                                                <option value="">Lựa chọn danh mục</option>
-                                            </select>
+                                            <input type="file" id="image" name="image" class="file_attach" style="width:100%"/>
                                         </div>
                                     </div>
                                 </div>
@@ -89,7 +88,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-xs-12 col-sm-7 haft">
+                    <div class="col-xs-12 col-sm-8 haft">
                         <table id="list_cate" 
                             class="table" 
                             role="grid"
@@ -103,16 +102,3 @@
 </div><!-- /.main-content -->
 
 <script src="<?php echo URL.'/public/' ?>scripts/test/cate.js"></script>
-<style>
-/* chỉnh indent cho node */
-.ui-jqgrid .tree-wrap {
-  float: left;
-  height: 18px;
-  line-height: 18px;
-  margin-right: 5px;
-}
-.ui-icon.fa {
-  font-size: 14px;
-  color: #444;
-}
-</style>
