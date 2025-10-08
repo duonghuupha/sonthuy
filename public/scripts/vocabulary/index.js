@@ -192,10 +192,13 @@ function set_load_form(val, idh = 0, id_edit = 0){
     var code_question = $('#code').val();
     if(val == 1){ // true/false
         $('#form_type').load(baseUrl + '/true_false/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+        $('#close_modal').removeAttr('onclick').attr('data-dismiss', 'modal');
     }else if(val == 2){ // one_true
         $('#form_type').load(baseUrl + '/one_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+        $('#close_modal').removeAttr('onclick').attr('data-dismiss', 'modal');
     }else if(val == 3){ // multiple_true
         $('#form_type').load(baseUrl + '/multiple_true/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+        $('#close_modal').removeAttr('onclick').attr('data-dismiss', 'modal');
     }else if(val == 4){ // match
         $('#form_type').load(baseUrl + '/match/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
         if(id_edit == 1){
@@ -208,17 +211,24 @@ function set_load_form(val, idh = 0, id_edit = 0){
         }else{
             myData_match = [];
         }
+        $('#close_modal').removeAttr('data-dismiss').attr('onclick', 'close_modal_match()');
     }else if(val == 5){ // drag and drop
         $('#form_type').load(baseUrl + '/drag_drop/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
-        var data_str_target = getRemote(baseUrl + '/drag_drop/json_target?token='+localStorage.getItem('token')+'&code='+code_question);
-        var data_str_answer = getRemote(baseUrl + '/drag_drop/json_answer?token='+localStorage.getItem('token')+'&code='+code_question);
-        myData_drag_drop_target = (data_str_target.length != 0) ? JSON.parse(data_str_target) : [];
-        myData_drag_drop_answer = (data_str_answer.length != 0) ? JSON.parse(data_str_answer) : [];
-        setTimeout(() => {
-            render_drag_drop_target_edit(); render_drag_drop_answer_edit();
-        }, 50);
+        if(id_edit == 1){
+            var data_str_target = getRemote(baseUrl + '/drag_drop/json_target?token='+localStorage.getItem('token')+'&code='+code_question);
+            var data_str_answer = getRemote(baseUrl + '/drag_drop/json_answer?token='+localStorage.getItem('token')+'&code='+code_question);
+            myData_drag_drop_target = (data_str_target.length != 0) ? JSON.parse(data_str_target) : [];
+            myData_drag_drop_answer = (data_str_answer.length != 0) ? JSON.parse(data_str_answer) : [];
+            setTimeout(() => {
+                render_drag_drop_target_edit(); render_drag_drop_answer_edit();
+            }, 50);
+        }else{
+            myData_drag_drop_answer = []; myData_drag_drop_target = [];
+        }
+        $('#close_modal').removeAttr('data-dismiss').attr('onclick', 'close_modal_drag_drop()');
     }else if(val == 6){ // sort alphabet
         $('#form_type').load(baseUrl + '/sort_alphabet/form?token='+localStorage.getItem('token')+'&code='+code_question+'&id='+idh);
+        $('#close_modal').removeAttr('onclick').attr('data-dismiss', 'modal');
     }
 }
 
@@ -331,4 +341,31 @@ function render_drag_drop_answer_edit(){
             onchange:null,thumbnail:true
         });
     }, 50);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function close_modal_match(){
+    if(myData_match.length == 0){
+        $('#modal-form').modal('hide');
+    }else{
+        $.getJSON(baseUrl + '/match/remove_file_temp_after_click_close_modal',
+            {token: localStorage.getItem('token'), data: btoa(JSON.stringify(myData_match)), type: 'vocab'}, 
+            function(result){
+            if(result.success){
+                $('#modal-form').modal('hide'); myData_match = [];
+            }
+        });
+    }
+}
+
+function close_modal_drag_drop(){
+    if(myData_drag_drop_answer.length == 0 || myData_drag_drop_target == 0){
+        $('#modal-form').modal('hide');
+    }else{
+        $.getJSON(baseUrl + '/drag_drop/remove_file_temp',
+            {token: localStorage.getItem('token'), data: btoa(JSON.stringify(myData_drag_drop_answer)), type: 'vocab'}, function(result){}
+        );
+        $.getJSON(baseUrl + '/drag_drop/remove_file_temp',
+            {token: localStorage.getItem('token'), data: btoa(JSON.stringify(myData_drag_drop_target)), type: 'vocab'}, function(result){});
+        myData_drag_drop_answer = []; myData_drag_drop_target = []; $('#modal-form').modal('hide');
+    }
 }

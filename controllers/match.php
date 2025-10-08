@@ -99,10 +99,14 @@ class Match extends Controller{
             $url['main'] = DIR_UPLOAD.'/vocab/'.$code.'/question';
             $url['temp'] = DIR_UPLOAD.'/vocab/temp';
         }elseif($type == 'test'){
-            $url['main'] = DIR_UPLOAD.'/test/question';
+            $url['main'] = DIR_UPLOAD.'/test/'.$code.'/question';
             $url['temp'] = DIR_UPLOAD.'/test/temp';
         }
         return $url;
+    }
+
+    function remove_file_temp_after_click_close_modal(){
+        $this->view->render('match/remove_file_temp_after_click_close_modal');
     }
 }
 ?>

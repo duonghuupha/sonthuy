@@ -6,7 +6,7 @@ if($_REQUEST['id'] == 0){
     for($i = 1; $i <= 4; $i++){
 ?>
     <div class="col-xs-12 col-sm-6 widget-container-col" id="widget-container-col-7">
-        <div class="widget-box widget-color-dark" id="widget-box-7">
+        <div class="widget-box widget-color-green" id="widget-box-7">
             <div class="widget-header widget-header-small">
                 <h6 class="widget-title">Đáp án số <?php echo $i ?></h6>
                 <div class="widget-toolbar no-border">

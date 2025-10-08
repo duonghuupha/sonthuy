@@ -128,5 +128,8 @@ class Drag_drop extends Controller{
         return $url;
     }
 
+    function remove_file_temp(){
+        $this->view->render('drag_drop/remove_file_temp');
+    }
 }
 ?>

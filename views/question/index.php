@@ -91,6 +91,9 @@
                                 <div class="form-group">
                                     <label for="form-field-username">
                                         Mã bài giảng <span style="color:red">(*)</span>
+                                        <a href="javascript:void(0)" onclick="refresh_code()" title="Tạo mã code" id="refreshcode">
+                                            <i class="fa fa-refresh"></i>
+                                        </a>
                                     </label>
                                     <div>
                                         <input type="text" id="code" name="code" required="" placeholder="Mã câu hỏi" style="width:100%" readonly=""/>
