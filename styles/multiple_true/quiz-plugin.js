@@ -1,19 +1,27 @@
 (function ($) {
 	$.fn.multiCorrectQuiz = function (options) {
-		const settings = $.extend({ questions: [] }, options);
+		const settings = $.extend({ 
+			questions: [],
+			soundCorrect: null,
+			soundWrong: null
+		}, options);
 		const originalQuestions = JSON.parse(JSON.stringify(settings.questions));
+		// ham phat am thanh tư link hoac file
+		function playsound(url){
+			try{
+				if(url && typeof url === "string"){
+					const audio = new Audio(url);
+					audio.play().catch(() => {});
+				}
+			}catch(e){
+				console.warn("Không thể phát âm thanh", e);
+			}
+		}
 		return this.each(function () {
 			const container = $(this).empty();
 			function renderQuiz() {
 				container.empty();
 				originalQuestions.forEach((q, index) => {
-					/*let optionsHTML = '';
-					q.options.forEach((opt, i) => {
-						optionsHTML += `<label class="option-label">
-						<input type="checkbox" name="q${index}" value="${opt.index}" class="quiz-checkbox"/>
-						${opt.text.title}
-						</label>`;
-					});*/
 					const shuffled = q.options.map((opt, i) => ({ text: opt, index: i }));
 					for (let i = shuffled.length - 1; i > 0; i--) {
 						const j = Math.floor(Math.random() * (i + 1));
@@ -98,6 +106,8 @@
 			}
 			renderQuiz();
 			container.on('click', '#check-answers', function () {
+				// ✅ Khai báo biến ở đầu function
+    			let allCorrect = true;
 				container.find('.question-box').each(function () {
 					const box = $(this);
 					const qIndex = box.data('index');
@@ -110,8 +120,19 @@
 						.text(isCorrect ? "✅ Chính xác!" : "❌ Sai rồi!")
 						.removeClass("correct incorrect")
 						.addClass(isCorrect ? "correct" : "incorrect");
+					if (!isCorrect) {
+						allCorrect = false; // nếu có ít nhất 1 câu sai
+					}
 					box.find('input').prop('disabled', true);
 				});
+				// 🔊 Phát âm thanh sau khi kiểm tra xong
+				if (typeof playsound === "function") {
+					if (allCorrect) {
+						playsound(settings.soundCorrect);
+					} else {
+						playsound(settings.soundWrong);
+					}
+				}
 			});
 			container.on('click', '#reset-quiz', function () {
 				renderQuiz();

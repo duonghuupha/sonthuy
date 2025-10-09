@@ -19,6 +19,8 @@
     <script>
     $('#quiz').dragDropQuiz({
         data: baseUrl + '/drag_drop/get_json_question?token=<?php echo $_SESSION['data'][0]['token'] ?>&question_id=<?php echo $_REQUEST['question_id'] ?>',
+        soundCorrect: baseUrl + '/styles/assets/audio/Dung.mp3',
+        soundWrong: baseUrl + '/styles/assets/audio/Sai.mp3',
         onComplete: function(correct, total) {
             //alert(`Bạn đã làm đúng ${correct} / ${total}`);
         }

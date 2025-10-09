@@ -18,7 +18,9 @@
     <script>
     $.getJSON('<?php echo URL.'/multiple_true/get_json_question?token='.$_SESSION['data'][0]['token'].'&question_id='.$_REQUEST['question_id'] ?>', function(data) {
         $('#quiz').multiCorrectQuiz({
-            questions: data
+            questions: data,
+            soundCorrect: baseUrl + '/styles/assets/audio/Dung.mp3',
+            soundWrong: baseUrl + '/styles/assets/audio/Sai.mp3'
         });
     });
     </script>

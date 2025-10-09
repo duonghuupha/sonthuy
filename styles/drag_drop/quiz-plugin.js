@@ -2,6 +2,8 @@
 	$.fn.dragDropQuiz = function (options) {
 		const settings = $.extend({
 			data: null,
+			soundCorrect: null,
+			soundWrong: null,
 			onComplete: function (correct, total) { }
 		}, options);
 
@@ -9,6 +11,18 @@
 			for (let i = array.length - 1; i > 0; i--) {
 				const j = Math.floor(Math.random() * (i + 1));
 				[array[i], array[j]] = [array[j], array[i]];
+			}
+		}
+
+		// ham phat am thanh tư link hoac file
+		function playsound(url){
+			try{
+				if(url && typeof url === "string"){
+					const audio = new Audio(url);
+					audio.play().catch(() => {});
+				}
+			}catch(e){
+				console.warn("Không thể phát âm thanh", e);
 			}
 		}
 
@@ -167,6 +181,14 @@
 					});
 					container.find(".result").text(`Bạn làm đúng ${correct} / ${total}`);
 					settings.onComplete(correct, total);
+					// ✅ Phát âm thanh tổng kết sau khi kiểm tra xong toàn bộ
+					if (typeof playsound === "function") {
+						if (correct === total) {
+							playsound(settings.soundCorrect);  // Đúng toàn bộ
+						} else {
+							playsound(settings.soundWrong);    // Đúng 1 phần hoặc sai
+						}
+					}
 				});
 
 				container.find(".reset-btn").on("click", function () {

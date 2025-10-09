@@ -1,7 +1,22 @@
 (function ($) {
 	$.fn.mcqQuiz = function (options) {
-		const settings = $.extend({ questions: [] }, options);
+		const settings = $.extend({ 
+			questions: [],
+			soundCorrect: null,
+			soundWrong: null 
+		}, options);
 		let originalQuestions = JSON.parse(JSON.stringify(settings.questions));
+		// ham phat am thanh tư link hoac file
+		function playsound(url){
+			try{
+				if(url && typeof url === "string"){
+					const audio = new Audio(url);
+					audio.play().catch(() => {});
+				}
+			}catch(e){
+				console.warn("Không thể phát âm thanh", e);
+			}
+		}
 		return this.each(function () {
 			const container = $(this).empty();
 			function renderQuestions(questions) {
@@ -99,8 +114,10 @@
 					const feedback = box.find('.feedback');
 					if (selected == correct) {
 						feedback.text('✅ Chính xác!').removeClass('incorrect').addClass('correct');
+						playsound(settings.soundCorrect);
 					} else {
 						feedback.text('❌ Sai rồi!').removeClass('correct').addClass('incorrect');
+						playsound(settings.soundWrong);
 					}
 					box.find('input').prop('disabled', true);
 				});

@@ -13,7 +13,7 @@
         <div class="page-content">
             <div class="page-header">
                 <h1>
-                    Quản lý danh mục từ vựng
+                    Quản lý câu hỏi từ vựng
                     <small class="pull-right">
                         <?php 
                             echo $this->_Convert->return_role_functions_static($this->_Info[0]['id'], 1, 'add()'); // them moi
@@ -149,8 +149,6 @@
     </div><!-- /.modal-dialog -->
 </div>
 <!-- End formm don vi tinh-->
-
-<script src="<?php echo URL.'/public/' ?>scripts/vocabulary/cate.js"></script>
 <script src="<?php echo URL.'/public/' ?>scripts/vocabulary/index.js"></script>
 <script src="<?php echo URL.'/public/' ?>scripts/vocabulary/match.js"></script>
 <script src="<?php echo URL.'/public/' ?>scripts/vocabulary/drag_drop.js"></script>

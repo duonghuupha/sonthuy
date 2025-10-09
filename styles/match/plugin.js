@@ -1,7 +1,9 @@
 (function ($) {
 	$.fn.matchingQuiz = function (options) {
 		const settings = $.extend({
-			dataUrl: null
+			dataUrl: null,
+			soundCorrect: null,
+			soundWrong: null
 		}, options);
 		let $container = $(this);
 		let connections = [];
@@ -10,6 +12,17 @@
 		$.getJSON(settings.dataUrl, function (data) {
 			renderQuiz(data);
 		});
+		// ham phat am thanh tư link hoac file
+		function playsound(url){
+			try{
+				if(url && typeof url === "string"){
+					const audio = new Audio(url);
+					audio.play().catch(() => {});
+				}
+			}catch(e){
+				console.warn("Không thể phát âm thanh", e);
+			}
+		}
 		function renderQuiz(data) {
 			$container.empty();
 			connections = [];
@@ -105,8 +118,10 @@
 
 				if (allCorrect) {
 					$container.find('.quiz-result').text("✅ Chính xác!").removeClass("incorrect").addClass("correct");
+					playsound(settings.soundCorrect);
 				} else {
 					$container.find('.quiz-result').text("❌ Chưa chính xác!").removeClass("correct").addClass("incorrect");
+					playsound(settings.soundWrong);
 				}
 			});
 			$resetBtn.click(function () {

@@ -1,7 +1,23 @@
 (function ($) {
 	$.fn.trueFalseQuiz = function (options) {
-		const settings = $.extend({ questions: [] }, options);
+		const settings = $.extend({ 
+			questions: [],
+			soundCorrect: null,
+			soundWrong: null
+		}, options);
 		const originalQuestions = JSON.parse(JSON.stringify(settings.questions));
+
+		// ham phat am thanh tư link hoac file
+		function playsound(url){
+			try{
+				if(url && typeof url === "string"){
+					const audio = new Audio(url);
+					audio.play().catch(() => {});
+				}
+			}catch(e){
+				console.warn("Không thể phát âm thanh", e);
+			}
+		}
 
 		return this.each(function () {
 			const container = $(this).empty();
@@ -74,8 +90,10 @@
 
 					if (userAnswer === correctAnswer) {
 						feedback.text("✅ Chính xác!").removeClass("incorrect").addClass("correct");
+						playsound(settings.soundCorrect);
 					} else {
 						feedback.text("❌ Sai rồi!").removeClass("correct").addClass("incorrect");
+						playsound(settings.soundWrong);
 					}
 
 					box.find('input').prop('disabled', true);

@@ -2,6 +2,8 @@
 	$.fn.sortQuiz = function (options) {
 		const settings = $.extend({
 			data: null,
+			soundCorrect: null,
+			soundWrong: null,
 			onComplete: function (isCorrect) { }
 		}, options);
 
@@ -9,6 +11,18 @@
 			for (let i = array.length - 1; i > 0; i--) {
 				const j = Math.floor(Math.random() * (i + 1));
 				[array[i], array[j]] = [array[j], array[i]];
+			}
+		}
+
+		// ham phat am thanh tư link hoac file
+		function playsound(url){
+			try{
+				if(url && typeof url === "string"){
+					const audio = new Audio(url);
+					audio.play().catch(() => {});
+				}
+			}catch(e){
+				console.warn("Không thể phát âm thanh", e);
 			}
 		}
 
@@ -145,6 +159,13 @@
 					container.find(".result").text(isCorrect ? "Chính xác!" : "Chưa đúng, thử lại nhé.")
 						.css("color", isCorrect ? "green" : "red");
 
+					// ✅ Phát âm thanh tùy theo kết quả
+					if (isCorrect) {
+						playsound(settings.soundCorrect);
+					} else {
+						playsound(settings.soundWrong);
+					}
+					
 					settings.onComplete(isCorrect);
 				});
 

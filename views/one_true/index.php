@@ -20,7 +20,9 @@
     $(function() {
         $.getJSON('<?php echo URL.'/one_true/get_json_question?token='.$_SESSION['data'][0]['token'].'&question_id='.$_REQUEST['question_id'] ?>', function(data) {
             $('#quiz-container').mcqQuiz({
-                questions: data
+                questions: data,
+                soundCorrect: baseUrl + '/styles/assets/audio/Dung.mp3',
+                soundWrong: baseUrl + '/styles/assets/audio/Sai.mp3'
             });
         }).fail(function() {
             $('#quiz-container').text("Không thể tải câu hỏi. Vui lòng kiểm tra file JSON.");

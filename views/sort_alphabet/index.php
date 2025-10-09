@@ -22,6 +22,8 @@
     <script>
     $('#sort-quiz').sortQuiz({
         data: '<?php echo URL.'/sort_alphabet/get_json_question?token='.$_SESSION['data'][0]['token'].'&question_id='.$_REQUEST['question_id'] ?>',
+        soundCorrect: baseUrl + '/styles/assets/audio/Dung.mp3',
+        soundWrong: baseUrl + '/styles/assets/audio/Sai.mp3',
         onComplete: function(isCorrect) {
             //alert(isCorrect ? "Chính xác!" : "Chưa đúng, thử lại nhé.");
         }
