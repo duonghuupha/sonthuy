@@ -7,7 +7,6 @@ class Controller {
     public $_Log;
     public $_Arr_Role;
     public $_Sendmail;
-    public $_Setting;
     public $_Url;
 	function __construct() {
 		$this->view = new View(); 
@@ -15,7 +14,6 @@ class Controller {
         $this->_Info = (isset($_SESSION['data'])) ? $_SESSION['data']: [];
         $this->_Convert = new Convert();
         $this->_Year = (isset($_SESSION['year'])) ? $_SESSION['year'] : [];
-        $this->_Setting = $_SESSION['setting'];
         //$this->_Log = new Log();
         $this->_Url = isset($_REQUEST['url']) ? explode("/", $_REQUEST['url']) : ['index'];
         $this->_Arr_Role = array('other', 'true_false', 'one_true', 'multiple_true', "match", "drag_drop", "sort_alphabet", "lesson_dc",
