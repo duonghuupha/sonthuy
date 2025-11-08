@@ -16,6 +16,7 @@
                     Quản lý thông tin học sinh
                     <small class="pull-right">
                         <?php 
+                            echo $this->_Convert->return_role_functions_static($this->_Info[0]['id'], 4, 'import_file()'); // import du lieu
                             echo $this->_Convert->return_role_functions_static($this->_Info[0]['id'], 1, 'add()'); // them moi
                             echo $this->_Convert->return_role_functions_static($this->_Info[0]['id'], 2, 'update()'); // cap nhat
                             echo $this->_Convert->return_role_functions_static($this->_Info[0]['id'], 3, 'del()'); // xoa
@@ -247,4 +248,59 @@
 </div>
 <!-- End formm don vi tinh-->
 
+<!--Form don vi tinh-->
+<div id="modal-student-import" class="modal fade" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" style="width:40%">
+        <div class="modal-content">
+            <div class="modal-header no-padding">
+                <div class="table-header">
+                    Nhập dữ liệu từ file Excel
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form id="fm-import" method="POST" enctype="multipart/form-data">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="form-field-username">Lớp học <span style="color:red">(*)</span></label>
+                                <div>
+                                    <select class="select2" data-placeholder="Lựa chọn lớp học..."
+                                    style="width:100%" required="" id="class_id_imp" name="class_id_imp"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="form-field-username">Lựa chọn file <span style="color:red">(*)</span></label>
+                                <div>
+                                    <input type="file" id="fullname" name="fullname" required="" class="file_attach" style="width:100%" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <table id="list_student_imp" 
+                                class="table" 
+                                role="grid"
+                                aria-describedby="dynamic-table_info"></table>
+                            <div id="student_imp_pager"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-danger pull-left" id="close_modal" onclick="cancel_import()">
+                    <i class="ace-icon fa fa-times"></i>
+                    Đóng
+                </button>
+                <button class="btn btn-sm btn-primary pull-right" id="save_modal" onclick="save_import()">
+                    <i class="ace-icon fa fa-save"></i>
+                    Ghi dữ liệu
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- End formm don vi tinh-->
+
 <script src="<?php echo URL.'/public/' ?>scripts/students/index.js"></script>
+<script src="<?php echo URL.'/public/' ?>scripts/students/import.js"></script>

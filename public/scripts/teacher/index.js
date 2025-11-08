@@ -61,6 +61,7 @@ function refresh_code(){
 }
 
 function add(){
+    reset_form('#fm');
     var number = Math.floor(Math.random() * 999999999); $('#refreshcode').show();
     $('#code').val(number); $('.input-mask-date').mask('99-99-9999'); $('.input-mask-phone').mask('9999999999');
     $('#modal-teacher').modal('show'); $('#delete_image').hide();
