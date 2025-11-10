@@ -6,7 +6,7 @@ class Students_Model extends Model{
 
     function getFetObj($classid, $code, $fullname, $birthday, $gender, $address, $offset, $rows){
         $result = array();
-        $where = "code LIKE '%$code%'";
+        $where = "status = 1 AND code LIKE '%$code%'";
         if($classid != '')
             $where .= " AND class_id = $classid";
         if($fullname != '')
@@ -70,6 +70,29 @@ class Students_Model extends Model{
     function get_relation($code_student){
         $query = $this->db->query("SELECT id, fullname, phone, email, relation_id AS relationship_id FROM tbl_student_relation WHERE code_student = $code_student");
         return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    function delObj_temp(){
+        $query = $this->delete("tbl_student", "status = 99");
+        return $query;
+    }
+
+    function getFetObj_temp($offset, $rows){
+        $result = array();
+        $query = $this->db->query("SELECT * FROM tbl_student WHERE status = 99");
+        $row = $query->fetchAll();
+        $query = $this->db->query("SELECT id, code, fullname, email, gender, DATE_FORMAT(birthday, '%d-%m-%Y') AS birthday, address, status, class_id,
+                                    (SELECT title FROM tbl_class_room WHERE tbl_class_room.id = class_id) AS class_title FROM tbl_student WHERE status = 99 
+                                    LIMIT $offset, $rows");
+        $result['records'] = $row[0]['Total'];
+        $result['total'] = ceil($row[0]['Total']/$rows);
+        $result['rows'] = $query->fetchAll();
+        return $result;
+    }
+
+    function updateObj_temp($data){
+        $query = $this->update("tbl_student", $data, "status = 99");
+        return $query;
     }
 }
 ?>

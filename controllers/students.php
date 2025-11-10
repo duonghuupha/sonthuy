@@ -119,5 +119,78 @@ class Students extends Controller{
         $this->view->jsonObj = json_encode($relation);
         $this->view->render('students/relation');
     }
+
+    function json_import(){
+        $rows = isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 20;
+        $get_pages = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;
+        $offset = ($get_pages-1)*$rows;
+        $jsonObj = $this->model->getFetObj_temp($offset, $rows);
+        $this->view->jsonObj = json_encode($jsonObj);
+        $this->view->render('students/json_import');
+    }
+
+    function import(){
+        $temp = $this->model->delObj_temp();
+        if($temp){
+            $classid = $_REQUEST['class_id_imp'];
+            $file = $_FILES['file_import']['tmp_name'];
+            $objFile = PHPExcel_IOFactory::identify($file);
+            $objData = PHPExcel_IOFactory::createReader($objFile);
+            $objData->setReadDataOnly(true);
+            $objPHPExcel = $objData->load($file);
+            $sheet = $objPHPExcel->setActiveSheetIndex(0);
+            $Totalrow = $sheet->getHighestRow();
+            $LastColumn = $sheet->getHighestColumn();
+            $TotalCol = PHPExcel_Cell::columnIndexFromString($LastColumn);
+            $data = [];
+            for ($i = 4; $i <= $Totalrow; $i++) {
+                for ($j = 1; $j < $TotalCol; $j++) {
+                    //$data[$i - 2][$j] = $sheet->getCellByColumnAndRow($j, $i)->getValue();;
+                    if($j == 1){
+                        $code = $sheet->getCellByColumnAndRow($j, $i)->getValue();
+                    }elseif($j == 2){
+                        $fullname = $sheet->getCellByColumnAndRow($j, $i)->getValue();
+                    }elseif($j == 3){
+                        $gender = $sheet->getCellByColumnAndRow($j, $i)->getValue();
+                    }elseif($j == 4){
+                        $birthday = $this->_Convert->convertDate_Import($sheet->getCellByColumnAndRow($j, $i)->getValue());
+                    }elseif($j == 5){
+                        $address = $sheet->getCellByColumnAndRow($j, $i)->getValue();
+                    }
+                }
+                if($this->model->dupliObj(0, $code) == 0){
+                    $data = array("code" => $code, "fullname" => $fullname, "birthday" => $birthday, "gender" => $gender, "address" => $address, "email" => '',
+                                    "status" => 99, 'create_at' => date('Y-m-d H:i:s'), "class_id" => $classid);
+                    $temp_info = $this->model->addObj($data);
+                    $jsonObj['msg'] = "Import dữ liệu không thành công";
+                    $jsonObj['success'] = false;
+                    $this->view->jsonObj = json_encode($jsonObj);
+                }
+            }
+            $jsonObj['msg'] = "Import dữ liệu thành công";
+            $jsonObj['success'] = true;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $jsonObj['msg'] = "Import dữ liệu không thành công";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }
+        $this->view->render('students/import');
+    }
+
+    function save_import(){
+        $data = array("status" => 1);
+        $temp = $this->model->updateObj_temp($data);
+        if($temp){
+            $jsonObj['msg'] = "Cập nhật danh sách học sinh thành công";
+            $jsonObj['success'] = true;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }else{
+            $jsonObj['msg'] = "Cập nhật danh sách học sinh không thành công";
+            $jsonObj['success'] = false;
+            $this->view->jsonObj = json_encode($jsonObj);
+        }
+        $this->view->render('students/save_import');
+    }
 }
 ?>

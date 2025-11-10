@@ -7,16 +7,16 @@ function import_file(){
 }
 
 function render_imported_students(){
-    var gwdth_imp = $('#list_student_imp').width(); console.log(gwdth_imp);
+    var gwdth_imp = $('#list_student_imp').width();
     $('#list_student_imp').jqGrid({
-        url: '',
+        url: baseUrl + '/students/json_import?token=' + localStorage.getItem('token'),
         datatype: "json",
         mtype: "GET",
         colModel: [
             {label: 'Mã học sinh', name: 'code', width: 120, align:"center"},
             {label: 'Họ và tên', name: 'fullname', width: 200},
             {label: 'Giới tính', name: 'gender', width: 100, align:"center", formatter: format_gender},
-            {label: 'Lớp học', name: 'class_title', width: 100},
+            {label: 'Lớp học', name: 'class_title', width: 100, align: "center"},
             {label: '&nbsp', name: 'id', hidden: true, key: true},
             {label: '&nbsp', name: 'gender', hidden: true},
             {label: '&nbsp', name: 'class_id', hidden: true}
@@ -43,6 +43,17 @@ function format_gender(cellvalue, options, rowObject){
 }
 
 function update_import(){
+    var class_id = $('#class_id_imp').val(), file_data = $('#file_import').val();
+    if(class_id == null){
+        show_message('error', 'Vui lòng chọn lớp học!');
+        $('.file_attach').ace_file_input('reset_input');
+        return false;
+    }
+    if(file_data.split('.').pop().toLowerCase() != 'xlsx'){
+        show_message('error', 'Vui lòng chọn file định dạng .xlsx!');
+        $('.file_attach').ace_file_input('reset_input');
+        return false;
+    }
     var xhr = new XMLHttpRequest();
     var formData = new FormData($('#fm-import')[0]);
     $('.overlay').show();
@@ -69,4 +80,9 @@ function update_import(){
         contentType: false,
         processData: false
     });
+}
+
+function save_import(){
+    var str_data = "token="+localStorage.getItem('token');
+    update_data(str_data, "Bạn có chắc chắn muốn cập nhật danh sách học sinh?", baseUrl + '/students/save_import', baseUrl + '/students?token='+localStorage.getItem('token'));
 }

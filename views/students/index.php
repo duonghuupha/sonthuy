@@ -273,7 +273,8 @@
                             <div class="form-group">
                                 <label for="form-field-username">Lựa chọn file <span style="color:red">(*)</span></label>
                                 <div>
-                                    <input type="file" id="fullname" name="fullname" required="" class="file_attach" style="width:100%" />
+                                    <input type="file" id="file_import" name="file_import" required="" class="file_attach" style="width:100%"
+                                    onchange="update_import()"/>
                                 </div>
                             </div>
                         </div>
