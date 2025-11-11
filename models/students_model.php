@@ -17,7 +17,7 @@ class Students_Model extends Model{
             $where .= "gender = '$gender'";
         if($address != '')
             $where .= " AND address LIKE '%$address%'";
-        $query = $this->db->query("SELECT * FROM tbl_student WHERE $where");
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_student WHERE $where");
         $row = $query->fetchAll();
         $query = $this->db->query("SELECT id, code, fullname, email, gender, DATE_FORMAT(birthday, '%d-%m-%Y') AS birthday, address, status, class_id,
                                     (SELECT title FROM tbl_class_room WHERE tbl_class_room.id = class_id) AS class_title FROM tbl_student WHERE $where 
@@ -79,7 +79,7 @@ class Students_Model extends Model{
 
     function getFetObj_temp($offset, $rows){
         $result = array();
-        $query = $this->db->query("SELECT * FROM tbl_student WHERE status = 99");
+        $query = $this->db->query("SELECT COUNT(*) AS Total FROM tbl_student WHERE status = 99");
         $row = $query->fetchAll();
         $query = $this->db->query("SELECT id, code, fullname, email, gender, DATE_FORMAT(birthday, '%d-%m-%Y') AS birthday, address, status, class_id,
                                     (SELECT title FROM tbl_class_room WHERE tbl_class_room.id = class_id) AS class_title FROM tbl_student WHERE status = 99 

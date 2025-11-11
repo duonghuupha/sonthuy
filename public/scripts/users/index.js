@@ -67,14 +67,14 @@ function update(){
 }
 
 function del(){
-    var rowKey = $('#list_teacher').jqGrid('getGridParam',"selrow");
+    var rowKey = $('#list_users').jqGrid('getGridParam',"selrow");
     if(rowKey == null){
         show_message("error", "Vui lòng chọn nhân sự cần xóa");
         return false;
     }else{
-        var row = $('#list_teacher').jqGrid("getRowData", rowKey);
-        var str_data = "token=" + localStorage.getItem('token') + "&id=" + row.id+ "&image=" + btoa(row.image);
-        del_data(str_data, "Bạn có chắc chắn muốn xóa nhân sự này không?", baseUrl + '/teacher/del', '#list_teacher', baseUrl + '/teacher/json?token=' + localStorage.getItem('token'));
+        var row = $('#list_users').jqGrid("getRowData", rowKey);
+        var str_data = "token=" + localStorage.getItem('token') + "&id=" + row.id;
+        del_data(str_data, "Bạn có chắc chắn muốn xóa người dùng này không?", baseUrl + '/users/del', '#list_users', baseUrl + '/users/json?token=' + localStorage.getItem('token'));
     }
 }
 
